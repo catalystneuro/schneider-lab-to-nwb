@@ -3,8 +3,10 @@ from pathlib import Path
 from typing import Union
 import datetime
 from zoneinfo import ZoneInfo
+import shutil
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
+from neuroconv.datainterfaces import OpenEphysRecordingInterface, OpenEphysLegacyRecordingInterface
 
 from schneider_lab_to_nwb.schneider_2024 import Schneider2024NWBConverter
 
@@ -16,7 +18,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     if stub_test:
         output_dir_path = output_dir_path / "nwb_stub"
     output_dir_path.mkdir(parents=True, exist_ok=True)
-    ephys_folder_path = data_dir_path / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
+    ephys_folder_path = data_dir_path / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1_stubbed"
 
     session_id = "sample_session"
     nwbfile_path = output_dir_path / f"{session_id}.nwb"
@@ -25,7 +27,8 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     conversion_options = dict()
 
     # Add Recording
-    source_data.update(dict(Recording=dict(folder_path=ephys_folder_path)))
+    stream_name = "Signals CH" # stream_names = ["Signals CH", "Signals AUX"]
+    source_data.update(dict(Recording=dict(folder_path=ephys_folder_path, stream_name=stream_name)))
     conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
 
     # # Add Sorting
@@ -50,6 +53,9 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
 
     metadata["Subject"]["subject_id"] = "a_subject_id"  # Modify here or in the yaml file
 
+    # Add Recording Metadata
+    metadata['Ecephys']['ElectrodeGroup'][0]['description'] = "custom description"
+
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
 
@@ -59,6 +65,8 @@ def main():
     output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb")
     stub_test = False
 
+    if output_dir_path.exists():
+        shutil.rmtree(output_dir_path, ignore_errors=True)
     session_to_nwb(
         data_dir_path=data_dir_path,
         output_dir_path=output_dir_path,
