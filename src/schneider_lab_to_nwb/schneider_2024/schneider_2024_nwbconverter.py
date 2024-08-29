@@ -2,7 +2,7 @@
 from neuroconv import NWBConverter
 from neuroconv.datainterfaces import (
     OpenEphysRecordingInterface,
-    OpenEphysSortingInterface,
+    PhySortingInterface,
 )
 
 from schneider_lab_to_nwb.schneider_2024 import Schneider2024BehaviorInterface
@@ -13,4 +13,5 @@ class Schneider2024NWBConverter(NWBConverter):
 
     data_interface_classes = dict(
         Recording=OpenEphysRecordingInterface,
+        Sorting=PhySortingInterface,
     )
