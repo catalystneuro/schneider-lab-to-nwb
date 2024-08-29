@@ -4,10 +4,9 @@ from typing import Union
 import datetime
 from zoneinfo import ZoneInfo
 import shutil
+from pprint import pprint
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
-from neuroconv.datainterfaces import OpenEphysRecordingInterface, OpenEphysLegacyRecordingInterface
-
 from schneider_lab_to_nwb.schneider_2024 import Schneider2024NWBConverter
 
 
@@ -53,9 +52,6 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     metadata = dict_deep_update(metadata, editable_metadata)
 
     metadata["Subject"]["subject_id"] = "a_subject_id"  # Modify here or in the yaml file
-
-    # Add Recording Metadata
-    metadata['Ecephys']['ElectrodeGroup'][0]['description'] = "custom description"
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)

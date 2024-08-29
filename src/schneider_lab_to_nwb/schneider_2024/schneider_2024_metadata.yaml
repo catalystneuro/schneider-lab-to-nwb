@@ -1,14 +1,28 @@
 NWBFile:
-  # related_publications:
-  #   https://doi.org/### or link to APA or MLA citation of the publication
-  session_description:
-    A rich text description of the experiment. Can also just be the abstract of the publication.
+  experiment_description:
+    Identifying mistakes is important for improving performance during acoustic behaviors like speech and musicianship. Although hearing is instrumental for monitoring and adapting these behaviors, the neural circuits that integrate motor, acoustic, and goal-related signals to detect errors and guide ongoing sensorimotor adaptation in mammals remain unidentified. Here, we develop a novel closed-loop, sound-guided behavior that requires mice to use real-time acoustic feedback to guide skilled ongoing forelimb movements. Large scale electrophysiology recordings reveal that the mouse auditory cortex integrates information about sound and movement, as well as encodes error- and learning-related signals during this sound-generating behavior. Distinct groups of auditory cortex neurons signal different error types, and the activity of these neurons predicts both within-trial and across-trial behavioral adaptations. Brief, behavior-triggered optogenetic suppression of auditory cortex during error signaling hinders behavioral corrections on both rapid and long time scales, indicating that cortical error signals are necessary for skilled acoustic behaviors. Together, these experiments identify a cortical role for detecting errors and learning from mistakes and suggest that the auditory cortex plays a critical role in skilled, sound-generating behavior in mammals.
   institution: Institution where the lab is located
   lab: Schneider
   experimenter:
-    - Last, First Middle
-    - Last, First Middle
+    - Zempolich, Grant W.
+    - Schneider, David M.
 Subject:
-  species: Rattus norvegicus
-  age: P0Y/  # in ISO 8601, such as "P1W2D"
+  species: Mus musculus
+  age: P12W/  # in ISO 8601, such as "P1W2D"
   sex: U  # One of M, F, U, or O
+  description: 12-week-old C57BL/6 or VGATChR2-EYFP mice (see Aims approaches below for details) will be used for all behavioral, electrophysiology, and optogenetic experiments. In the VGAT-ChR2-EYFP mouse line, channelrhodopsin (ChR2) is coupled to the vesicular GABA transporter, inducing expression in GABAergic inhibitory neurons ubiquitously across cortex and allowing for real time optogenetic inhibition of brain regions of interest.
+  strain: C57BL/6
+
+Ecephys:
+  Device:
+    - name: DeviceEcephys
+      description: Masmanidis Lab dense 128-channel recording probes (https://masmanidislab.neurobio.ucla.edu/technology.html).
+      manufacturer: Masmanidis Lab
+  ElectrodeGroup:
+    - name: ElectrodeGroup
+      description: ElectrodeGroup for all channels in the recording probe.
+      location: Auditory Cortex
+      device: DeviceEcephys
+  ElectricalSeries:
+    - name: ElectricalSeries
+      description: Recording of AC neural responses in mice performing this behavioral task will utilize dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data will be recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
