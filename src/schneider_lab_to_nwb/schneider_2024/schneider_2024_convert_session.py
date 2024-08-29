@@ -52,6 +52,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     metadata = dict_deep_update(metadata, editable_metadata)
 
     metadata["Subject"]["subject_id"] = "a_subject_id"  # Modify here or in the yaml file
+    conversion_options["Sorting"]["units_description"] = metadata["Ecephys"]["UnitProperties"][0]["description"]
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
