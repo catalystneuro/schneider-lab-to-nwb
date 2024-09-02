@@ -29,3 +29,23 @@ Ecephys:
   UnitProperties:
     - name: units
       description: Neural spikes will be sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.
+    - name: n_spikes
+      description: Number of spikes recorded from each unit.
+    - name: fr
+      description: Average firing rate of each unit.
+    - name: depth
+      description: Estimated depth of each unit in micrometers.
+    - name: Amplitude
+      description: Per-template amplitudes, computed as the L2 norm of the template.
+    - name: ContamPct
+      description: Contamination rate for each template, computed as fraction of refractory period violations relative to expectation based on a Poisson process.
+    - name: KSLabel
+      description: Label indicating whether each template is 'mua' (multi-unit activity) or 'good' (refractory).
+    - name: original_cluster_id
+      description: Original cluster ID assigned by Kilosort.
+    - name: amp
+      description: For every template, the maximum amplitude of the template waveforms across all channels.
+    - name: ch
+      description: The channel label of the best channel, as defined by the user.
+    - name: sh
+      description: The shank label of the best channel.
