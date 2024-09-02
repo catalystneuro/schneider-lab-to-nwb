@@ -2,7 +2,7 @@
 from pathlib import Path
 from typing import Union
 import datetime
-from zoneinfo import ZoneInfo
+import pytz
 import shutil
 from pprint import pprint
 
@@ -43,7 +43,8 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
 
     # Add datetime to conversion
     metadata = converter.get_metadata()
-    date = datetime.datetime.today()  # TODO: Get this from author
+    EST = pytz.timezone("US/Eastern")
+    date = datetime.datetime.now(tz=EST)  # TODO: Get this from author
     metadata["NWBFile"]["session_start_time"] = date
 
     # Update default metadata with the editable in the corresponding yaml file
