@@ -29,7 +29,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     conversion_options = dict()
 
     # Add Recording
-    stream_name = "Signals CH" # stream_names = ["Signals CH", "Signals AUX"]
+    stream_name = "Signals CH"  # stream_names = ["Signals CH", "Signals AUX"]
     source_data.update(dict(Recording=dict(folder_path=recording_folder_path, stream_name=stream_name)))
     conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
 
@@ -62,7 +62,9 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
         channel_positions = channel_positions[:1, :]
     location = metadata["Ecephys"]["ElectrodeGroup"][0]["location"]
     channel_ids = converter.data_interface_objects["Recording"].recording_extractor.get_channel_ids()
-    converter.data_interface_objects["Recording"].recording_extractor.set_channel_locations(channel_ids=channel_ids, locations=channel_positions)
+    converter.data_interface_objects["Recording"].recording_extractor.set_channel_locations(
+        channel_ids=channel_ids, locations=channel_positions
+    )
     converter.data_interface_objects["Recording"].recording_extractor.set_property(
         key="brain_area",
         ids=channel_ids,
@@ -71,6 +73,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
+
 
 def main():
     # Parameters for conversion
@@ -85,6 +88,7 @@ def main():
         output_dir_path=output_dir_path,
         stub_test=stub_test,
     )
+
 
 if __name__ == "__main__":
     main()
