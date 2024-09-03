@@ -15,11 +15,12 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
 
     data_dir_path = Path(data_dir_path)
     output_dir_path = Path(output_dir_path)
+    recording_folder_path = data_dir_path / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
+    sorting_folder_path = data_dir_path / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
     if stub_test:
         output_dir_path = output_dir_path / "nwb_stub"
+        recording_folder_path = recording_folder_path.with_name(recording_folder_path.name + "_stubbed")
     output_dir_path.mkdir(parents=True, exist_ok=True)
-    recording_folder_path = data_dir_path / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1_stubbed"
-    sorting_folder_path = data_dir_path / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
 
     session_id = "sample_session"
     nwbfile_path = output_dir_path / f"{session_id}.nwb"
