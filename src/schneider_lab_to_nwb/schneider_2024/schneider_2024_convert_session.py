@@ -46,8 +46,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     # Add datetime to conversion
     metadata = converter.get_metadata()
     EST = pytz.timezone("US/Eastern")
-    date = datetime.datetime.now(tz=EST)  # TODO: Get this from author
-    metadata["NWBFile"]["session_start_time"] = date
+    metadata["NWBFile"]["session_start_time"] = EST.localize(metadata["NWBFile"]["session_start_time"])
 
     # Update default metadata with the editable in the corresponding yaml file
     editable_metadata_path = Path(__file__).parent / "schneider_2024_metadata.yaml"
