@@ -5,6 +5,7 @@ import datetime
 import pytz
 import shutil
 from pprint import pprint
+import numpy as np
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.schneider_2024 import Schneider2024NWBConverter
@@ -55,6 +56,19 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     metadata["Subject"]["subject_id"] = "a_subject_id"  # Modify here or in the yaml file
     conversion_options["Sorting"]["units_description"] = metadata["Ecephys"]["UnitProperties"][0]["description"]
 
+    # Add electrode metadata
+    channel_positions = np.load(sorting_folder_path / "channel_positions.npy")
+    if stub_test:
+        channel_positions = channel_positions[:1, :]
+    location = metadata["Ecephys"]["ElectrodeGroup"][0]["location"]
+    channel_ids = converter.data_interface_objects["Recording"].recording_extractor.get_channel_ids()
+    converter.data_interface_objects["Recording"].recording_extractor.set_channel_locations(channel_ids=channel_ids, locations=channel_positions)
+    converter.data_interface_objects["Recording"].recording_extractor.set_property(
+        key="brain_area",
+        ids=channel_ids,
+        values=[location] * len(channel_ids),
+    )
+
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
 
@@ -62,7 +76,7 @@ def main():
     # Parameters for conversion
     data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Schneider sample Data")
     output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb")
-    stub_test = False
+    stub_test = True
 
     if output_dir_path.exists():
         shutil.rmtree(output_dir_path, ignore_errors=True)
