@@ -17,6 +17,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     output_dir_path = Path(output_dir_path)
     recording_folder_path = data_dir_path / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
     sorting_folder_path = data_dir_path / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
+    behavior_file_path = data_dir_path / "Behavior" / "m69_231031" / "raw_m69_231031_001.mat"
     if stub_test:
         output_dir_path = output_dir_path / "nwb_stub"
         recording_folder_path = recording_folder_path.with_name(recording_folder_path.name + "_stubbed")
@@ -37,9 +38,9 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     source_data.update(dict(Sorting=dict(folder_path=sorting_folder_path)))
     conversion_options.update(dict(Sorting=dict()))
 
-    # # Add Behavior
-    # source_data.update(dict(Behavior=dict()))
-    # conversion_options.update(dict(Behavior=dict()))
+    # Add Behavior
+    source_data.update(dict(Behavior=dict(file_path=behavior_file_path)))
+    conversion_options.update(dict(Behavior=dict()))
 
     converter = Schneider2024NWBConverter(source_data=source_data)
 

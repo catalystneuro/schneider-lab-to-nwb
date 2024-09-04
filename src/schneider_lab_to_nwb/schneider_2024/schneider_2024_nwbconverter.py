@@ -14,4 +14,5 @@ class Schneider2024NWBConverter(NWBConverter):
     data_interface_classes = dict(
         Recording=OpenEphysRecordingInterface,
         Sorting=PhySortingInterface,
+        Behavior=Schneider2024BehaviorInterface,
     )
