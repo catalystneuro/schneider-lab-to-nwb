@@ -1,5 +1,5 @@
 NWBFile:
-  keywords: 
+  keywords:
     - auditory cortex
     - predictive coding
     - optogenetics
@@ -53,3 +53,23 @@ Ecephys:
     #   description: The channel label of the best channel, as defined by the user.
     # - name: sh
     #   description: The shank label of the best channel.
+Behavior:
+  TimeSeries:
+    - name: encoder
+      description: Sampled values for entire duration of experiment for lever pressing/treadmill behavior read from a quadrature encoder.
+    - name: lick
+      description: Samples values for entire duration of experiment for voltage signal readout from an infrared/capacitive) lickometer sensor.
+  Events:
+    - name: target
+      description: Time at which the target zone is entered during a press.
+    - name: targetOUT
+      description: Time at which the target zone is overshot during a press.
+    - name: toneIN
+      description: Time at which target entry tone is played.
+    - name: toneOUT
+      description: Time at which target exit tone is played.
+    - name: valve
+      description: Times at which solenoid valve opens to deliver water after a correct trial.
+  ValuedEvents:
+    - name: tuningTones
+      description: Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions.

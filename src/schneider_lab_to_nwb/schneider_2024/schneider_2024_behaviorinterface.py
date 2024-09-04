@@ -27,87 +27,82 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
         return metadata
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
+        # Read Data
         file_path = self.source_data["file_path"]
         with File(file_path, "r") as file:
-            encoder_timestamps = np.array(file["continuous"]["encoder"]["time"]).squeeze()
-            encoder_values = np.array(file["continuous"]["encoder"]["value"]).squeeze()
-            lick_timestamps = np.array(file["continuous"]["lick"]["time"]).squeeze()
-            lick_values = np.array(file["continuous"]["lick"]["value"]).squeeze()
+            behavioral_time_series, name_to_times, name_to_values = [], dict(), dict()
+            for time_series_dict in metadata["Behavior"]["TimeSeries"]:
+                name = time_series_dict["name"]
+                timestamps = np.array(file["continuous"][name]["time"]).squeeze()
+                data = np.array(file["continuous"][name]["value"]).squeeze()
+                time_series = TimeSeries(
+                    name=name,
+                    timestamps=timestamps,
+                    data=data,
+                    unit="a.u.",
+                    description=time_series_dict["description"],
+                )
+                behavioral_time_series.append(time_series)
+            for event_dict in metadata["Behavior"]["Events"]:
+                name = event_dict["name"]
+                times = np.array(file["events"][name]["time"]).squeeze()
+                name_to_times[name] = times
+            for event_dict in metadata["Behavior"]["ValuedEvents"]:
+                name = event_dict["name"]
+                times = np.array(file["events"][name]["time"]).squeeze()
+                values = np.array(file["events"][name]["value"]).squeeze()
+                name_to_times[name] = times
+                name_to_values[name] = values
 
-            target_times = np.array(file["events"]["target"]["time"]).squeeze()
-            target_out_times = np.array(file["events"]["targetOUT"]["time"]).squeeze()
-            tone_in_times = np.array(file["events"]["toneIN"]["time"]).squeeze()
-            tone_out_times = np.array(file["events"]["toneOUT"]["time"]).squeeze()
-            valve_times = np.array(file["events"]["valve"]["time"]).squeeze()
-
-            tuning_tone_times = np.array(file["events"]["tuningTones"]["time"]).squeeze()
-            tuning_tone_values = np.array(file["events"]["tuningTones"]["value"]).squeeze()
-
-        encoder_time_series = TimeSeries(
-            name="encoder",
-            timestamps=encoder_timestamps,
-            data=encoder_values,
-            unit="a.u.",
-            description="Sampled values for entire duration of experiment for lever pressing/treadmill behavior read from a quadrature encoder.",
-        )
-        lick_time_series = TimeSeries(
-            name="lick",
-            timestamps=lick_timestamps,
-            data=lick_values,
-            unit="a.u.",
-            description="Samples values for entire duration of experiment for voltage signal readout from an infrared/capacitive) lickometer sensor.",
-        )
-        behavioral_time_series = BehavioralTimeSeries(
-            time_series=[encoder_time_series, lick_time_series],
-            name="behavioral_time_series",
-        )
+        # Add Data to NWBFile
         behavior_module = nwb_helpers.get_module(
             nwbfile=nwbfile,
             name="behavior",
             description="Behavioral data from the experiment.",
         )
+
+        # Add BehavioralTimeSeries
+        behavioral_time_series = BehavioralTimeSeries(
+            time_series=behavioral_time_series,
+            name="behavioral_time_series",
+        )
         behavior_module.add(behavioral_time_series)
 
+        # Add Events
         event_types_table = EventTypesTable(name="event_types", description="Metadata about event types.")
-        event_types_table.add_row(
-            event_name="target", event_type_description="Time at which the target zone is entered during a press."
-        )
-        event_types_table.add_row(
-            event_name="target_out", event_type_description="Time at which the target zone is overshot during a press."
-        )
-        event_types_table.add_row(
-            event_name="tone_in", event_type_description="Time at which target entry tone is played."
-        )
-        event_types_table.add_row(
-            event_name="tone_out", event_type_description="Time at which target exit tone is played."
-        )
-        event_types_table.add_row(
-            event_name="valve",
-            event_type_description="Times at which solenoid valve opens to deliver water after a correct trial.",
-        )
-        event_types_table.add_row(
-            event_name="tuning_tone",
-            event_type_description="Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions.",
-        )
-
+        event_type_name_to_row = dict()
+        i = 0
+        for event_dict in metadata["Behavior"]["Events"]:
+            event_type_name_to_row[event_dict["name"]] = i
+            event_types_table.add_row(
+                event_name=event_dict["name"],
+                event_type_description=event_dict["description"],
+            )
+            i += 1
+        for event_dict in metadata["Behavior"]["ValuedEvents"]:
+            event_type_name_to_row[event_dict["name"]] = i
+            event_types_table.add_row(
+                event_name=event_dict["name"],
+                event_type_description=event_dict["description"],
+            )
+            i += 1
         events_table = EventsTable(
             name="events_table",
             description="Metadata about events.",
             target_tables={"event_type": event_types_table},
         )
         events_table.add_column(name="value", description="Value of the event.")
-        nested_event_times = [
-            target_times,
-            target_out_times,
-            tone_in_times,
-            tone_out_times,
-            valve_times,
-        ]
-        for i, event_times in enumerate(nested_event_times):
+        for event_dict in metadata["Behavior"]["Events"]:
+            event_times = name_to_times[event_dict["name"]]
+            event_type = event_type_name_to_row[event_dict["name"]]
             for event_time in event_times:
-                events_table.add_row(timestamp=event_time, event_type=i, value="")
-        for event_time, event_value in zip(tuning_tone_times, tuning_tone_values):
-            events_table.add_row(timestamp=event_time, event_type=5, value=str(event_value))
+                events_table.add_row(timestamp=event_time, event_type=event_type, value="")
+        for event_dict in metadata["Behavior"]["ValuedEvents"]:
+            event_times = name_to_times[event_dict["name"]]
+            event_values = name_to_values[event_dict["name"]]
+            event_type = event_type_name_to_row[event_dict["name"]]
+            for event_time, event_value in zip(event_times, event_values):
+                events_table.add_row(timestamp=event_time, event_type=event_type, value=str(event_value))
         behavior_module.add(events_table)
 
         task = Task(event_types=event_types_table)
