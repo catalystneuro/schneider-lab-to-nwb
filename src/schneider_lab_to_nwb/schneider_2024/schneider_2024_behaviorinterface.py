@@ -38,9 +38,10 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
             target_out_times = np.array(file["events"]["targetOUT"]["time"]).squeeze()
             tone_in_times = np.array(file["events"]["toneIN"]["time"]).squeeze()
             tone_out_times = np.array(file["events"]["toneOUT"]["time"]).squeeze()
+            valve_times = np.array(file["events"]["valve"]["time"]).squeeze()
+
             tuning_tone_times = np.array(file["events"]["tuningTones"]["time"]).squeeze()
             tuning_tone_values = np.array(file["events"]["tuningTones"]["value"]).squeeze()
-            valve_times = np.array(file["events"]["valve"]["time"]).squeeze()
 
         encoder_time_series = TimeSeries(
             name="encoder",
@@ -81,12 +82,12 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
             event_name="tone_out", event_type_description="Time at which target exit tone is played."
         )
         event_types_table.add_row(
-            event_name="tuning_tone",
-            event_type_description="Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions.",
-        )
-        event_types_table.add_row(
             event_name="valve",
             event_type_description="Times at which solenoid valve opens to deliver water after a correct trial.",
+        )
+        event_types_table.add_row(
+            event_name="tuning_tone",
+            event_type_description="Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions.",
         )
 
         events_table = EventsTable(
@@ -94,17 +95,19 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
             description="Metadata about events.",
             target_tables={"event_type": event_types_table},
         )
+        events_table.add_column(name="value", description="Value of the event.")
         nested_event_times = [
             target_times,
             target_out_times,
             tone_in_times,
             tone_out_times,
-            tuning_tone_times,
             valve_times,
         ]
         for i, event_times in enumerate(nested_event_times):
             for event_time in event_times:
-                events_table.add_row(timestamp=event_time, event_type=i)
+                events_table.add_row(timestamp=event_time, event_type=i, value="")
+        for event_time, event_value in zip(tuning_tone_times, tuning_tone_values):
+            events_table.add_row(timestamp=event_time, event_type=5, value=str(event_value))
         behavior_module.add(events_table)
 
         task = Task(event_types=event_types_table)
