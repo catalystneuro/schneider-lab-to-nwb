@@ -25,6 +25,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     if stub_test:
         output_dir_path = output_dir_path / "nwb_stub"
         recording_folder_path = recording_folder_path.with_name(recording_folder_path.name + "_stubbed")
+        video_file_paths = video_file_paths[:1]
     output_dir_path.mkdir(parents=True, exist_ok=True)
 
     session_id = "sample_session"
