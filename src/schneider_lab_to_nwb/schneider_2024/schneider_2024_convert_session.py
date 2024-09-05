@@ -22,6 +22,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     video_file_paths = [
         file_path for file_path in video_folder_path.glob("*.mp4") if not file_path.name.startswith("._")
     ]
+    video_file_paths = sorted(video_file_paths)
     if stub_test:
         output_dir_path = output_dir_path / "nwb_stub"
         recording_folder_path = recording_folder_path.with_name(recording_folder_path.name + "_stubbed")

@@ -73,3 +73,6 @@ Behavior:
   ValuedEvents:
     - name: tuningTones
       description: Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions.
+  Videos:
+    - name: video_camera_1
+      description: Three IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary.
