@@ -30,26 +30,27 @@ Ecephys:
   ElectricalSeries:
     - name: ElectricalSeries
       description: Recording of AC neural responses in mice performing this behavioral task will utilize dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data will be recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
-  UnitProperties:
-    - name: units
-      description: Neural spikes will be sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.
-    # - name: n_spikes
-    #   description: Number of spikes recorded from each unit.
-    # - name: fr
-    #   description: Average firing rate of each unit.
-    # - name: depth
-    #   description: Estimated depth of each unit in micrometers.
-    # - name: Amplitude
-    #   description: Per-template amplitudes, computed as the L2 norm of the template.
-    # - name: ContamPct
-    #   description: Contamination rate for each template, computed as fraction of refractory period violations relative to expectation based on a Poisson process.
-    # - name: KSLabel
-    #   description: Label indicating whether each template is 'mua' (multi-unit activity) or 'good' (refractory).
-    # - name: original_cluster_id
-    #   description: Original cluster ID assigned by Kilosort.
-    # - name: amp
-    #   description: For every template, the maximum amplitude of the template waveforms across all channels.
-    # - name: ch
-    #   description: The channel label of the best channel, as defined by the user.
-    # - name: sh
-    #   description: The shank label of the best channel.
+  # UnitProperties:
+  #   - name: n_spikes
+  #     description: Number of spikes recorded from each unit.
+  #   - name: fr
+  #     description: Average firing rate of each unit.
+  #   - name: depth
+  #     description: Estimated depth of each unit in micrometers.
+  #   - name: Amplitude
+  #     description: Per-template amplitudes, computed as the L2 norm of the template.
+  #   - name: ContamPct
+  #     description: Contamination rate for each template, computed as fraction of refractory period violations relative to expectation based on a Poisson process.
+  #   - name: KSLabel
+  #     description: Label indicating whether each template is 'mua' (multi-unit activity) or 'good' (refractory).
+  #   - name: original_cluster_id
+  #     description: Original cluster ID assigned by Kilosort.
+  #   - name: amp
+  #     description: For every template, the maximum amplitude of the template waveforms across all channels.
+  #   - name: ch
+  #     description: The channel label of the best channel, as defined by the user.
+  #   - name: sh
+  #     description: The shank label of the best channel.
+
+Sorting:
+  units_description: Neural spikes will be sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.

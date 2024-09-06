@@ -55,7 +55,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     metadata = dict_deep_update(metadata, editable_metadata)
 
     metadata["Subject"]["subject_id"] = "a_subject_id"  # Modify here or in the yaml file
-    conversion_options["Sorting"]["units_description"] = metadata["Ecephys"]["UnitProperties"][0]["description"]
+    conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
 
     # Add electrode metadata
     channel_positions = np.load(sorting_folder_path / "channel_positions.npy")
