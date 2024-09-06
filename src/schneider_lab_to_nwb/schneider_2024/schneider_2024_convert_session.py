@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Union
 import datetime
 import pytz
+from zoneinfo import ZoneInfo
 import shutil
 from pprint import pprint
 import numpy as np
@@ -45,8 +46,8 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
 
     # Add datetime to conversion
     metadata = converter.get_metadata()
-    EST = pytz.timezone("US/Eastern")
-    metadata["NWBFile"]["session_start_time"] = EST.localize(metadata["NWBFile"]["session_start_time"])
+    EST = ZoneInfo("US/Eastern")
+    metadata["NWBFile"]["session_start_time"] = metadata["NWBFile"]["session_start_time"].replace(tzinfo=EST)
 
     # Update default metadata with the editable in the corresponding yaml file
     editable_metadata_path = Path(__file__).parent / "schneider_2024_metadata.yaml"
