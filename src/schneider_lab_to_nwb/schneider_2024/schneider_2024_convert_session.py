@@ -82,6 +82,9 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
         values=[location] * len(channel_ids),
     )
 
+    # Overwrite video metadata
+    metadata["Behavior"]["Videos"] = editable_metadata["Behavior"]["Videos"]
+
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
 
