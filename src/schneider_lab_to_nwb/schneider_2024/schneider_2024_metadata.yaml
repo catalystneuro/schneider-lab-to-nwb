@@ -1,5 +1,5 @@
 NWBFile:
-  keywords: 
+  keywords:
     - auditory cortex
     - predictive coding
     - optogenetics
@@ -19,14 +19,14 @@ Subject:
 
 Ecephys:
   Device:
-    - name: DeviceEcephys
+    - name: MasmanidisSiliconMicroprobe128AxN
       description: Masmanidis Lab dense 128-channel recording probes (https://masmanidislab.neurobio.ucla.edu/technology.html).
       manufacturer: Masmanidis Lab
   ElectrodeGroup:
     - name: ElectrodeGroup
       description: ElectrodeGroup for all channels in the recording probe.
       location: Auditory Cortex
-      device: DeviceEcephys
+      device: MasmanidisSiliconMicroprobe128AxN
   ElectricalSeries:
     - name: ElectricalSeries
       description: Recording of AC neural responses in mice performing this behavioral task will utilize dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data will be recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.

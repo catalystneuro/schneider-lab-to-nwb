@@ -70,6 +70,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
         ids=channel_ids,
         values=[location] * len(channel_ids),
     )
+    metadata["Ecephys"]["Device"] = editable_metadata["Ecephys"]["Device"]
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
