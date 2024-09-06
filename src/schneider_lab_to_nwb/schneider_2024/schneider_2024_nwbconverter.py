@@ -17,5 +17,7 @@ class Schneider2024NWBConverter(NWBConverter):
         Recording=OpenEphysRecordingInterface,
         Sorting=PhySortingInterface,
         Behavior=Schneider2024BehaviorInterface,
-        Video=VideoInterface,
+        VideoCamera1=VideoInterface,
+        VideoCamera2=VideoInterface,
+        VideoCamera3=VideoInterface,
     )

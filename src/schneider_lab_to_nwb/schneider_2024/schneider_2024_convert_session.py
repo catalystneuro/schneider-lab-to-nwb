@@ -26,7 +26,6 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     if stub_test:
         output_dir_path = output_dir_path / "nwb_stub"
         recording_folder_path = recording_folder_path.with_name(recording_folder_path.name + "_stubbed")
-        video_file_paths = video_file_paths[:1]
     output_dir_path.mkdir(parents=True, exist_ok=True)
 
     session_id = "sample_session"
@@ -48,9 +47,11 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     source_data.update(dict(Behavior=dict(file_path=behavior_file_path)))
     conversion_options.update(dict(Behavior=dict()))
 
-    # Add Video
-    source_data.update(dict(Video=dict(file_paths=video_file_paths)))
-    conversion_options.update(dict(Video=dict()))
+    # Add Video(s)
+    for i, video_file_path in enumerate(video_file_paths):
+        metadata_key_name = f"VideoCamera{i+1}"
+        source_data.update({metadata_key_name: dict(file_paths=[video_file_path], metadata_key_name=metadata_key_name)})
+        conversion_options.update({metadata_key_name: dict()})
 
     converter = Schneider2024NWBConverter(source_data=source_data)
 
@@ -83,7 +84,9 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     )
 
     # Overwrite video metadata
-    metadata["Behavior"]["Videos"] = editable_metadata["Behavior"]["Videos"]
+    for i, video_file_path in enumerate(video_file_paths):
+        metadata_key_name = f"VideoCamera{i+1}"
+        metadata["Behavior"][metadata_key_name] = editable_metadata["Behavior"][metadata_key_name]
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
