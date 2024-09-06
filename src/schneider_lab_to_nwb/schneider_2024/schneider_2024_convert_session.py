@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Union
 import datetime
 import pytz
+from zoneinfo import ZoneInfo
 import shutil
 from pprint import pprint
 import numpy as np
@@ -46,8 +47,8 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
 
     # Add datetime to conversion
     metadata = converter.get_metadata()
-    EST = pytz.timezone("US/Eastern")
-    metadata["NWBFile"]["session_start_time"] = EST.localize(metadata["NWBFile"]["session_start_time"])
+    EST = ZoneInfo("US/Eastern")
+    metadata["NWBFile"]["session_start_time"] = metadata["NWBFile"]["session_start_time"].replace(tzinfo=EST)
 
     # Update default metadata with the editable in the corresponding yaml file
     editable_metadata_path = Path(__file__).parent / "schneider_2024_metadata.yaml"
@@ -55,7 +56,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
     metadata = dict_deep_update(metadata, editable_metadata)
 
     metadata["Subject"]["subject_id"] = "a_subject_id"  # Modify here or in the yaml file
-    conversion_options["Sorting"]["units_description"] = metadata["Ecephys"]["UnitProperties"][0]["description"]
+    conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
 
     # Add electrode metadata
     channel_positions = np.load(sorting_folder_path / "channel_positions.npy")
@@ -71,6 +72,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
         ids=channel_ids,
         values=[location] * len(channel_ids),
     )
+    metadata["Ecephys"]["Device"] = editable_metadata["Ecephys"]["Device"]
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
