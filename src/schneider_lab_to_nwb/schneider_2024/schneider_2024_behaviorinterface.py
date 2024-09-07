@@ -126,19 +126,25 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
             description="Metadata about events.",
             target_tables={"event_type": event_types_table},
         )
-        events_table.add_column(name="value", description="Value of the event.")
         for event_dict in metadata["Behavior"]["Events"]:
             event_times = name_to_times[event_dict["name"]]
             event_type = event_type_name_to_row[event_dict["name"]]
             for event_time in event_times:
-                events_table.add_row(timestamp=event_time, event_type=event_type, value="")
+                events_table.add_row(timestamp=event_time, event_type=event_type)
+        valued_events_table = EventsTable(
+            name="valued_events_table",
+            description="Metadata about valued events.",
+            target_tables={"event_type": event_types_table},
+        )
+        valued_events_table.add_column(name="value", description="Value of the event.")
         for event_dict in metadata["Behavior"]["ValuedEvents"]:
             event_times = name_to_times[event_dict["name"]]
             event_values = name_to_values[event_dict["name"]]
             event_type = event_type_name_to_row[event_dict["name"]]
             for event_time, event_value in zip(event_times, event_values):
-                events_table.add_row(timestamp=event_time, event_type=event_type, value=str(event_value))
+                valued_events_table.add_row(timestamp=event_time, event_type=event_type, value=event_value)
         behavior_module.add(events_table)
+        behavior_module.add(valued_events_table)
 
         task = Task(event_types=event_types_table)
         nwbfile.add_lab_meta_data(task)

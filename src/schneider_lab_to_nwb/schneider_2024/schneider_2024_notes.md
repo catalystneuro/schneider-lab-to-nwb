@@ -11,4 +11,5 @@
 - More detailed position info for recording probe
     - Subfield of auditory cortex: A1? A2? AAF? etc.
     - stereotactic coordinates of the whole probe
--
+- Detailed description of the behavioral paradigm
+- Description of lickometer and lever/treadmill quadrature encoder.
