@@ -3,7 +3,9 @@ from neuroconv import NWBConverter
 from neuroconv.datainterfaces import (
     OpenEphysRecordingInterface,
     PhySortingInterface,
+    VideoInterface,
 )
+from neuroconv.basedatainterface import BaseDataInterface
 
 from schneider_lab_to_nwb.schneider_2024 import Schneider2024BehaviorInterface
 
@@ -15,4 +17,7 @@ class Schneider2024NWBConverter(NWBConverter):
         Recording=OpenEphysRecordingInterface,
         Sorting=PhySortingInterface,
         Behavior=Schneider2024BehaviorInterface,
+        VideoCamera1=VideoInterface,
+        VideoCamera2=VideoInterface,
+        VideoCamera3=VideoInterface,
     )

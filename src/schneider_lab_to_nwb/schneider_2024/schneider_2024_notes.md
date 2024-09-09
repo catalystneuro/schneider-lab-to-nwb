@@ -5,6 +5,9 @@
 - TuningTones has a values field with integers, what does this correspond to?
 - 'push' is basically some kind of trials table, but need descriptions for variables ex. ITI_respect?
 
+## Video
+- In research overview, 3 cameras are mentioned, but only 2 appear in example data. Missing camera? Or incorrect description?
+
 ## Data Requests
 - Mice sexes
 - Remaining data for Grant's project
@@ -13,3 +16,4 @@
     - stereotactic coordinates of the whole probe
 - Detailed description of the behavioral paradigm
 - Description of lickometer and lever/treadmill quadrature encoder.
+- Detailed description of temporal alignment procedure.

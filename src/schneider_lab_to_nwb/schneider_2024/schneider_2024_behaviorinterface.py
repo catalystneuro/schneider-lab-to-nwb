@@ -8,7 +8,7 @@ from pynwb.behavior import BehavioralTimeSeries, TimeSeries
 from ndx_events import EventTypesTable, EventsTable, Task, TimestampVectorData
 
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.utils import DeepDict
+from neuroconv.utils import DeepDict, get_base_schema
 from neuroconv.tools import nwb_helpers
 
 
@@ -25,6 +25,41 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
         metadata = super().get_metadata()
 
         return metadata
+
+    def get_metadata_schema(self) -> dict:
+        metadata_schema = super().get_metadata_schema()
+        metadata_schema["properties"]["Behavior"] = get_base_schema(tag="Behavior")
+        metadata_schema["properties"]["Behavior"]["properties"]["TimeSeries"] = {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "description": {"type": "string"},
+                },
+            },
+        }
+        metadata_schema["properties"]["Behavior"]["properties"]["Events"] = {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "description": {"type": "string"},
+                },
+            },
+        }
+        metadata_schema["properties"]["Behavior"]["properties"]["ValuedEvents"] = {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "description": {"type": "string"},
+                },
+            },
+        }
+        return metadata_schema
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
         # Read Data
