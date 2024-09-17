@@ -25,7 +25,7 @@ Ecephys:
   ElectrodeGroup:
     - name: ElectrodeGroup
       description: ElectrodeGroup for all channels in the recording probe.
-      location: Auditory Cortex
+      location: Primary Auditory Cortex (A1)
       device: MasmanidisSiliconMicroprobe128AxN
   ElectricalSeries:
     - name: ElectricalSeries
@@ -62,4 +62,3 @@ Behavior:
 
 Sorting:
   units_description: Neural spikes will be sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.
-
