@@ -29,6 +29,12 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
     def get_metadata_schema(self) -> dict:
         metadata_schema = super().get_metadata_schema()
         metadata_schema["properties"]["Behavior"] = get_base_schema(tag="Behavior")
+        metadata_schema["properties"]["Behavior"]["properties"]["Module"] = {
+            "properties": {
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+            },
+        }
         metadata_schema["properties"]["Behavior"]["properties"]["TimeSeries"] = {
             "type": "array",
             "items": {
@@ -92,8 +98,8 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
         # Add Data to NWBFile
         behavior_module = nwb_helpers.get_module(
             nwbfile=nwbfile,
-            name="behavior",
-            description="Behavioral data from the experiment.",
+            name=metadata["Behavior"]["Module"]["name"],
+            description=metadata["Behavior"]["Module"]["description"],
         )
 
         # Add BehavioralTimeSeries

@@ -32,6 +32,9 @@ Ecephys:
       description: Recording of AC neural responses in mice performing this behavioral task will utilize dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data will be recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
 
 Behavior:
+  Module:
+    name: behavior
+    description: C57BL/6 mice will first be water restricted, habituated to head fixation in the behavioral set up for two days and classically conditioned to associate a 16 kHz tone with a small water reward given 150 ms after the tone plays (~12 seconds inter-tone-interval). Mice will then be trained for 15 to 20 sessions on an auditory guided task described as follows. Inspired by human performance on stringed instruments, whereby a target note is achieved via modulation of forelimb and hand movements, we have engineered a novel behavioral paradigm that requires mice to skillfully adjust the size of lever presses in response to a dynamic virtual acoustic environment. Mice are trained to press a small 3-D printed lever forward with their forelimb toward a 2 mm wide target zone. Mice hear a 16 Hz tone when the lever enters the zone and a 10 kHz tone if the press exceeds the bounds of the zone. Presses that peak within the zone produce only the entry tone and are rewarded when the lever returns to the starting position. Presses that undershoot (producing no tones) or overshoot (producing both an entry and an exit tone) are unrewarded. Every 30 trials, which we refer to as a block, the target zone is relocated without warning and the mice must use acoustic feedback to adjust their lever presses to peak at the new location.
   TimeSeries:
     - name: encoder
       description: Sampled values for entire duration of experiment for lever pressing/treadmill behavior read from a quadrature encoder.

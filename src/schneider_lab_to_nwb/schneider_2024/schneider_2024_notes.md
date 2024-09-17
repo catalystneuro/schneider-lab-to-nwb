@@ -12,6 +12,5 @@
 - Remaining data for Grant's project
 - More detailed position info for recording probe
     - stereotactic coordinates of the whole probe
-- Detailed description of the behavioral paradigm
 - Description of lickometer and lever/treadmill quadrature encoder.
 - Detailed description of temporal alignment procedure.
