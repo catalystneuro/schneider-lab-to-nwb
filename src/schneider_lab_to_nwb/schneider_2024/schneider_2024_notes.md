@@ -6,7 +6,6 @@
 - 'push' is basically some kind of trials table, but need descriptions for variables ex. ITI_respect?
 
 ## Video
-- In research overview, 3 cameras are mentioned, but only 2 appear in example data. Missing camera? Or incorrect description?
 
 ## Data Requests
 - Mice sexes
