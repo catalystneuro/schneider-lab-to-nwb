@@ -19,5 +19,4 @@ class Schneider2024NWBConverter(NWBConverter):
         Behavior=Schneider2024BehaviorInterface,
         VideoCamera1=VideoInterface,
         VideoCamera2=VideoInterface,
-        VideoCamera3=VideoInterface,
     )
