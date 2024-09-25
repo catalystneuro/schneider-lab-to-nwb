@@ -5,6 +5,7 @@ import numpy as np
 from h5py import File
 from hdmf.common.table import DynamicTableRegion
 from pynwb.behavior import BehavioralTimeSeries, TimeSeries
+from pynwb.device import Device
 from ndx_events import EventTypesTable, EventsTable, Task, TimestampVectorData
 
 from neuroconv.basedatainterface import BaseDataInterface
@@ -62,6 +63,17 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
                 "properties": {
                     "name": {"type": "string"},
                     "description": {"type": "string"},
+                },
+            },
+        }
+        metadata_schema["properties"]["Behavior"]["properties"]["Devices"] = {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "description": {"type": "string"},
+                    "manufacturer": {"type": "string"},
                 },
             },
         }
@@ -154,3 +166,8 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
 
         task = Task(event_types=event_types_table)
         nwbfile.add_lab_meta_data(task)
+
+        # Add Devices
+        for device_kwargs in metadata["Behavior"]["Devices"]:
+            device = Device(**device_kwargs)
+            nwbfile.add_device(device)
