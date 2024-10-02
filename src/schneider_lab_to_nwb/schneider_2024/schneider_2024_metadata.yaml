@@ -41,12 +41,10 @@ Behavior:
     - name: lick
       description: Samples values for entire duration of experiment for voltage signal readout from a custom infrared/capacitive lickometer sensor (Schneider Lab).  Digital signals for licking and lever movement were collected by a data acquisition card (National Instruments) connected to a computer and logged by custom Matlab software (Mathworks, PsychToolBox) and sampled at 2kHz.
   Events:
-    - name: target
-      description: Time at which the target zone is entered during a press.
     - name: targetOUT
       description: Time at which the target zone is overshot during a press.
     - name: toneIN
-      description: Time at which target entry tone is played.
+      description: Time at which target zone is entered and target entry tone is played.
     - name: toneOUT
       description: Time at which target exit tone is played.
     - name: valve
