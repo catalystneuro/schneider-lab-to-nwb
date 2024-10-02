@@ -25,18 +25,21 @@ Ecephys:
   ElectrodeGroup:
     - name: ElectrodeGroup
       description: ElectrodeGroup for all channels in the recording probe.
-      location: Auditory Cortex
+      location: Primary Auditory Cortex (A1)
       device: MasmanidisSiliconMicroprobe128AxN
   ElectricalSeries:
     - name: ElectricalSeries
       description: Recording of AC neural responses in mice performing this behavioral task will utilize dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data will be recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
 
 Behavior:
+  Module:
+    name: behavior
+    description: C57BL/6 mice will first be water restricted, habituated to head fixation in the behavioral set up for two days and classically conditioned to associate a 16 kHz tone with a small water reward given 150 ms after the tone plays (~12 seconds inter-tone-interval). Mice will then be trained for 15 to 20 sessions on an auditory guided task described as follows. Inspired by human performance on stringed instruments, whereby a target note is achieved via modulation of forelimb and hand movements, we have engineered a novel behavioral paradigm that requires mice to skillfully adjust the size of lever presses in response to a dynamic virtual acoustic environment. Mice are trained to press a small 3-D printed lever forward with their forelimb toward a 2 mm wide target zone. Mice hear a 16 Hz tone when the lever enters the zone and a 10 kHz tone if the press exceeds the bounds of the zone. Presses that peak within the zone produce only the entry tone and are rewarded when the lever returns to the starting position. Presses that undershoot (producing no tones) or overshoot (producing both an entry and an exit tone) are unrewarded. Every 30 trials, which we refer to as a block, the target zone is relocated without warning and the mice must use acoustic feedback to adjust their lever presses to peak at the new location.
   TimeSeries:
     - name: encoder
-      description: Sampled values for entire duration of experiment for lever pressing/treadmill behavior read from a quadrature encoder.
+      description: Sampled values for entire duration of experiment for lever pressing behavior read from a rotary encoder (US Digital). Digital signals for licking and lever movement were collected by a data acquisition card (National Instruments) connected to a computer and logged by custom Matlab software (Mathworks, PsychToolBox) and sampled at 2kHz.
     - name: lick
-      description: Samples values for entire duration of experiment for voltage signal readout from an infrared/capacitive) lickometer sensor.
+      description: Samples values for entire duration of experiment for voltage signal readout from a custom infrared/capacitive lickometer sensor (Schneider Lab).  Digital signals for licking and lever movement were collected by a data acquisition card (National Instruments) connected to a computer and logged by custom Matlab software (Mathworks, PsychToolBox) and sampled at 2kHz.
   Events:
     - name: target
       description: Time at which the target zone is entered during a press.
@@ -53,13 +56,19 @@ Behavior:
       description: Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions.
   VideoCamera1:
     - name: video_camera_1
-      description: Three IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary.
+      description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 1 is a side angle view of the mouse.
       unit: Frames
   VideoCamera2:
     - name: video_camera_2
-      description: Three IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary.
+      description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 2 is a zoomed-in view of the pupil of the mouse.
       unit: Frames
+  Devices:
+    - name: rotary_encoder
+      description: H5 BALL BEARING OPTICAL SHAFT ENCODER
+      manufacturer: US Digital
+    - name: lickometer
+      description: The lickometer comprised a custom-mounted (3D printed using Formlabs Form2) IR-beam emitter and receiver. IR signal was titrated and pre-processed using a custom printed circuit board (designed by Melissa Caras and Dan Sanes) to generate a binary TTL signal with IR sensitivity controlled by a potentiometer.
+      manufacturer: Schneider Lab
 
 Sorting:
   units_description: Neural spikes will be sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.
-
