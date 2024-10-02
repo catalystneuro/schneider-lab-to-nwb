@@ -11,6 +11,4 @@
 - Mice sexes
 - Remaining data for Grant's project
 - More detailed position info for recording probe
-    - stereotactic coordinates of the whole probe
-- Description of lickometer and lever/treadmill quadrature encoder.
 - Detailed description of temporal alignment procedure.
