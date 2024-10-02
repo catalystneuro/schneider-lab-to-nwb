@@ -52,6 +52,13 @@ Behavior:
   ValuedEvents:
     - name: tuningTones
       description: Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions. Integer values correspond to the frequency of the tuning tone played i.e. 2 for 2kHz, 4 for 4kHz, etc.
+  Devices:
+    - name: rotary_encoder
+      description: H5 BALL BEARING OPTICAL SHAFT ENCODER
+      manufacturer: US Digital
+    - name: lickometer
+      description: The lickometer comprised a custom-mounted (3D printed using Formlabs Form2) IR-beam emitter and receiver. IR signal was titrated and pre-processed using a custom printed circuit board (designed by Melissa Caras and Dan Sanes) to generate a binary TTL signal with IR sensitivity controlled by a potentiometer.
+      manufacturer: Schneider Lab
   VideoCamera1:
     - name: video_camera_1
       description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 1 is a side angle view of the mouse.
@@ -60,13 +67,6 @@ Behavior:
     - name: video_camera_2
       description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 2 is a zoomed-in view of the pupil of the mouse.
       unit: Frames
-  Devices:
-    - name: rotary_encoder
-      description: H5 BALL BEARING OPTICAL SHAFT ENCODER
-      manufacturer: US Digital
-    - name: lickometer
-      description: The lickometer comprised a custom-mounted (3D printed using Formlabs Form2) IR-beam emitter and receiver. IR signal was titrated and pre-processed using a custom printed circuit board (designed by Melissa Caras and Dan Sanes) to generate a binary TTL signal with IR sensitivity controlled by a potentiometer.
-      manufacturer: Schneider Lab
 
 Sorting:
   units_description: Neural spikes will be sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.

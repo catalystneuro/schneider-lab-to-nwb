@@ -167,6 +167,8 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
         task = Task(event_types=event_types_table)
         nwbfile.add_lab_meta_data(task)
 
+        # Add Trials Table
+
         # Add Devices
         for device_kwargs in metadata["Behavior"]["Devices"]:
             device = Device(**device_kwargs)
