@@ -16,10 +16,13 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
 
     data_dir_path = Path(data_dir_path)
     output_dir_path = Path(output_dir_path)
-    recording_folder_path = data_dir_path / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
-    sorting_folder_path = data_dir_path / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
-    behavior_file_path = data_dir_path / "Behavior" / "m69_231031" / "raw_m69_231031_001.mat"
-    video_folder_path = data_dir_path / "Video" / "m69_231031"
+    recording_folder_path = data_dir_path / "Schneider sample Data" / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
+    sorting_folder_path = (
+        data_dir_path / "Schneider sample Data" / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
+    )
+    # behavior_file_path = data_dir_path / "Schneider sample Data" / "Behavior" / "m69_231031" / "raw_m69_231031_001.mat"
+    behavior_file_path = data_dir_path / "NWB_Share" / "Sample behavior data" / "m74_ephysSample.mat"
+    video_folder_path = data_dir_path / "Schneider sample Data" / "Video" / "m69_231031"
     video_file_paths = [
         file_path for file_path in video_folder_path.glob("*.mp4") if not file_path.name.startswith("._")
     ]
@@ -96,7 +99,7 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
 
 def main():
     # Parameters for conversion
-    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Schneider sample Data")
+    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider")
     output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb")
     stub_test = True
 

@@ -2,7 +2,7 @@
 from pynwb.file import NWBFile
 from pydantic import FilePath
 import numpy as np
-from h5py import File
+from pymatreader import read_mat
 from hdmf.common.table import DynamicTableRegion
 from pynwb.behavior import BehavioralTimeSeries, TimeSeries
 from pynwb.device import Device
@@ -82,30 +82,30 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
         # Read Data
         file_path = self.source_data["file_path"]
-        with File(file_path, "r") as file:
-            behavioral_time_series, name_to_times, name_to_values = [], dict(), dict()
-            for time_series_dict in metadata["Behavior"]["TimeSeries"]:
-                name = time_series_dict["name"]
-                timestamps = np.array(file["continuous"][name]["time"]).squeeze()
-                data = np.array(file["continuous"][name]["value"]).squeeze()
-                time_series = TimeSeries(
-                    name=name,
-                    timestamps=timestamps,
-                    data=data,
-                    unit="a.u.",
-                    description=time_series_dict["description"],
-                )
-                behavioral_time_series.append(time_series)
-            for event_dict in metadata["Behavior"]["Events"]:
-                name = event_dict["name"]
-                times = np.array(file["events"][name]["time"]).squeeze()
-                name_to_times[name] = times
-            for event_dict in metadata["Behavior"]["ValuedEvents"]:
-                name = event_dict["name"]
-                times = np.array(file["events"][name]["time"]).squeeze()
-                values = np.array(file["events"][name]["value"]).squeeze()
-                name_to_times[name] = times
-                name_to_values[name] = values
+        file = read_mat(file_path)
+        behavioral_time_series, name_to_times, name_to_values = [], dict(), dict()
+        for time_series_dict in metadata["Behavior"]["TimeSeries"]:
+            name = time_series_dict["name"]
+            timestamps = np.array(file["continuous"][name]["time"]).squeeze()
+            data = np.array(file["continuous"][name]["value"]).squeeze()
+            time_series = TimeSeries(
+                name=name,
+                timestamps=timestamps,
+                data=data,
+                unit="a.u.",
+                description=time_series_dict["description"],
+            )
+            behavioral_time_series.append(time_series)
+        for event_dict in metadata["Behavior"]["Events"]:
+            name = event_dict["name"]
+            times = np.array(file["events"][name]["time"]).squeeze()
+            name_to_times[name] = times
+        for event_dict in metadata["Behavior"]["ValuedEvents"]:
+            name = event_dict["name"]
+            times = np.array(file["events"][name]["time"]).squeeze()
+            values = np.array(file["events"][name]["value"]).squeeze()
+            name_to_times[name] = times
+            name_to_values[name] = values
 
         # Add Data to NWBFile
         behavior_module = nwb_helpers.get_module(
