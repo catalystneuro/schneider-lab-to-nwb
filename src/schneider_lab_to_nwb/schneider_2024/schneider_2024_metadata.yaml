@@ -41,17 +41,17 @@ Behavior:
     - name: lick
       description: Samples values for entire duration of experiment for voltage signal readout from a custom infrared/capacitive lickometer sensor (Schneider Lab).  Digital signals for licking and lever movement were collected by a data acquisition card (National Instruments) connected to a computer and logged by custom Matlab software (Mathworks, PsychToolBox) and sampled at 2kHz.
   Events:
-    - name: targetOUT
-      description: Time at which the target zone is overshot during a press.
     - name: toneIN
       description: Time at which target zone is entered and target entry tone is played.
+    - name: targetOUT
+      description: Time at which the target zone is overshot during a press.
     - name: toneOUT
-      description: Time at which target exit tone is played.
+      description: Time at which target exit tone is played (this is delayed 50ms relative to targetOUT so that entry and exit tones don't bleed into each other.
     - name: valve
       description: Times at which solenoid valve opens to deliver water after a correct trial.
   ValuedEvents:
     - name: tuningTones
-      description: Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions.
+      description: Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions. Integer values correspond to the frequency of the tuning tone played i.e. 2 for 2kHz, 4 for 4kHz, etc.
   VideoCamera1:
     - name: video_camera_1
       description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 1 is a side angle view of the mouse.
