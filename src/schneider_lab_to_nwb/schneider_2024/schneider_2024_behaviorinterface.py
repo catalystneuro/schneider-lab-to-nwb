@@ -77,13 +77,23 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
                 },
             },
         }
+        metadata_schema["properties"]["Behavior"]["properties"]["Trials"] = {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {"type": "string"},
+                    "description": {"type": "string"},
+                },
+            },
+        }
         return metadata_schema
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
         # Read Data
         file_path = self.source_data["file_path"]
         file = read_mat(file_path)
-        behavioral_time_series, name_to_times, name_to_values = [], dict(), dict()
+        behavioral_time_series, name_to_times, name_to_values, name_to_trial_array = [], dict(), dict(), dict()
         for time_series_dict in metadata["Behavior"]["TimeSeries"]:
             name = time_series_dict["name"]
             timestamps = np.array(file["continuous"][name]["time"]).squeeze()
@@ -106,6 +116,13 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
             values = np.array(file["events"][name]["value"]).squeeze()
             name_to_times[name] = times
             name_to_values[name] = values
+
+        trial_start_times = np.array(file["events"]["push"]["time"]).squeeze()
+        trial_stop_times = np.array(file["events"]["push"]["time_end"]).squeeze()
+        for trials_dict in metadata["Behavior"]["Trials"]:
+            name = trials_dict["name"]
+            trial_array = np.array(file["events"]["push"][name]).squeeze()
+            name_to_trial_array[name] = trial_array
 
         # Add Data to NWBFile
         behavior_module = nwb_helpers.get_module(
@@ -168,6 +185,12 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
         nwbfile.add_lab_meta_data(task)
 
         # Add Trials Table
+        for start_time, stop_time in zip(trial_start_times, trial_stop_times):
+            nwbfile.add_trial(start_time=start_time, stop_time=stop_time)
+        for trials_dict in metadata["Behavior"]["Trials"]:
+            name = trials_dict["name"]
+            trial_array = name_to_trial_array[name]
+            nwbfile.add_trial_column(name=name, description=trials_dict["description"], data=trial_array)
 
         # Add Devices
         for device_kwargs in metadata["Behavior"]["Devices"]:

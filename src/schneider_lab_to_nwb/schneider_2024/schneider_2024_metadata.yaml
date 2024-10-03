@@ -59,6 +59,23 @@ Behavior:
     - name: lickometer
       description: The lickometer comprised a custom-mounted (3D printed using Formlabs Form2) IR-beam emitter and receiver. IR signal was titrated and pre-processed using a custom printed circuit board (designed by Melissa Caras and Dan Sanes) to generate a binary TTL signal with IR sensitivity controlled by a potentiometer.
       manufacturer: Schneider Lab
+  Trials:
+    - name: rewarded
+      description: Indicates if trial was rewarded (NaN = trial not rewarded, 1 = trial rewarded).
+    - name: time_reward_s
+      description: Time of reward if rewarded, otherwise NaN.
+    - name: opto_trial
+      description: Indicates if trial was an optogenetic stimulation trial (NaN = non opto trial, 1 = opto trial).
+    - name: opto_time
+      description: Time of optogenetic stimulation if opto trial, otherwise NaN.
+    - name: opto_time_end
+      description: Time of start of optogenetic stimulation if it occurs, otherwise NaN.
+    - name: ITI_respect
+      description: Whether or not trial start obeyed inter trial interval wait time (300ms).
+    - name: ThresholdVector
+      description: Position of start of the target zone on a given trial (in raw encoder values corresponding to value read out by quadrature encoder).
+    - name: endZone_ThresholdVector
+      description: Position of ending/exit position of target zone on a given trial (in raw encoder values corresponding to value read out by quadrature encoder).
   VideoCamera1:
     - name: video_camera_1
       description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 1 is a side angle view of the mouse.
