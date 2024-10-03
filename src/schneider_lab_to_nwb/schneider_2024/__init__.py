@@ -1,2 +1,3 @@
 from .schneider_2024_behaviorinterface import Schneider2024BehaviorInterface
+from .schneider_2024_optogeneticinterface import Schneider2024OptogeneticInterface
 from .schneider_2024_nwbconverter import Schneider2024NWBConverter

@@ -59,6 +59,10 @@ def session_to_nwb(
         source_data.update({metadata_key_name: dict(file_paths=[video_file_path], metadata_key_name=metadata_key_name)})
         conversion_options.update({metadata_key_name: dict()})
 
+    # Add Optogenetic
+    source_data.update(dict(Optogenetic=dict(file_path=behavior_file_path)))
+    conversion_options.update(dict(Optogenetic=dict()))
+
     converter = Schneider2024NWBConverter(source_data=source_data)
 
     # Add datetime to conversion
@@ -113,7 +117,7 @@ def main():
     sorting_folder_path = (
         data_dir_path / "Schneider sample Data" / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
     )
-    behavior_file_path = data_dir_path / "NWB_Share" / "Sample behavior data" / "m74_ephysSample.mat"
+    behavior_file_path = data_dir_path / "NWB_Share" / "Sample behavior data" / "m74_optoSample.mat"
     video_folder_path = data_dir_path / "Schneider sample Data" / "Video" / "m69_231031"
     session_to_nwb(
         recording_folder_path=recording_folder_path,
