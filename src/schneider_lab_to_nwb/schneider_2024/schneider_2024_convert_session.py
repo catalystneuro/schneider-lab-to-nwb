@@ -17,6 +17,7 @@ def session_to_nwb(
     sorting_folder_path: Union[str, Path],
     behavior_file_path: Union[str, Path],
     video_folder_path: Union[str, Path],
+    intrinsic_signal_optical_imaging_folder_path: Union[str, Path],
     output_dir_path: Union[str, Path],
     stub_test: bool = False,
 ):
@@ -24,6 +25,7 @@ def session_to_nwb(
     sorting_folder_path = Path(sorting_folder_path)
     behavior_file_path = Path(behavior_file_path)
     video_folder_path = Path(video_folder_path)
+    intrinsic_signal_optical_imaging_folder_path = Path(intrinsic_signal_optical_imaging_folder_path)
     output_dir_path = Path(output_dir_path)
     video_file_paths = [
         file_path for file_path in video_folder_path.glob("*.mp4") if not file_path.name.startswith("._")
@@ -58,6 +60,10 @@ def session_to_nwb(
         metadata_key_name = f"VideoCamera{i+1}"
         source_data.update({metadata_key_name: dict(file_paths=[video_file_path], metadata_key_name=metadata_key_name)})
         conversion_options.update({metadata_key_name: dict()})
+
+    # Add Intrinsic Signal Optical Imaging
+    source_data.update(dict(ISOI=dict(folder_path=intrinsic_signal_optical_imaging_folder_path)))
+    conversion_options.update(dict(ISOI=dict()))
 
     converter = Schneider2024NWBConverter(source_data=source_data)
 
@@ -115,11 +121,13 @@ def main():
     )
     behavior_file_path = data_dir_path / "NWB_Share" / "Sample behavior data" / "m74_ephysSample.mat"
     video_folder_path = data_dir_path / "Schneider sample Data" / "Video" / "m69_231031"
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "NWB_Share" / "Sample Intrinsic imaging data"
     session_to_nwb(
         recording_folder_path=recording_folder_path,
         sorting_folder_path=sorting_folder_path,
         behavior_file_path=behavior_file_path,
         video_folder_path=video_folder_path,
+        intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
         output_dir_path=output_dir_path,
         stub_test=stub_test,
     )
