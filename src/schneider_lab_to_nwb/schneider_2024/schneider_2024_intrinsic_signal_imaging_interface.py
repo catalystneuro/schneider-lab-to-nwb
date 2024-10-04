@@ -2,12 +2,12 @@
 from pynwb.file import NWBFile
 from pynwb.base import Images
 from pynwb.image import GrayscaleImage, RGBImage
-from pydantic import FilePath, DirectoryPath
+from pydantic import DirectoryPath
 import numpy as np
 from PIL import Image
 
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.utils import DeepDict, get_base_schema
+from neuroconv.utils import DeepDict
 from neuroconv.tools import nwb_helpers
 
 
