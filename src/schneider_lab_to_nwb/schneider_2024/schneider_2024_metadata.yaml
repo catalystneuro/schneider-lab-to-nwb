@@ -87,3 +87,17 @@ Behavior:
 
 Sorting:
   units_description: Neural spikes will be sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.
+
+IntrinsicSignalOpticalImaging:
+  Module:
+    name: intrinsic_signal_optical_imaging
+    description: For precise targeting of auditory cortex, intrinsic optical imaging (IOS) will be performed using a 2-photon microscope (Neurolabware). The skull is first bilaterally thinned over a region of interest (ROI) and made translucent. On experiment day, 680nm red light (ThorLabs) is used to image the ROI. Data is collected via MATLAB running custom suites for online and offline analyses.
+  Images:
+    name: images
+    description: Intrinsic signal optical images.
+  RawImage:
+    name: raw_image
+    description: Original image capture of ROI for intrinsic imaging.
+  ProcessedImage:
+    name: processed_image
+    description: Original image capture of ROI overlaid with topographic map of processed intrinsic signal.
