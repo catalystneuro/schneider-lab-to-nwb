@@ -101,5 +101,5 @@ Optogenetics:
     stimulation_location: Striatum (+ 0.9 AP, 1.8 ML, -2.3 DV)
   OptogeneticSeries:
     name: optogenetic_series
-    description: On experiment day before recording, 100ms pulses of 473nm light will be delivered over striatum (or secondary motor cortex, M2, as necessary using similar protocol - see Aim 2) to activate the terminals of ChR2 expressing neurons (Figure 4A), generating antidromic spikes in the direction towards AC whereby we can then identify motor-regionprojecting AC cells via offline analysis of action potential latency to the light stimulus (see preliminary data Aim 2).
+    description: On experiment day before recording, continuous wave stimulation of 473nm light will be delivered over primary auditory cortex A1 (or secondary motor cortex, M2, as necessary using similar protocol - see Aim 2) to activate the terminals of ChR2 expressing neurons.
     power: 0.020 # 15-20 mW
