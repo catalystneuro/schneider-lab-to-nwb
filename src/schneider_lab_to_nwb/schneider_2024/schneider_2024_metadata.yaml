@@ -101,5 +101,5 @@ Optogenetics:
     stimulation_location: Striatum (+ 0.9 AP, 1.8 ML, -2.3 DV)
   OptogeneticSeries:
     name: optogenetic_series
-    description: On experiment day before recording, continuous wave stimulation of 473nm light (15-20mW) will be delivered bilaterally over primary auditory cortex A1 (or secondary motor cortex, M2, as necessary using similar protocol - see Aim 2) to activate the terminals of ChR2 expressing neurons.
+    description: In optogenetic perturbation trials (~33% of trials), during each lever press, continuous wave stimulation of 473nm light (15-20mW) will be delivered bilaterally over primary auditory cortex A1 (or secondary motor cortex, M2, as necessary using similar protocol - see Aim 2) to activate the terminals of ChR2 expressing neurons.
     power: 0.020 # 15-20 mW
