@@ -41,7 +41,7 @@ class Schneider2024OptogeneticInterface(BaseDataInterface):
         assert np.all(
             np.logical_not(np.isnan(offset_times))
         ), "Some of the offset times are nan when onset times are not nan."
-        power = 0.02  # 15-20mW
+        power = metadata["Optogenetics"]["OptogeneticSeries"]["power"]
 
         timestamps, data = [0], [0]
         for onset_time, offset_time in zip(onset_times, offset_times):

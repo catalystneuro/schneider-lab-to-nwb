@@ -102,3 +102,4 @@ Optogenetics:
   OptogeneticSeries:
     name: optogenetic_series
     description: On experiment day before recording, 100ms pulses of 473nm light will be delivered over striatum (or secondary motor cortex, M2, as necessary using similar protocol - see Aim 2) to activate the terminals of ChR2 expressing neurons (Figure 4A), generating antidromic spikes in the direction towards AC whereby we can then identify motor-regionprojecting AC cells via offline analysis of action potential latency to the light stimulus (see preliminary data Aim 2).
+    power: 0.020 # 15-20 mW
