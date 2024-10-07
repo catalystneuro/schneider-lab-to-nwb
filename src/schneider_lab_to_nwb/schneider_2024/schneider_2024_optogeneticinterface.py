@@ -41,22 +41,14 @@ class Schneider2024OptogeneticInterface(BaseDataInterface):
         assert np.all(
             np.logical_not(np.isnan(offset_times))
         ), "Some of the offset times are nan when onset times are not nan."
-        frequency = 1  # TODO: Get opto stim frequency from schneider lab
-        power = 0.1  # TODO: confirm power with schneider lab
-        pulse_width = 0.1  # TODO: confirm pulse width with schneider lab
+        power = 0.02  # 15-20mW
 
         timestamps, data = [0], [0]
         for onset_time, offset_time in zip(onset_times, offset_times):
-            duration = offset_time - onset_time
-            num_pulses = int(duration * frequency)
-            inter_pulse_interval = 1 / frequency
-            for i in range(num_pulses):
-                pulse_onset_time = onset_time + i * inter_pulse_interval
-                timestamps.append(pulse_onset_time)
-                data.append(power)
-                pulse_offset_time = pulse_onset_time + pulse_width
-                timestamps.append(pulse_offset_time)
-                data.append(0)
+            timestamps.append(onset_time)
+            data.append(power)
+            timestamps.append(offset_time)
+            data.append(0)
         timestamps, data = np.array(timestamps, dtype=np.float64), np.array(data, dtype=np.float64)
 
         # Add Data to NWBFile
