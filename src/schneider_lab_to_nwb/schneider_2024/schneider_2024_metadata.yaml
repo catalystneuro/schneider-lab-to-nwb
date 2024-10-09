@@ -101,3 +101,10 @@ IntrinsicSignalOpticalImaging:
   ProcessedImage:
     name: processed_image
     description: The primary auditory cortex was identified through tonotopic mapping using a temporally periodic acoustic stimulation consisting of sequences of single pure tones of ascending or descending frequencies (20 tones per sequence, 2 to 40kHz exponentially separated, 75dB SPL, 50ms tone duration, 500ms onset-to-onset interval). Tone sequences were delivered from a free-field speaker 10cm above the mouse and repeated 40-60 times (0.1Hz). To compute tonotopic maps, the time course of each pixel was first highpass filtered using a moving average (10s window). Next, a Fourier transform was computed to extract the phase and the power of the frequency component at the frequency of acoustic stimulation (0.1 Hz). The phase indicates the sound frequency driving the response of a pixel, and the power indicates the strength of its response. To account for the hemodynamic delay and compute maps of absolute tonotopy, the response time to ascending sequence of tones was subtracted from the response time to the descending sequence. From these maps of absolute tonotopy, equally spaced iso-frequency contour lines were extracted, color-coded for sound frequency, and overlaid on top of the image of the blood vessel pattern.
+  Devices:
+    - name: two_photon_microscope
+      description: <microscope model> (Neurolabware)
+      manufacturer: Neurolabware
+    - name: intrinsic_signal_optical_imaging_laser
+      description: <laser model> (ThorLabs)
+      manufacturer: ThorLabs

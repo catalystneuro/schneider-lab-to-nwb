@@ -2,6 +2,7 @@
 from pynwb.file import NWBFile
 from pynwb.base import Images
 from pynwb.image import GrayscaleImage, RGBImage
+from pynwb.device import Device
 from pydantic import DirectoryPath
 import numpy as np
 from PIL import Image
@@ -89,3 +90,8 @@ class Schneider2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
             images=[raw_image, processed_image],
         )
         isoi_module.add(images)
+
+        # Add Devices
+        for device_kwargs in isoi_metadata["Devices"]:
+            device = Device(**device_kwargs)
+            nwbfile.add_device(device)
