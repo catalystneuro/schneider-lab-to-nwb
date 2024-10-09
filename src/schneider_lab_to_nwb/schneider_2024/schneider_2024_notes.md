@@ -9,6 +9,7 @@
 - Used the Audette paper for description of overlay image.
 - Need pixel locs for ephys
 - Need device info for 2p microscope and red light laser
+- Why is the overlaid image flipped left/right compared to the original?
 
 ## Data Requests
 - Mice sexes
