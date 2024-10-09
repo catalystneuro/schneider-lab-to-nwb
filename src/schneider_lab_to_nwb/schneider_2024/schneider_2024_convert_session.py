@@ -1,6 +1,5 @@
 """Primary script to run to convert an entire session for of data using the NWBConverter."""
 from pathlib import Path
-from typing import Union
 import datetime
 import pytz
 from zoneinfo import ZoneInfo
@@ -13,11 +12,11 @@ from schneider_lab_to_nwb.schneider_2024 import Schneider2024NWBConverter
 
 
 def session_to_nwb(
-    recording_folder_path: Union[str, Path],
-    sorting_folder_path: Union[str, Path],
-    behavior_file_path: Union[str, Path],
-    video_folder_path: Union[str, Path],
-    output_dir_path: Union[str, Path],
+    recording_folder_path: str | Path,
+    sorting_folder_path: str | Path,
+    behavior_file_path: str | Path,
+    video_folder_path: str | Path,
+    output_dir_path: str | Path,
     stub_test: bool = False,
 ):
     recording_folder_path = Path(recording_folder_path)
@@ -58,6 +57,10 @@ def session_to_nwb(
         metadata_key_name = f"VideoCamera{i+1}"
         source_data.update({metadata_key_name: dict(file_paths=[video_file_path], metadata_key_name=metadata_key_name)})
         conversion_options.update({metadata_key_name: dict()})
+
+    # Add Optogenetic
+    source_data.update(dict(Optogenetic=dict(file_path=behavior_file_path)))
+    conversion_options.update(dict(Optogenetic=dict()))
 
     converter = Schneider2024NWBConverter(source_data=source_data)
 
@@ -113,7 +116,7 @@ def main():
     sorting_folder_path = (
         data_dir_path / "Schneider sample Data" / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
     )
-    behavior_file_path = data_dir_path / "NWB_Share" / "Sample behavior data" / "m74_ephysSample.mat"
+    behavior_file_path = data_dir_path / "NWB_Share" / "Sample behavior data" / "m74_optoSample.mat"
     video_folder_path = data_dir_path / "Schneider sample Data" / "Video" / "m69_231031"
     session_to_nwb(
         recording_folder_path=recording_folder_path,
