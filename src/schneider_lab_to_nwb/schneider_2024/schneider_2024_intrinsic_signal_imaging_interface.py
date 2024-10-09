@@ -14,7 +14,7 @@ from neuroconv.tools import nwb_helpers
 class Schneider2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
     """Intrinsic signal optical imaging interface for schneider_2024 conversion"""
 
-    keywords = ["intrinsic signal optical imaging"]
+    keywords = ("intrinsic signal optical imaging",)
 
     def __init__(self, folder_path: DirectoryPath):
         super().__init__(folder_path=folder_path)
