@@ -1,6 +1,5 @@
 """Primary script to run to convert an entire session for of data using the NWBConverter."""
 from pathlib import Path
-from typing import Union
 import datetime
 import pytz
 from zoneinfo import ZoneInfo
@@ -13,11 +12,11 @@ from schneider_lab_to_nwb.schneider_2024 import Schneider2024NWBConverter
 
 
 def session_to_nwb(
-    recording_folder_path: Union[str, Path],
-    sorting_folder_path: Union[str, Path],
-    behavior_file_path: Union[str, Path],
-    video_folder_path: Union[str, Path],
-    output_dir_path: Union[str, Path],
+    recording_folder_path: str | Path,
+    sorting_folder_path: str | Path,
+    behavior_file_path: str | Path,
+    video_folder_path: str | Path,
+    output_dir_path: str | Path,
     stub_test: bool = False,
 ):
     recording_folder_path = Path(recording_folder_path)
