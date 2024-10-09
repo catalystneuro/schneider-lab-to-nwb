@@ -12,14 +12,19 @@ from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.schneider_2024 import Schneider2024NWBConverter
 
 
-def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, Path], stub_test: bool = False):
-
-    data_dir_path = Path(data_dir_path)
+def session_to_nwb(
+    recording_folder_path: Union[str, Path],
+    sorting_folder_path: Union[str, Path],
+    behavior_file_path: Union[str, Path],
+    video_folder_path: Union[str, Path],
+    output_dir_path: Union[str, Path],
+    stub_test: bool = False,
+):
+    recording_folder_path = Path(recording_folder_path)
+    sorting_folder_path = Path(sorting_folder_path)
+    behavior_file_path = Path(behavior_file_path)
+    video_folder_path = Path(video_folder_path)
     output_dir_path = Path(output_dir_path)
-    recording_folder_path = data_dir_path / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
-    sorting_folder_path = data_dir_path / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
-    behavior_file_path = data_dir_path / "Behavior" / "m69_231031" / "raw_m69_231031_001.mat"
-    video_folder_path = data_dir_path / "Video" / "m69_231031"
     video_file_paths = [
         file_path for file_path in video_folder_path.glob("*.mp4") if not file_path.name.startswith("._")
     ]
@@ -96,14 +101,25 @@ def session_to_nwb(data_dir_path: Union[str, Path], output_dir_path: Union[str, 
 
 def main():
     # Parameters for conversion
-    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Schneider sample Data")
+    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider")
     output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb")
     stub_test = True
 
     if output_dir_path.exists():
         shutil.rmtree(output_dir_path, ignore_errors=True)
+
+    # Example Session w/ old ephys + new behavior
+    recording_folder_path = data_dir_path / "Schneider sample Data" / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
+    sorting_folder_path = (
+        data_dir_path / "Schneider sample Data" / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
+    )
+    behavior_file_path = data_dir_path / "NWB_Share" / "Sample behavior data" / "m74_ephysSample.mat"
+    video_folder_path = data_dir_path / "Schneider sample Data" / "Video" / "m69_231031"
     session_to_nwb(
-        data_dir_path=data_dir_path,
+        recording_folder_path=recording_folder_path,
+        sorting_folder_path=sorting_folder_path,
+        behavior_file_path=behavior_file_path,
+        video_folder_path=video_folder_path,
         output_dir_path=output_dir_path,
         stub_test=stub_test,
     )
