@@ -7,9 +7,7 @@ from pynwb.device import Device
 from pynwb.ogen import OptogeneticSeries, OptogeneticStimulusSite
 
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.tools.optogenetics import create_optogenetic_stimulation_timeseries
-from neuroconv.utils import DeepDict, get_base_schema
-from neuroconv.tools import nwb_helpers
+from neuroconv.utils import DeepDict
 
 
 class Schneider2024OptogeneticInterface(BaseDataInterface):
