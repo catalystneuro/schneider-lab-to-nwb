@@ -16,7 +16,7 @@ from neuroconv.tools import nwb_helpers
 class Schneider2024BehaviorInterface(BaseDataInterface):
     """Behavior interface for schneider_2024 conversion"""
 
-    keywords = ["behavior"]
+    keywords = ("behavior",)
 
     def __init__(self, file_path: FilePath):
         super().__init__(file_path=file_path)
