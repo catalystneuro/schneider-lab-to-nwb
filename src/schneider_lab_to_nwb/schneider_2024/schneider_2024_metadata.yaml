@@ -95,10 +95,10 @@ Optogenetics:
     manufacturer: Opto Engine LLC
   OptogeneticStimulusSite:
     name: optogenetic_stimulus_site
-    description: To identify cortical neurons that project from AC to motor regions (Aim 2), stereotaxic injections of AAV-ChR2 will be made into AC (-2.8 AP, 4.2 ML relative to bregma; guided by intrinsic optical imaging) during head-fixation and animals will be trained while expression occurs (~2 weeks). In addition, fiber optics will be implanted to target cell bodies in the striatum (+ 0.9 AP, 1.8 ML, -2.3 DV).
+    description: To identify cortical neurons that project from the auditory cortex to motor regions (Aim 2), stereotaxic injections of AAV-ChR2 will be made into the primary auditory cortex (-2.8 AP, 4.2 ML relative to bregma; guided by intrinsic optical imaging) during head-fixation and animals will be trained while expression occurs (~2 weeks). In addition, fiber optics will be implanted to target cell bodies in the secondary motor cortex (1.0-1.5 AP, 0.5-0.7 ML).
     excitation_lambda: 473.0 # nm
     injection_location: Primary Auditory Cortex  (-2.8 AP, 4.2 ML relative to bregma; guided by intrinsic optical imaging)
-    stimulation_location: Striatum (+ 0.9 AP, 1.8 ML, -2.3 DV)
+    stimulation_location: Secondary Motor Cortex (1.0-1.5 AP, 0.5-0.7 ML)
   OptogeneticSeries:
     name: optogenetic_series
     description: In optogenetic perturbation trials (~33% of trials), during each lever press, continuous wave stimulation of 473nm light (15-20mW) will be delivered bilaterally over primary auditory cortex A1 (or secondary motor cortex, M2, as necessary using similar protocol - see Aim 2) to activate the terminals of ChR2 expressing neurons.
