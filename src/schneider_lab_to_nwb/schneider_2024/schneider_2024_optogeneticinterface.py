@@ -41,7 +41,7 @@ class Schneider2024OptogeneticInterface(BaseDataInterface):
         ), "Some of the offset times are nan when onset times are not nan."
         power = metadata["Optogenetics"]["OptogeneticSeries"]["power"]
 
-        timestamps, data = [0], [0]
+        timestamps, data = [], []
         for onset_time, offset_time in zip(onset_times, offset_times):
             timestamps.append(onset_time)
             data.append(power)
