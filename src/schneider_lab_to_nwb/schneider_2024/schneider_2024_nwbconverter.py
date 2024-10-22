@@ -9,6 +9,7 @@ from neuroconv.basedatainterface import BaseDataInterface
 
 from schneider_lab_to_nwb.schneider_2024 import (
     Schneider2024BehaviorInterface,
+    Schneider2024OptogeneticInterface,
     Schneider2024IntrinsicSignalOpticalImagingInterface,
 )
 
@@ -22,5 +23,6 @@ class Schneider2024NWBConverter(NWBConverter):
         Behavior=Schneider2024BehaviorInterface,
         VideoCamera1=VideoInterface,
         VideoCamera2=VideoInterface,
+        Optogenetic=Schneider2024OptogeneticInterface,
         ISOI=Schneider2024IntrinsicSignalOpticalImagingInterface,
     )
