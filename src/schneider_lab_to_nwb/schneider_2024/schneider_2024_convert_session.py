@@ -115,12 +115,7 @@ def session_to_nwb(
     #     metadata["Behavior"][metadata_key_name] = editable_metadata["Behavior"][metadata_key_name]
 
     # Run conversion
-    from time import time
-
-    start = time()
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
-    stop = time()
-    print(f"Conversion took {stop-start:.2f} seconds")
 
 
 def main():
@@ -146,18 +141,18 @@ def main():
         stub_test=stub_test,
     )
 
-    # # Example Session A1 Ogen + Behavior
-    # behavior_file_path = data_dir_path / "A1_OptoBehavioralFiles" / "raw_m53_231013_001.mat"
-    # video_folder_path = Path("")
-    # intrinsic_signal_optical_imaging_folder_path = Path("")
-    # session_to_nwb(
-    #     ephys_folder_path=recording_folder_path,
-    #     behavior_file_path=behavior_file_path,
-    #     video_folder_path=video_folder_path,
-    #     intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
-    #     output_dir_path=output_dir_path,
-    #     stub_test=stub_test,
-    # )
+    # Example Session A1 Ogen + Behavior
+    behavior_file_path = data_dir_path / "A1_OptoBehavioralFiles" / "raw_m53_231013_001.mat"
+    video_folder_path = Path("")
+    intrinsic_signal_optical_imaging_folder_path = Path("")
+    session_to_nwb(
+        behavior_file_path=behavior_file_path,
+        video_folder_path=video_folder_path,
+        intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
+        output_dir_path=output_dir_path,
+        has_opto=True,
+        stub_test=stub_test,
+    )
 
 
 if __name__ == "__main__":
