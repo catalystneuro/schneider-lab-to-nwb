@@ -1,14 +1,8 @@
 """Primary class for converting SpikeGadgets Ephys Recordings."""
 from pynwb.file import NWBFile
-from pathlib import Path
-from xml.etree import ElementTree
-from pydantic import FilePath
-import copy
-from collections import Counter
 import numpy as np
 
 from neuroconv.datainterfaces import OpenEphysLegacyRecordingInterface
-from neuroconv.utils import DeepDict
 from spikeinterface.extractors import OpenEphysLegacyRecordingExtractor
 
 
