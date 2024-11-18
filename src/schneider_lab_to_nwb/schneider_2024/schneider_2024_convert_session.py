@@ -36,9 +36,6 @@ def session_to_nwb(
         has_ephys = True
         ephys_folder_path = Path(ephys_folder_path)
 
-    session_id = "sample_session"
-    nwbfile_path = output_dir_path / f"{session_id}.nwb"
-
     source_data = dict()
     conversion_options = dict()
 
@@ -77,19 +74,25 @@ def session_to_nwb(
     editable_metadata_path = Path(__file__).parent / "schneider_2024_metadata.yaml"
     editable_metadata = load_dict_from_file(editable_metadata_path)
     metadata = dict_deep_update(metadata, editable_metadata)
-    folder_name = (
-        source_data["Recording"]["folder_path"].parent.name + "/" + source_data["Recording"]["folder_path"].name
-    )
-    folder_name_to_start_datetime = metadata["Ecephys"].pop("folder_name_to_start_datetime")
-    if folder_name in folder_name_to_start_datetime.keys():
-        metadata["NWBFile"]["session_start_time"] = datetime.fromisoformat(folder_name_to_start_datetime[folder_name])
+    if has_ephys:
+        folder_name = (
+            source_data["Recording"]["folder_path"].parent.name + "/" + source_data["Recording"]["folder_path"].name
+        )
+        folder_name_to_start_datetime = metadata["Ecephys"].pop("folder_name_to_start_datetime")
+        if folder_name in folder_name_to_start_datetime.keys():
+            metadata["NWBFile"]["session_start_time"] = datetime.fromisoformat(
+                folder_name_to_start_datetime[folder_name]
+            )
+    else:
+        metadata["NWBFile"]["session_start_time"] = datetime.strptime(behavior_file_path.name.split("_")[2], "%y%m%d")
 
     # Add datetime to conversion
     EST = ZoneInfo("US/Eastern")
     metadata["NWBFile"]["session_start_time"] = metadata["NWBFile"]["session_start_time"].replace(tzinfo=EST)
 
     metadata["Subject"]["subject_id"] = "a_subject_id"  # Modify here or in the yaml file
-    conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
+    if has_ephys:
+        conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
 
     # Add electrode metadata
     if has_ephys:
@@ -113,6 +116,12 @@ def session_to_nwb(
     # for i, video_file_path in enumerate(video_file_paths):
     #     metadata_key_name = f"VideoCamera{i+1}"
     #     metadata["Behavior"][metadata_key_name] = editable_metadata["Behavior"][metadata_key_name]
+
+    subject_id = behavior_file_path.name.split("_")[1]
+    session_id = behavior_file_path.name.split("_")[2]
+    nwbfile_path = output_dir_path / f"sub-{subject_id}_ses-{session_id}.nwb"
+    metadata["NWBFile"]["session_id"] = session_id
+    metadata["Subject"]["subject_id"] = subject_id
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
