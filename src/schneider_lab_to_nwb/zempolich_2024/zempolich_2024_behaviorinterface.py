@@ -13,7 +13,7 @@ from neuroconv.utils import DeepDict, get_base_schema
 from neuroconv.tools import nwb_helpers
 
 
-class Schneider2024BehaviorInterface(BaseDataInterface):
+class Zempolich2024BehaviorInterface(BaseDataInterface):
     """Behavior interface for schneider_2024 conversion"""
 
     keywords = ("behavior",)

@@ -12,7 +12,7 @@ from neuroconv.utils import DeepDict
 from neuroconv.tools import nwb_helpers
 
 
-class Schneider2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
+class Zempolich2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
     """Intrinsic signal optical imaging interface for schneider_2024 conversion"""
 
     keywords = ("intrinsic signal optical imaging",)

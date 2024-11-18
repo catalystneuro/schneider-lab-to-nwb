@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Optional
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
-from schneider_lab_to_nwb.schneider_2024 import Schneider2024NWBConverter
+from schneider_lab_to_nwb.zempolich_2024 import Zempolich2024NWBConverter
 
 
 def session_to_nwb(
@@ -67,11 +67,11 @@ def session_to_nwb(
     # source_data.update(dict(ISOI=dict(folder_path=intrinsic_signal_optical_imaging_folder_path)))
     # conversion_options.update(dict(ISOI=dict()))
 
-    converter = Schneider2024NWBConverter(source_data=source_data)
+    converter = Zempolich2024NWBConverter(source_data=source_data)
     metadata = converter.get_metadata()
 
     # Update default metadata with the editable in the corresponding yaml file
-    editable_metadata_path = Path(__file__).parent / "schneider_2024_metadata.yaml"
+    editable_metadata_path = Path(__file__).parent / "zempolich_2024_metadata.yaml"
     editable_metadata = load_dict_from_file(editable_metadata_path)
     metadata = dict_deep_update(metadata, editable_metadata)
     if has_ephys:

@@ -10,7 +10,7 @@ from neuroconv.basedatainterface import BaseDataInterface
 from neuroconv.utils import DeepDict
 
 
-class Schneider2024OptogeneticInterface(BaseDataInterface):
+class Zempolich2024OptogeneticInterface(BaseDataInterface):
     """Optogenetic interface for schneider_2024 conversion"""
 
     keywords = ["optogenetics"]
