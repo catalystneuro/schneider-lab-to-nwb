@@ -2,7 +2,6 @@
 from pathlib import Path
 from zoneinfo import ZoneInfo
 import shutil
-import numpy as np
 from datetime import datetime
 from typing import Optional
 
@@ -74,43 +73,13 @@ def session_to_nwb(
     editable_metadata_path = Path(__file__).parent / "zempolich_2024_metadata.yaml"
     editable_metadata = load_dict_from_file(editable_metadata_path)
     metadata = dict_deep_update(metadata, editable_metadata)
-    if has_ephys:
-        folder_name = (
-            source_data["Recording"]["folder_path"].parent.name + "/" + source_data["Recording"]["folder_path"].name
-        )
-        folder_name_to_start_datetime = metadata["Ecephys"].pop("folder_name_to_start_datetime")
-        if folder_name in folder_name_to_start_datetime.keys():
-            metadata["NWBFile"]["session_start_time"] = datetime.fromisoformat(
-                folder_name_to_start_datetime[folder_name]
-            )
-    else:
-        metadata["NWBFile"]["session_start_time"] = datetime.strptime(behavior_file_path.name.split("_")[2], "%y%m%d")
 
-    # Add datetime to conversion
-    EST = ZoneInfo("US/Eastern")
-    metadata["NWBFile"]["session_start_time"] = metadata["NWBFile"]["session_start_time"].replace(tzinfo=EST)
+    add_session_start_time_to_metadata(
+        behavior_file_path=behavior_file_path, ephys_folder_path=ephys_folder_path, metadata=metadata
+    )
 
-    metadata["Subject"]["subject_id"] = "a_subject_id"  # Modify here or in the yaml file
     if has_ephys:
         conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
-
-    # Add electrode metadata
-    if has_ephys:
-        channel_positions = np.load(ephys_folder_path / "channel_positions.npy")
-        if True:  # stub_test: SWITCH BACK TO stub_test WHEN ALL CHANNELS ARE PRESENT
-            channel_positions = channel_positions[:1, :]
-        location = metadata["Ecephys"]["ElectrodeGroup"][0]["location"]
-        channel_ids = converter.data_interface_objects["Recording"].recording_extractor.get_channel_ids()
-        converter.data_interface_objects["Recording"].recording_extractor.set_channel_locations(
-            channel_ids=channel_ids, locations=channel_positions
-        )
-        converter.data_interface_objects["Recording"].recording_extractor.set_property(
-            key="brain_area",
-            ids=channel_ids,
-            values=[location] * len(channel_ids),
-        )
-        converter.data_interface_objects["Recording"].recording_extractor._recording_segments[0].t_start = 0.0
-        metadata["Ecephys"]["Device"] = editable_metadata["Ecephys"]["Device"]
 
     # # Overwrite video metadata
     # for i, video_file_path in enumerate(video_file_paths):
@@ -125,6 +94,25 @@ def session_to_nwb(
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
+
+
+def add_session_start_time_to_metadata(
+    behavior_file_path: str | Path,
+    ephys_folder_path: Optional[str | Path],
+    metadata: dict,
+):
+    if ephys_folder_path is not None:
+        folder_name = ephys_folder_path.parent.name + "/" + ephys_folder_path.name
+        folder_name_to_start_datetime = metadata["Ecephys"].pop("folder_name_to_start_datetime")
+        if folder_name in folder_name_to_start_datetime.keys():
+            session_start_time = datetime.fromisoformat(folder_name_to_start_datetime[folder_name])
+        else:
+            session_start_time = metadata["NWBFile"]["session_start_time"]
+    else:
+        session_start_time = datetime.strptime(behavior_file_path.name.split("_")[2], "%y%m%d")
+
+    EST = ZoneInfo("US/Eastern")
+    metadata["NWBFile"]["session_start_time"] = session_start_time.replace(tzinfo=EST)
 
 
 def main():
