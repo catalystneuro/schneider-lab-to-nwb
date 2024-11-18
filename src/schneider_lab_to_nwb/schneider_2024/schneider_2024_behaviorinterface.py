@@ -119,10 +119,13 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
 
         trial_start_times = np.array(file["events"]["push"]["time"]).squeeze()
         trial_stop_times = np.array(file["events"]["push"]["time_end"]).squeeze()
+        trial_is_nan = np.isnan(trial_start_times) | np.isnan(trial_stop_times)
+        trial_start_times = trial_start_times[np.logical_not(trial_is_nan)]
+        trial_stop_times = trial_stop_times[np.logical_not(trial_is_nan)]
         for trials_dict in metadata["Behavior"]["Trials"]:
             name = trials_dict["name"]
             trial_array = np.array(file["events"]["push"][name]).squeeze()
-            name_to_trial_array[name] = trial_array
+            name_to_trial_array[name] = trial_array[np.logical_not(trial_is_nan)]
 
         # Add Data to NWBFile
         behavior_module = nwb_helpers.get_module(
