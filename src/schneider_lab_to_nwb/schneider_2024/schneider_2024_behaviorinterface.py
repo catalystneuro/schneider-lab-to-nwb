@@ -192,6 +192,14 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
             trial_array = name_to_trial_array[name]
             nwbfile.add_trial_column(name=name, description=trials_dict["description"], data=trial_array)
 
+        # Add Epochs Table
+        nwbfile.add_epoch(start_time=trial_start_times[0], stop_time=trial_stop_times[-1], tags=["Active Behavior"])
+        nwbfile.add_epoch(
+            start_time=valued_events_table["timestamp"][0],
+            stop_time=valued_events_table["timestamp"][-1],
+            tags=["Passive Listening"],
+        )
+
         # Add Devices
         for device_kwargs in metadata["Behavior"]["Devices"]:
             device = Device(**device_kwargs)
