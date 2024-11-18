@@ -30,6 +30,8 @@ Ecephys:
   ElectricalSeries:
     - name: ElectricalSeries
       description: Recording of AC neural responses in mice performing this behavioral task will utilize dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data will be recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
+  folder_name_to_start_datetime:
+    m53/Day1_A1: 2023-10-29T16:56:01
 
 Behavior:
   Module:

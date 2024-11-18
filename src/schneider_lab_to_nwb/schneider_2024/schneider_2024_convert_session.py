@@ -3,6 +3,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 import shutil
 import numpy as np
+from datetime import datetime
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.schneider_2024 import Schneider2024NWBConverter
@@ -38,7 +39,7 @@ def session_to_nwb(
     conversion_options = dict()
 
     # Add Recording
-    stream_name = "Signals CH"  # stream_names = ["Signals CH", "Signals AUX"]
+    stream_name = "Signals CH"
     source_data.update(dict(Recording=dict(folder_path=recording_folder_path, stream_name=stream_name)))
     conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
 
@@ -65,16 +66,22 @@ def session_to_nwb(
     # conversion_options.update(dict(ISOI=dict()))
 
     converter = Schneider2024NWBConverter(source_data=source_data)
-
-    # Add datetime to conversion
     metadata = converter.get_metadata()
-    EST = ZoneInfo("US/Eastern")
-    metadata["NWBFile"]["session_start_time"] = metadata["NWBFile"]["session_start_time"].replace(tzinfo=EST)
 
     # Update default metadata with the editable in the corresponding yaml file
     editable_metadata_path = Path(__file__).parent / "schneider_2024_metadata.yaml"
     editable_metadata = load_dict_from_file(editable_metadata_path)
     metadata = dict_deep_update(metadata, editable_metadata)
+    folder_name = (
+        source_data["Recording"]["folder_path"].parent.name + "/" + source_data["Recording"]["folder_path"].name
+    )
+    folder_name_to_start_datetime = metadata["Ecephys"].pop("folder_name_to_start_datetime")
+    if folder_name in folder_name_to_start_datetime.keys():
+        metadata["NWBFile"]["session_start_time"] = datetime.fromisoformat(folder_name_to_start_datetime[folder_name])
+
+    # Add datetime to conversion
+    EST = ZoneInfo("US/Eastern")
+    metadata["NWBFile"]["session_start_time"] = metadata["NWBFile"]["session_start_time"].replace(tzinfo=EST)
 
     metadata["Subject"]["subject_id"] = "a_subject_id"  # Modify here or in the yaml file
     conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
