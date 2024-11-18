@@ -1,10 +1,7 @@
 """Primary script to run to convert an entire session for of data using the NWBConverter."""
 from pathlib import Path
-import datetime
-import pytz
 from zoneinfo import ZoneInfo
 import shutil
-from pprint import pprint
 import numpy as np
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
@@ -32,7 +29,6 @@ def session_to_nwb(
     video_file_paths = sorted(video_file_paths)
     if stub_test:
         output_dir_path = output_dir_path / "nwb_stub"
-        recording_folder_path = recording_folder_path.with_name(recording_folder_path.name + "_stubbed")
     output_dir_path.mkdir(parents=True, exist_ok=True)
 
     session_id = "sample_session"
@@ -55,18 +51,18 @@ def session_to_nwb(
     conversion_options.update(dict(Behavior=dict()))
 
     # Add Video(s)
-    for i, video_file_path in enumerate(video_file_paths):
-        metadata_key_name = f"VideoCamera{i+1}"
-        source_data.update({metadata_key_name: dict(file_paths=[video_file_path], metadata_key_name=metadata_key_name)})
-        conversion_options.update({metadata_key_name: dict()})
+    # for i, video_file_path in enumerate(video_file_paths):
+    #     metadata_key_name = f"VideoCamera{i+1}"
+    #     source_data.update({metadata_key_name: dict(file_paths=[video_file_path], metadata_key_name=metadata_key_name)})
+    #     conversion_options.update({metadata_key_name: dict()})
 
     # Add Optogenetic
-    source_data.update(dict(Optogenetic=dict(file_path=behavior_file_path)))
-    conversion_options.update(dict(Optogenetic=dict()))
+    # source_data.update(dict(Optogenetic=dict(file_path=behavior_file_path)))
+    # conversion_options.update(dict(Optogenetic=dict()))
 
     # Add Intrinsic Signal Optical Imaging
-    source_data.update(dict(ISOI=dict(folder_path=intrinsic_signal_optical_imaging_folder_path)))
-    conversion_options.update(dict(ISOI=dict()))
+    # source_data.update(dict(ISOI=dict(folder_path=intrinsic_signal_optical_imaging_folder_path)))
+    # conversion_options.update(dict(ISOI=dict()))
 
     converter = Schneider2024NWBConverter(source_data=source_data)
 
@@ -85,7 +81,7 @@ def session_to_nwb(
 
     # Add electrode metadata
     channel_positions = np.load(sorting_folder_path / "channel_positions.npy")
-    if stub_test:
+    if True:  # stub_test: SWITCH BACK TO stub_test WHEN ALL CHANNELS ARE PRESENT
         channel_positions = channel_positions[:1, :]
     location = metadata["Ecephys"]["ElectrodeGroup"][0]["location"]
     channel_ids = converter.data_interface_objects["Recording"].recording_extractor.get_channel_ids()
@@ -97,34 +93,38 @@ def session_to_nwb(
         ids=channel_ids,
         values=[location] * len(channel_ids),
     )
+    converter.data_interface_objects["Recording"].recording_extractor._recording_segments[0].t_start = 0.0
     metadata["Ecephys"]["Device"] = editable_metadata["Ecephys"]["Device"]
 
-    # Overwrite video metadata
-    for i, video_file_path in enumerate(video_file_paths):
-        metadata_key_name = f"VideoCamera{i+1}"
-        metadata["Behavior"][metadata_key_name] = editable_metadata["Behavior"][metadata_key_name]
+    # # Overwrite video metadata
+    # for i, video_file_path in enumerate(video_file_paths):
+    #     metadata_key_name = f"VideoCamera{i+1}"
+    #     metadata["Behavior"][metadata_key_name] = editable_metadata["Behavior"][metadata_key_name]
 
     # Run conversion
+    from time import time
+
+    start = time()
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
+    stop = time()
+    print(f"Conversion took {stop-start:.2f} seconds")
 
 
 def main():
     # Parameters for conversion
-    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider")
+    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Grant Zempolich Project Data")
     output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb")
-    stub_test = True
+    stub_test = False
 
     if output_dir_path.exists():
         shutil.rmtree(output_dir_path, ignore_errors=True)
 
-    # Example Session w/ old ephys + new behavior
-    recording_folder_path = data_dir_path / "Schneider sample Data" / "Raw Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
-    sorting_folder_path = (
-        data_dir_path / "Schneider sample Data" / "Processed Ephys" / "m69_2023-10-31_17-24-15_Day1_A1"
-    )
-    behavior_file_path = data_dir_path / "NWB_Share" / "Sample behavior data" / "m74_optoSample.mat"
-    video_folder_path = data_dir_path / "Schneider sample Data" / "Video" / "m69_231031"
-    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "NWB_Share" / "Sample Intrinsic imaging data"
+    # Example Session A1 Ephys + Behavior
+    recording_folder_path = data_dir_path / "A1_EphysFiles" / "m53" / "Day1_A1"
+    sorting_folder_path = recording_folder_path
+    behavior_file_path = data_dir_path / "A1_EphysBehavioralFiles" / "raw_m53_231029_001.mat"
+    video_folder_path = Path("")
+    intrinsic_signal_optical_imaging_folder_path = Path("")
     session_to_nwb(
         recording_folder_path=recording_folder_path,
         sorting_folder_path=sorting_folder_path,
