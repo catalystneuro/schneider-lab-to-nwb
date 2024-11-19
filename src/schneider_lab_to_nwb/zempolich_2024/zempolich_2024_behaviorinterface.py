@@ -176,6 +176,8 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         )
         for event_dict in metadata["Behavior"]["Events"]:
             event_times = name_to_times[event_dict["name"]]
+            if np.all(np.isnan(event_times)):
+                continue  # Skip if all times are NaNs
             event_type = event_type_name_to_row[event_dict["name"]]
             for event_time in event_times:
                 events_table.add_row(timestamp=event_time, event_type=event_type)
@@ -187,12 +189,16 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         valued_events_table.add_column(name="value", description="Value of the event.")
         for event_dict in metadata["Behavior"]["ValuedEvents"]:
             event_times = name_to_times[event_dict["name"]]
+            if np.all(np.isnan(event_times)):
+                continue  # Skip if all times are NaNs
             event_values = name_to_values[event_dict["name"]]
             event_type = event_type_name_to_row[event_dict["name"]]
             for event_time, event_value in zip(event_times, event_values):
                 valued_events_table.add_row(timestamp=event_time, event_type=event_type, value=event_value)
-        behavior_module.add(events_table)
-        behavior_module.add(valued_events_table)
+        if len(events_table) > 0:
+            behavior_module.add(events_table)
+        if len(valued_events_table) > 0:
+            behavior_module.add(valued_events_table)
 
         task = Task(event_types=event_types_table)
         nwbfile.add_lab_meta_data(task)
@@ -207,11 +213,12 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
 
         # Add Epochs Table
         nwbfile.add_epoch(start_time=trial_start_times[0], stop_time=trial_stop_times[-1], tags=["Active Behavior"])
-        nwbfile.add_epoch(
-            start_time=valued_events_table["timestamp"][0],
-            stop_time=valued_events_table["timestamp"][-1],
-            tags=["Passive Listening"],
-        )
+        if len(valued_events_table) > 0:
+            nwbfile.add_epoch(
+                start_time=valued_events_table["timestamp"][0],
+                stop_time=valued_events_table["timestamp"][-1],
+                tags=["Passive Listening"],
+            )
 
         # Add Devices
         for device_kwargs in metadata["Behavior"]["Devices"]:
