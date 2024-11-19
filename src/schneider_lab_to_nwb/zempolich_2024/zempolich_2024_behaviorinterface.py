@@ -127,15 +127,19 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         trial_start_times = np.array(file["events"]["push"]["time"]).squeeze()
         trial_stop_times = np.array(file["events"]["push"]["time_end"]).squeeze()
         trial_is_nan = np.isnan(trial_start_times) | np.isnan(trial_stop_times)
-        trial_start_times = trial_start_times[np.logical_not(trial_is_nan)]
-        trial_stop_times = trial_stop_times[np.logical_not(trial_is_nan)]
+        trial_start_times = trial_start_times[~trial_is_nan]
+        trial_stop_times = trial_stop_times[~trial_is_nan]
         if normalize_timestamps:
             trial_start_times = trial_start_times - starting_timestamp
             trial_stop_times = trial_stop_times - starting_timestamp
         for trials_dict in metadata["Behavior"]["Trials"]:
             name = trials_dict["name"]
+            dtype = trials_dict["dtype"]
             trial_array = np.array(file["events"]["push"][name]).squeeze()
-            name_to_trial_array[name] = trial_array[np.logical_not(trial_is_nan)]
+            if dtype == "bool":
+                trial_array[np.isnan(trial_array)] = False
+            trial_array = np.asarray(trial_array, dtype=dtype)  # Can't cast to dtype right away bc bool(nan) = True
+            name_to_trial_array[name] = trial_array[~trial_is_nan]
 
         # Add Data to NWBFile
         behavior_module = nwb_helpers.get_module(
