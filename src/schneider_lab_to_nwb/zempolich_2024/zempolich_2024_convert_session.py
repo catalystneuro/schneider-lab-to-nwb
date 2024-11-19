@@ -61,6 +61,7 @@ def session_to_nwb(
     if has_opto:
         source_data.update(dict(Optogenetic=dict(file_path=behavior_file_path)))
         conversion_options.update(dict(Optogenetic=dict()))
+        conversion_options["Behavior"]["normalize_timestamps"] = True
 
     # Add Intrinsic Signal Optical Imaging
     # source_data.update(dict(ISOI=dict(folder_path=intrinsic_signal_optical_imaging_folder_path)))

@@ -89,14 +89,17 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         }
         return metadata_schema
 
-    def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
+    def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, normalize_timestamps: bool = False):
         # Read Data
         file_path = self.source_data["file_path"]
         file = read_mat(file_path)
         behavioral_time_series, name_to_times, name_to_values, name_to_trial_array = [], dict(), dict(), dict()
+        starting_timestamp = file["continuous"][metadata["Behavior"]["TimeSeries"][0]["name"]]["time"][0]
         for time_series_dict in metadata["Behavior"]["TimeSeries"]:
             name = time_series_dict["name"]
             timestamps = np.array(file["continuous"][name]["time"]).squeeze()
+            if normalize_timestamps:
+                timestamps = timestamps - starting_timestamp
             data = np.array(file["continuous"][name]["value"]).squeeze()
             time_series = TimeSeries(
                 name=name,
@@ -109,10 +112,14 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         for event_dict in metadata["Behavior"]["Events"]:
             name = event_dict["name"]
             times = np.array(file["events"][name]["time"]).squeeze()
+            if normalize_timestamps:
+                times = times - starting_timestamp
             name_to_times[name] = times
         for event_dict in metadata["Behavior"]["ValuedEvents"]:
             name = event_dict["name"]
             times = np.array(file["events"][name]["time"]).squeeze()
+            if normalize_timestamps:
+                times = times - starting_timestamp
             values = np.array(file["events"][name]["value"]).squeeze()
             name_to_times[name] = times
             name_to_values[name] = values
@@ -122,6 +129,9 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         trial_is_nan = np.isnan(trial_start_times) | np.isnan(trial_stop_times)
         trial_start_times = trial_start_times[np.logical_not(trial_is_nan)]
         trial_stop_times = trial_stop_times[np.logical_not(trial_is_nan)]
+        if normalize_timestamps:
+            trial_start_times = trial_start_times - starting_timestamp
+            trial_stop_times = trial_stop_times - starting_timestamp
         for trials_dict in metadata["Behavior"]["Trials"]:
             name = trials_dict["name"]
             trial_array = np.array(file["events"]["push"][name]).squeeze()

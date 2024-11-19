@@ -26,6 +26,7 @@
     --> conclusion: something is wrong with ephys start time
 - Want to split data into epochs: Active Behavior, Passive Listening, ??? What is happening post-2164? Before 1187s?
 - For opto sessions, what is the session start time? Ex. What is file['metadata']['session_beginning'] (=129765.7728241)?
+- Looks like opto sessions are not temporally aligned (no concurrent ephys and timestamp start at large numbers (142697.1119976))
 
 
 
