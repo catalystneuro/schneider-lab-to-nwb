@@ -3,7 +3,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 import shutil
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Literal
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.zempolich_2024 import Zempolich2024NWBConverter
@@ -16,6 +16,7 @@ def session_to_nwb(
     output_dir_path: str | Path,
     ephys_folder_path: Optional[str | Path] = None,
     has_opto: bool = False,
+    brain_region: Literal["A1", "M2"] = "A1",
     stub_test: bool = False,
 ):
     behavior_file_path = Path(behavior_file_path)
@@ -42,7 +43,7 @@ def session_to_nwb(
     if has_ephys:
         stream_name = "Signals CH"
         source_data.update(dict(Recording=dict(folder_path=ephys_folder_path, stream_name=stream_name)))
-        conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
+        conversion_options.update(dict(Recording=dict(stub_test=stub_test, brain_region=brain_region)))
 
         source_data.update(dict(Sorting=dict(folder_path=ephys_folder_path)))
         conversion_options.update(dict(Sorting=dict()))
@@ -60,7 +61,7 @@ def session_to_nwb(
     # Add Optogenetic
     if has_opto:
         source_data.update(dict(Optogenetic=dict(file_path=behavior_file_path)))
-        conversion_options.update(dict(Optogenetic=dict()))
+        conversion_options.update(dict(Optogenetic=dict(brain_region=brain_region)))
         conversion_options["Behavior"]["normalize_timestamps"] = True
 
     # Add Intrinsic Signal Optical Imaging
@@ -149,6 +150,34 @@ def main():
         intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
         output_dir_path=output_dir_path,
         has_opto=True,
+        stub_test=stub_test,
+    )
+
+    # Example Session M2 Ephys + Behavior
+    ephys_folder_path = data_dir_path / "M2_EphysFiles" / "m74" / "M2_Day1"
+    behavior_file_path = data_dir_path / "M2_EphysBehavioralFiles" / "raw_m74_240815_001.mat"
+    video_folder_path = Path("")
+    intrinsic_signal_optical_imaging_folder_path = Path("")
+    session_to_nwb(
+        ephys_folder_path=ephys_folder_path,
+        behavior_file_path=behavior_file_path,
+        video_folder_path=video_folder_path,
+        intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
+        brain_region="M2",
+        output_dir_path=output_dir_path,
+        stub_test=stub_test,
+    )
+
+    # Example Session M2 Opto + Behavior
+    behavior_file_path = data_dir_path / "M2_OptoBehavioralFiles" / "raw_m74_240809_001.mat"
+    video_folder_path = Path("")
+    intrinsic_signal_optical_imaging_folder_path = Path("")
+    session_to_nwb(
+        behavior_file_path=behavior_file_path,
+        video_folder_path=video_folder_path,
+        intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
+        brain_region="M2",
+        output_dir_path=output_dir_path,
         stub_test=stub_test,
     )
 

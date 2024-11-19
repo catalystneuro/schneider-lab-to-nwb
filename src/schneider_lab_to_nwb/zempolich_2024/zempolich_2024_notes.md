@@ -7,6 +7,7 @@
 ## Optogenetics
 - is_opto_trial in the trials table is `np.logical_not(np.isnan(onset_times))` rather than reading from the .mat file
     to ensure consistency with the onset/offset times.
+- injection vs stimulation location(s) for A1 vs M2???
 
 ## Intrinsic Signal Optical Imaging
 - Just including raw blood vessel image and processed overlay + pixel locations bc including the isoi roi response series would really require an extension for context, but seems like it has limited reuse potential.
