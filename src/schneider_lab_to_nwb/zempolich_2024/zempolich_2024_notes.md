@@ -16,7 +16,7 @@
 - Need device info for 2p microscope and red light laser
 - Why is the overlaid image flipped left/right compared to the original?
 
-# Temporal Alignment
+## Temporal Alignment
 - For session A1/m53/Day1 (raw_m53_231029_001.mat),
     - ephys data starts at 1025s with duration 2700s
     - units table runs from 0-2700
@@ -24,15 +24,20 @@
     - events table (toneIN, toneOUT, targetOUT, valve) run from 1191s to 1954s
     - valued events table () runs from 2017 to 2164
     - trials table () runs from 1191 to 1993
-    --> conclusion: something is wrong with ephys start time
+    --> conclusion: something is wrong with ephys start time --> ignoring it
 - Want to split data into epochs: Active Behavior, Passive Listening, ??? What is happening post-2164? Before 1187s?
 - For opto sessions, what is the session start time? Ex. What is file['metadata']['session_beginning'] (=129765.7728241)?
-- Looks like opto sessions are not temporally aligned (no concurrent ephys and timestamp start at large numbers (142697.1119976))
+- Looks like opto sessions are not temporally aligned (no concurrent ephys and timestamp start at large numbers (142697.1119976)) --> normalizing those sessions times to first encoder timestamp.
 
 
-
-## Data Requests
+## Active Requests
 - Mice sexes
-- Remaining data for Grant's project
-- More detailed position info for recording probe
-- Detailed description of temporal alignment procedure.
+- Video for each session and ISOI data for each animal
+- pixel locs for ephys
+- ISOI device info for 2p microscope and red light laser
+
+## Questions for Midway Meeting
+- injection vs stimulation location(s) for A1 vs M2???
+- Why is the overlaid image flipped left/right compared to the original?
+- Want to split data into epochs: Active Behavior, Passive Listening, ??? What is happening post-2164? Before 1187s?
+- Double Check: Is it ok to normalize opto sessions to first encoder timestamp?
