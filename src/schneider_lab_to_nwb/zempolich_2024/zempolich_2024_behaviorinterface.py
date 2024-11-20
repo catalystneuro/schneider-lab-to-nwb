@@ -197,9 +197,10 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         # Add Epochs Table
         nwbfile.add_epoch(start_time=trial_start_times[0], stop_time=trial_stop_times[-1], tags=["Active Behavior"])
         if len(valued_events_table) > 0:
+            tuning_tone_times = valued_events_table[0].event_times[0]
             nwbfile.add_epoch(
-                start_time=valued_events_table["timestamp"][0],
-                stop_time=valued_events_table["timestamp"][-1],
+                start_time=tuning_tone_times[0],
+                stop_time=tuning_tone_times[-1],
                 tags=["Passive Listening"],
             )
 
