@@ -158,7 +158,6 @@ def main():
         stub_test=stub_test,
         verbose=verbose,
     )
-    return
 
     # Example Session M2 Ephys + Behavior
     ephys_folder_path = data_dir_path / "M2_EphysFiles" / "m74" / "M2_Day1"
