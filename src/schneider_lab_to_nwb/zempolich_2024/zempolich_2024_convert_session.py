@@ -125,7 +125,7 @@ def main():
     data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Grant Zempolich Project Data")
     output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb")
     stub_test = False
-    verbose = False
+    verbose = True
 
     if output_dir_path.exists():
         shutil.rmtree(output_dir_path, ignore_errors=True)
@@ -158,6 +158,7 @@ def main():
         stub_test=stub_test,
         verbose=verbose,
     )
+    return
 
     # Example Session M2 Ephys + Behavior
     ephys_folder_path = data_dir_path / "M2_EphysFiles" / "m74" / "M2_Day1"
