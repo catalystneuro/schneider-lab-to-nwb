@@ -39,6 +39,14 @@ Ecephys:
       description: Recording of AC neural responses in mice performing this behavioral task will utilize dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data will be recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
   folder_name_to_start_datetime:
     m53/Day1_A1: 2023-10-29T16:56:01
+    m54/Day1_A1: 2023-10-29T18:18:03
+    m65/Day2_A1: 2023-10-26T18:49:04
+    m66/Day1_A1: 2023-10-25T18:41:03 # could be 2023-10-25T18:04:13 instead
+    m67/Day2_A1: 2023-10-28T15:54:01 # could be 2023-10-28T15:05:14 instead
+    m71/Day2_A1: 2023-11-01T18:04:30
+    m72/Day2_A1: 2023-10-21T20:03:27 # could be 2023-10-21T20:32:07 instead
+    m79/M2_Day1: 2024-08-19T15:58:07
+    m81/M2_Day1: 2024-08-17T17:59:09
 
 Behavior:
   Module:
