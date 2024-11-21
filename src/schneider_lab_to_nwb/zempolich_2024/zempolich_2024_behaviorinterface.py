@@ -94,10 +94,10 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
 
         Parameters
         ----------
-        nwbfile : NWBFile
-            The NWBFile to which to add the behavior data.
+        nwbfile : pynwb.NWBFile
+            The in-memory object to add the data to.
         metadata : dict
-            The metadata for the behavior data.
+            Metadata dictionary with information used to create the NWBFile.
         normalize_timestamps : bool, optional
             Whether to normalize the timestamps to the start of the first behavioral time series, by default False
         """

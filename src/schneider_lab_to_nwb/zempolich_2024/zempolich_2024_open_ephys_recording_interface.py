@@ -24,14 +24,12 @@ class Zempolich2024OpenEphysRecordingInterface(OpenEphysLegacyRecordingInterface
 
         Parameters
         ----------
-        nwbfile : NWBFile
-            The NWBFile to which the recording will be added.
+        nwbfile : pynwb.NWBFile
+            The in-memory object to add the data to.
         metadata : dict
-            The metadata for the conversion.
+            Metadata dictionary with information used to create the NWBFile.
         brain_region : Literal["A1", "M2"], optional
             The brain region from which the recording was taken, by default "A1".
-        conversion_options : dict
-            Additional options for the conversion.
         """
         folder_path = self.source_data["folder_path"]
         channel_positions = np.load(folder_path / "channel_positions.npy")

@@ -30,10 +30,10 @@ class Zempolich2024OptogeneticInterface(BaseDataInterface):
 
         Parameters
         ----------
-        nwbfile : NWBFile
-            NWBFile to which the data will be added.
+        nwbfile : pynwb.NWBFile
+            The in-memory object to add the data to.
         metadata : dict
-            Metadata dictionary.
+            Metadata dictionary with information used to create the NWBFile.
         brain_region : Literal["A1", "M2"], optional
             Brain region for which the optogenetic stimulation data will be added, by default "A1".
         """
