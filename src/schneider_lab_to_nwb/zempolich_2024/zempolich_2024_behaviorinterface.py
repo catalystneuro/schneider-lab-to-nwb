@@ -3,13 +3,12 @@ from pynwb.file import NWBFile
 from pydantic import FilePath
 import numpy as np
 from pymatreader import read_mat
-from hdmf.common.table import DynamicTableRegion
 from pynwb.behavior import BehavioralTimeSeries, TimeSeries
 from pynwb.device import Device
 from ndx_events import Events, AnnotatedEventsTable
 
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.utils import DeepDict, get_base_schema
+from neuroconv.utils import get_base_schema
 from neuroconv.tools import nwb_helpers
 
 

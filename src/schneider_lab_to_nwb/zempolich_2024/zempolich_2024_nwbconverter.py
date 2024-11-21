@@ -4,7 +4,6 @@ from neuroconv.datainterfaces import (
     PhySortingInterface,
     VideoInterface,
 )
-from neuroconv.basedatainterface import BaseDataInterface
 
 from schneider_lab_to_nwb.zempolich_2024 import (
     Zempolich2024OpenEphysRecordingInterface,
