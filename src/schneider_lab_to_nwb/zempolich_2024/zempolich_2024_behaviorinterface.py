@@ -19,13 +19,14 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
     keywords = ("behavior",)
 
     def __init__(self, file_path: FilePath):
+        """Initialize the behavior interface.
+
+        Parameters
+        ----------
+        file_path : FilePath
+            Path to the behavior .mat file.
+        """
         super().__init__(file_path=file_path)
-
-    def get_metadata(self) -> DeepDict:
-        # Automatically retrieve as much metadata as possible from the source files available
-        metadata = super().get_metadata()
-
-        return metadata
 
     def get_metadata_schema(self) -> dict:
         metadata_schema = super().get_metadata_schema()
@@ -90,6 +91,17 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         return metadata_schema
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, normalize_timestamps: bool = False):
+        """Add behavior data to the NWBFile.
+
+        Parameters
+        ----------
+        nwbfile : NWBFile
+            The NWBFile to which to add the behavior data.
+        metadata : dict
+            The metadata for the behavior data.
+        normalize_timestamps : bool, optional
+            Whether to normalize the timestamps to the start of the first behavioral time series, by default False
+        """
         # Read Data
         file_path = self.source_data["file_path"]
         file = read_mat(file_path)
