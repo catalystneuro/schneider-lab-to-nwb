@@ -20,6 +20,29 @@ def session_to_nwb(
     stub_test: bool = False,
     verbose: bool = True,
 ):
+    """Convert a session of data to NWB format.
+
+    Parameters
+    ----------
+    behavior_file_path : str | Path
+        Path to the behavior .mat file.
+    video_folder_path : str | Path
+        Path to the folder containing the video files.
+    intrinsic_signal_optical_imaging_folder_path : str | Path
+        Path to the folder containing the intrinsic signal optical imaging files.
+    output_dir_path : str | Path
+        Path to the directory where the output NWB file will be saved.
+    ephys_folder_path : Optional[str | Path], optional
+        Path to the folder containing electrophysiology data, by default None.
+    has_opto : bool, optional
+        Whether the session includes optogenetic data, by default False.
+    brain_region : Literal["A1", "M2"], optional
+        Brain region of interest, by default "A1".
+    stub_test : bool, optional
+        Whether to run in stub test mode, by default False.
+    verbose : bool, optional
+        Whether to print verbose output, by default True.
+    """
     behavior_file_path = Path(behavior_file_path)
     video_folder_path = Path(video_folder_path)
     intrinsic_signal_optical_imaging_folder_path = Path(intrinsic_signal_optical_imaging_folder_path)
