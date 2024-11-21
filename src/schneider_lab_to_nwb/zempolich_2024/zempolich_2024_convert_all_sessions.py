@@ -12,8 +12,8 @@ from schneider_lab_to_nwb.zempolich_2024.zempolich_2024_convert_session import s
 
 def dataset_to_nwb(
     *,
-    data_dir_path: str | Path,
-    output_dir_path: str | Path,
+    data_dir_path: DirectoryPath,
+    output_dir_path: DirectoryPath,
     max_workers: int = 1,
     verbose: bool = True,
 ):
@@ -21,9 +21,9 @@ def dataset_to_nwb(
 
     Parameters
     ----------
-    data_dir_path : str | Path
+    data_dir_path : DirectoryPath
         The path to the directory containing the raw data.
-    output_dir_path : str | Path
+    output_dir_path : DirectoryPath
         The path to the directory where the NWB files will be saved.
     max_workers : int, optional
         The number of workers to use for parallel processing, by default 1
@@ -72,14 +72,14 @@ def get_nwbfile_name_from_kwargs(session_to_nwb_kwargs: dict) -> str:
     return nwbfile_name
 
 
-def safe_session_to_nwb(*, session_to_nwb_kwargs: dict, exception_file_path: str | Path):
+def safe_session_to_nwb(*, session_to_nwb_kwargs: dict, exception_file_path: FilePath):
     """Convert a session to NWB while handling any errors by recording error messages to the exception_file_path.
 
     Parameters
     ----------
     session_to_nwb_kwargs : dict
         The arguments for session_to_nwb.
-    exception_file_path : Path
+    exception_file_path : FilePath
         The path to the file where the exception messages will be saved.
     """
     exception_file_path = Path(exception_file_path)
@@ -91,12 +91,12 @@ def safe_session_to_nwb(*, session_to_nwb_kwargs: dict, exception_file_path: str
             f.write(traceback.format_exc())
 
 
-def get_session_to_nwb_kwargs_per_session(*, data_dir_path: str | Path):
+def get_session_to_nwb_kwargs_per_session(*, data_dir_path: DirectoryPath):
     """Get the kwargs for session_to_nwb for each session in the dataset.
 
     Parameters
     ----------
-    data_dir_path : str | Path
+    data_dir_path : DirectoryPath
         The path to the directory containing the raw data.
 
     Returns
@@ -128,16 +128,18 @@ def get_session_to_nwb_kwargs_per_session(*, data_dir_path: str | Path):
     return session_to_nwb_kwargs_per_session
 
 
-def get_brain_region_kwargs(ephys_path, ephys_behavior_path, opto_path, brain_region):
+def get_brain_region_kwargs(
+    ephys_path: DirectoryPath, ephys_behavior_path: DirectoryPath, opto_path: DirectoryPath, brain_region: str
+):
     """Get the session_to_nwb kwargs for each session in the dataset for a given brain region.
 
     Parameters
     ----------
-    ephys_path : pathlib.Path
+    ephys_path : DirectoryPath
         Path to the directory containing electrophysiology data for subjects.
-    ephys_behavior_path : pathlib.Path
+    ephys_behavior_path : DirectoryPath
         Path to the directory containing electrophysiology behavior data files.
-    opto_path : pathlib.Path
+    opto_path : DirectoryPath
         Path to the directory containing optogenetics behavior data files.
     brain_region : str
         The brain region associated with the sessions.
