@@ -51,7 +51,19 @@ def dataset_to_nwb(
             pass
 
 
-def get_nwbfile_name_from_kwargs(session_to_nwb_kwargs):
+def get_nwbfile_name_from_kwargs(session_to_nwb_kwargs: dict) -> str:
+    """Get the name of the NWB file from the session_to_nwb kwargs.
+
+    Parameters
+    ----------
+    session_to_nwb_kwargs : dict
+        The arguments for session_to_nwb.
+
+    Returns
+    -------
+    str
+        The name of the NWB file that would be created by running session_to_nwb(**session_to_nwb_kwargs).
+    """
     behavior_file_path = session_to_nwb_kwargs["behavior_file_path"]
     subject_id = behavior_file_path.name.split("_")[1]
     session_id = behavior_file_path.name.split("_")[2]
@@ -78,10 +90,7 @@ def safe_session_to_nwb(*, session_to_nwb_kwargs: dict, exception_file_path: str
             f.write(traceback.format_exc())
 
 
-def get_session_to_nwb_kwargs_per_session(
-    *,
-    data_dir_path: str | Path,
-):
+def get_session_to_nwb_kwargs_per_session(*, data_dir_path: str | Path):
     """Get the kwargs for session_to_nwb for each session in the dataset.
 
     Parameters
@@ -119,6 +128,24 @@ def get_session_to_nwb_kwargs_per_session(
 
 
 def get_brain_region_kwargs(ephys_path, ephys_behavior_path, opto_path, brain_region):
+    """Get the session_to_nwb kwargs for each session in the dataset for a given brain region.
+
+    Parameters
+    ----------
+    ephys_path : pathlib.Path
+        Path to the directory containing electrophysiology data for subjects.
+    ephys_behavior_path : pathlib.Path
+        Path to the directory containing electrophysiology behavior data files.
+    opto_path : pathlib.Path
+        Path to the directory containing optogenetics behavior data files.
+    brain_region : str
+        The brain region associated with the sessions.
+
+    Returns
+    -------
+    list[dict[str, Any]]
+        A list of dictionaries containing the kwargs for session_to_nwb for each session in the dataset within a specific brain region.
+    """
     session_to_nwb_kwargs_per_session = []
     for subject_dir in ephys_path.iterdir():
         subject_id = subject_dir.name
