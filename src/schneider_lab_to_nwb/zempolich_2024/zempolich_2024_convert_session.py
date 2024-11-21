@@ -130,6 +130,17 @@ def add_session_start_time_to_metadata(
     ephys_folder_path: Optional[DirectoryPath],
     metadata: dict,
 ):
+    """Add the session start time to the metadata, including timezone information.
+
+    Parameters
+    ----------
+    behavior_file_path : FilePath
+        Path to the behavior .mat file.
+    ephys_folder_path : Optional[DirectoryPath]
+        Path to the folder containing electrophysiology data, by default None.
+    metadata : dict
+        The metadata for the session.
+    """
     if ephys_folder_path is not None:
         folder_name = ephys_folder_path.parent.name + "/" + ephys_folder_path.name
         folder_name_to_start_datetime = metadata["Ecephys"].pop("folder_name_to_start_datetime")
