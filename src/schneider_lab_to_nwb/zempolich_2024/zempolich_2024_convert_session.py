@@ -4,17 +4,18 @@ from zoneinfo import ZoneInfo
 import shutil
 from datetime import datetime
 from typing import Optional, Literal
+from pydantic import FilePath, DirectoryPath
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.zempolich_2024 import Zempolich2024NWBConverter
 
 
 def session_to_nwb(
-    behavior_file_path: str | Path,
-    video_folder_path: str | Path,
-    intrinsic_signal_optical_imaging_folder_path: str | Path,
-    output_dir_path: str | Path,
-    ephys_folder_path: Optional[str | Path] = None,
+    behavior_file_path: FilePath,
+    video_folder_path: DirectoryPath,
+    intrinsic_signal_optical_imaging_folder_path: DirectoryPath,
+    output_dir_path: DirectoryPath,
+    ephys_folder_path: Optional[DirectoryPath] = None,
     has_opto: bool = False,
     brain_region: Literal["A1", "M2"] = "A1",
     stub_test: bool = False,
@@ -24,15 +25,15 @@ def session_to_nwb(
 
     Parameters
     ----------
-    behavior_file_path : str | Path
+    behavior_file_path : FilePath
         Path to the behavior .mat file.
-    video_folder_path : str | Path
+    video_folder_path : DirectoryPath
         Path to the folder containing the video files.
-    intrinsic_signal_optical_imaging_folder_path : str | Path
+    intrinsic_signal_optical_imaging_folder_path : DirectoryPath
         Path to the folder containing the intrinsic signal optical imaging files.
-    output_dir_path : str | Path
+    output_dir_path : DirectoryPath
         Path to the directory where the output NWB file will be saved.
-    ephys_folder_path : Optional[str | Path], optional
+    ephys_folder_path : Optional[DirectoryPath], optional
         Path to the folder containing electrophysiology data, by default None.
     has_opto : bool, optional
         Whether the session includes optogenetic data, by default False.
@@ -125,8 +126,8 @@ def session_to_nwb(
 
 
 def add_session_start_time_to_metadata(
-    behavior_file_path: str | Path,
-    ephys_folder_path: Optional[str | Path],
+    behavior_file_path: FilePath,
+    ephys_folder_path: Optional[DirectoryPath],
     metadata: dict,
 ):
     if ephys_folder_path is not None:

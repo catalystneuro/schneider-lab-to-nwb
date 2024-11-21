@@ -5,6 +5,7 @@ from pprint import pformat
 import traceback
 from tqdm import tqdm
 import shutil
+from pydantic import FilePath, DirectoryPath
 
 from schneider_lab_to_nwb.zempolich_2024.zempolich_2024_convert_session import session_to_nwb
 
