@@ -220,6 +220,7 @@ def main():
         intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
         brain_region="M2",
         output_dir_path=output_dir_path,
+        has_opto=True,
         stub_test=stub_test,
         verbose=verbose,
     )
