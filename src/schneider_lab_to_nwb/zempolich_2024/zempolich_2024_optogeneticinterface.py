@@ -25,7 +25,13 @@ class Zempolich2024OptogeneticInterface(BaseDataInterface):
         """
         super().__init__(file_path=file_path)
 
-    def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, brain_region: Literal["A1", "M2"] = "A1"):
+    def add_to_nwbfile(
+        self,
+        nwbfile: NWBFile,
+        metadata: dict,
+        brain_region: Literal["A1", "M2"] = "A1",
+        normalize_timestamps: bool = False,
+    ):
         """Add optogenetic stimulation data to the NWBFile.
 
         Parameters
@@ -36,6 +42,8 @@ class Zempolich2024OptogeneticInterface(BaseDataInterface):
             Metadata dictionary with information used to create the NWBFile.
         brain_region : Literal["A1", "M2"], optional
             Brain region for which the optogenetic stimulation data will be added, by default "A1".
+        normalize_timestamps : bool, optional
+            Whether to normalize the timestamps to the start of the first behavioral time series, by default False
         """
         # Read Data
         file_path = self.source_data["file_path"]
@@ -49,6 +57,10 @@ class Zempolich2024OptogeneticInterface(BaseDataInterface):
             np.logical_not(np.isnan(offset_times))
         ), "Some of the offset times are nan when onset times are not nan."
         power = metadata["Optogenetics"]["OptogeneticSeries"]["power"]
+        starting_timestamp = file["continuous"][metadata["Behavior"]["TimeSeries"][0]["name"]]["time"][0]
+        if normalize_timestamps:
+            onset_times = onset_times - starting_timestamp
+            offset_times = offset_times - starting_timestamp
 
         timestamps, data = [], []
         for onset_time, offset_time in zip(onset_times, offset_times):
