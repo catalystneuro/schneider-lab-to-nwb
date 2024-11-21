@@ -5,7 +5,7 @@ NWBFile:
     - optogenetics
   experiment_description:
     Identifying mistakes is important for improving performance during acoustic behaviors like speech and musicianship. Although hearing is instrumental for monitoring and adapting these behaviors, the neural circuits that integrate motor, acoustic, and goal-related signals to detect errors and guide ongoing sensorimotor adaptation in mammals remain unidentified. Here, we develop a novel closed-loop, sound-guided behavior that requires mice to use real-time acoustic feedback to guide skilled ongoing forelimb movements. Large scale electrophysiology recordings reveal that the mouse auditory cortex integrates information about sound and movement, as well as encodes error- and learning-related signals during this sound-generating behavior. Distinct groups of auditory cortex neurons signal different error types, and the activity of these neurons predicts both within-trial and across-trial behavioral adaptations. Brief, behavior-triggered optogenetic suppression of auditory cortex during error signaling hinders behavioral corrections on both rapid and long time scales, indicating that cortical error signals are necessary for skilled acoustic behaviors. Together, these experiments identify a cortical role for detecting errors and learning from mistakes and suggest that the auditory cortex plays a critical role in skilled, sound-generating behavior in mammals.
-  institution: Institution where the lab is located
+  institution: New York University
   lab: Schneider
   experimenter:
     - Zempolich, Grant W.
