@@ -8,7 +8,6 @@ import numpy as np
 from PIL import Image
 
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.utils import DeepDict
 from neuroconv.tools import nwb_helpers
 
 
@@ -18,13 +17,14 @@ class Zempolich2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
     keywords = ("intrinsic signal optical imaging",)
 
     def __init__(self, folder_path: DirectoryPath):
+        """Initialize the intrinsic signal optical imaging interface.
+
+        Parameters
+        ----------
+        folder_path : DirectoryPath
+            Path to the folder containing the intrinsic signal optical imaging files.
+        """
         super().__init__(folder_path=folder_path)
-
-    def get_metadata(self) -> DeepDict:
-        # Automatically retrieve as much metadata as possible from the source files available
-        metadata = super().get_metadata()
-
-        return metadata
 
     def get_metadata_schema(self) -> dict:
         metadata_schema = super().get_metadata_schema()
