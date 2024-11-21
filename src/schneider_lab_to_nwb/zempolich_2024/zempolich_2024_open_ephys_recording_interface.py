@@ -20,6 +20,19 @@ class Zempolich2024OpenEphysRecordingInterface(OpenEphysLegacyRecordingInterface
     def add_to_nwbfile(
         self, nwbfile: NWBFile, metadata: dict, brain_region: Literal["A1", "M2"] = "A1", **conversion_options
     ):
+        """Add the recording to an NWBFile.
+
+        Parameters
+        ----------
+        nwbfile : NWBFile
+            The NWBFile to which the recording will be added.
+        metadata : dict
+            The metadata for the conversion.
+        brain_region : Literal["A1", "M2"], optional
+            The brain region from which the recording was taken, by default "A1".
+        conversion_options : dict
+            Additional options for the conversion.
+        """
         folder_path = self.source_data["folder_path"]
         channel_positions = np.load(folder_path / "channel_positions.npy")
         if True:  # TODO: Replace with `if stub_test:` once all channels are present in the data
