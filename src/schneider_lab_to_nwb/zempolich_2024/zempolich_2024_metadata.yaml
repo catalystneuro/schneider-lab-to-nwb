@@ -14,7 +14,7 @@ Subject:
   species: Mus musculus
   age: P12W/  # in ISO 8601, such as "P1W2D"
   sex: U  # One of M, F, U, or O
-  description: 12-week-old C57BL/6 or VGATChR2-EYFP mice (see Aims approaches below for details) will be used for all behavioral, electrophysiology, and optogenetic experiments. In the VGAT-ChR2-EYFP mouse line, channelrhodopsin (ChR2) is coupled to the vesicular GABA transporter, inducing expression in GABAergic inhibitory neurons ubiquitously across cortex and allowing for real time optogenetic inhibition of brain regions of interest.
+  description: 12-week-old C57BL/6 or VGATChR2-EYFP mice were used for all behavioral, electrophysiology, and optogenetic experiments. In the VGAT-ChR2-EYFP mouse line, channelrhodopsin (ChR2) was coupled to the vesicular GABA transporter, inducing expression in GABAergic inhibitory neurons ubiquitously across cortex and allowing for real time optogenetic inhibition of brain regions of interest.
   strain: C57BL/6
 
 BrainRegion:
@@ -36,7 +36,7 @@ Ecephys:
       device: MasmanidisSiliconMicroprobe128AxN
   ElectricalSeries:
     - name: ElectricalSeries
-      description: Recording of AC neural responses in mice performing this behavioral task will utilize dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data will be recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
+      description: Recording of AC neural responses in mice performing this behavioral task utilized dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data was recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
   folder_name_to_start_datetime:
     m53/Day1_A1: 2023-10-29T16:56:01
     m54/Day1_A1: 2023-10-29T18:18:03
@@ -51,7 +51,7 @@ Ecephys:
 Behavior:
   Module:
     name: behavior
-    description: C57BL/6 mice will first be water restricted, habituated to head fixation in the behavioral set up for two days and classically conditioned to associate a 16 kHz tone with a small water reward given 150 ms after the tone plays (~12 seconds inter-tone-interval). Mice will then be trained for 15 to 20 sessions on an auditory guided task described as follows. Inspired by human performance on stringed instruments, whereby a target note is achieved via modulation of forelimb and hand movements, we have engineered a novel behavioral paradigm that requires mice to skillfully adjust the size of lever presses in response to a dynamic virtual acoustic environment. Mice are trained to press a small 3-D printed lever forward with their forelimb toward a 2 mm wide target zone. Mice hear a 16 Hz tone when the lever enters the zone and a 10 kHz tone if the press exceeds the bounds of the zone. Presses that peak within the zone produce only the entry tone and are rewarded when the lever returns to the starting position. Presses that undershoot (producing no tones) or overshoot (producing both an entry and an exit tone) are unrewarded. Every 30 trials, which we refer to as a block, the target zone is relocated without warning and the mice must use acoustic feedback to adjust their lever presses to peak at the new location.
+    description: C57BL/6 mice were first be water restricted, habituated to head fixation in the behavioral set up for two days and classically conditioned to associate a 16 kHz tone with a small water reward given 150 ms after the tone plays (~12 seconds inter-tone-interval). Mice were then be trained for 15 to 20 sessions on an auditory guided task described as follows. Inspired by human performance on stringed instruments, whereby a target note is achieved via modulation of forelimb and hand movements, we have engineered a novel behavioral paradigm that requires mice to skillfully adjust the size of lever presses in response to a dynamic virtual acoustic environment. Mice were trained to press a small 3-D printed lever forward with their forelimb toward a 2 mm wide target zone. Mice heard a 16 Hz tone when the lever enters the zone and a 10 kHz tone if the press exceeds the bounds of the zone. Presses that peak within the zone produce only the entry tone and are rewarded when the lever returns to the starting position. Presses that undershoot (producing no tones) or overshoot (producing both an entry and an exit tone) are unrewarded. Every 30 trials, which we refer to as a block, the target zone was relocated without warning and the mice must use acoustic feedback to adjust their lever presses to peak at the new location.
   TimeSeries:
     - name: encoder
       description: Sampled values for entire duration of experiment for lever pressing behavior read from a rotary encoder (US Digital). Digital signals for licking and lever movement were collected by a data acquisition card (National Instruments) connected to a computer and logged by custom Matlab software (Mathworks, PsychToolBox) and sampled at 2kHz.
@@ -103,36 +103,36 @@ Behavior:
       dtype: float64
   # VideoCamera1:
   #   - name: video_camera_1
-  #     description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 1 is a side angle view of the mouse.
+  #     description: Two IR video cameras (AAK CA20 600TVL 2.8MM) were used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data as necessary. Camera 1 is a side angle view of the mouse.
   #     unit: Frames
   # VideoCamera2:
   #   - name: video_camera_2
-  #     description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 2 is a zoomed-in view of the pupil of the mouse.
+  #     description: Two IR video cameras (AAK CA20 600TVL 2.8MM) were used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data as necessary. Camera 2 is a zoomed-in view of the pupil of the mouse.
   #     unit: Frames
 
 Sorting:
-  units_description: Neural spikes will be sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.
+  units_description: Neural spikes were sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.
 
 Optogenetics:
   Device:
     name: optogenetic_stimulation_laser
-    description: Real time optogenetic stimulation of brain regions of interest will be accomplished via TTL control of an all solidstate 473nm blue laser (MBL-III-473/1~100mW, Opto Engine LLC). Bifurcated fiber cables (ThorLabs, Ø200 µm Core Multimode Fiber) will be used for light delivery.
+    description: Real time optogenetic stimulation of brain regions of interest was accomplished via TTL control of an all solidstate 473nm blue laser (MBL-III-473/1~100mW, Opto Engine LLC). Bifurcated fiber cables (ThorLabs, Ø200 µm Core Multimode Fiber) were used for light delivery.
     manufacturer: Opto Engine LLC
   OptogeneticStimulusSite:
     name: optogenetic_stimulus_site
-    description: To identify cortical neurons that project from the auditory cortex to motor regions (Aim 2), stereotaxic injections of AAV-ChR2 will be made into the primary auditory cortex (-2.8 AP, 4.2 ML relative to bregma; guided by intrinsic optical imaging) during head-fixation and animals will be trained while expression occurs (~2 weeks). In addition, fiber optics will be implanted to target cell bodies in the secondary motor cortex (1.0-1.5 AP, 0.5-0.7 ML).
+    description: To identify cortical neurons that project from the auditory cortex to motor regions (Aim 2), stereotaxic injections of AAV-ChR2 were made into the primary auditory cortex (-2.8 AP, 4.2 ML relative to bregma; guided by intrinsic optical imaging) during head-fixation and animals were trained while expression occurs (~2 weeks). In addition, fiber optics were implanted to target cell bodies in the secondary motor cortex (1.0-1.5 AP, 0.5-0.7 ML).
     excitation_lambda: 473.0 # nm
     injection_location: Primary Auditory Cortex  (-2.8 AP, 4.2 ML relative to bregma; guided by intrinsic optical imaging)
     stimulation_location: Secondary Motor Cortex (1.0-1.5 AP, 0.5-0.7 ML)
   OptogeneticSeries:
     name: optogenetic_series
-    description: In optogenetic perturbation trials (~33% of trials), during each lever press, continuous wave stimulation of 473nm light (15-20mW) will be delivered bilaterally over primary auditory cortex A1 (or secondary motor cortex, M2, as necessary using similar protocol - see Aim 2) to activate the terminals of ChR2 expressing neurons.
+    description: In optogenetic perturbation trials (~33% of trials), during each lever press, continuous wave stimulation of 473nm light (15-20mW) was delivered bilaterally over primary auditory cortex A1 (or secondary motor cortex, M2, as necessary using similar protocol - see Aim 2) to activate the terminals of ChR2 expressing neurons.
     power: 0.020 # 15-20 mW
 
 IntrinsicSignalOpticalImaging:
   Module:
     name: intrinsic_signal_optical_imaging
-    description: For precise targeting of auditory cortex, intrinsic optical imaging (IOS) will be performed using a 2-photon microscope (Neurolabware). The skull is first bilaterally thinned over a region of interest (ROI) and made translucent. On experiment day, 680nm red light (ThorLabs) is used to image the ROI. Data is collected via MATLAB running custom suites for online and offline analyses.
+    description: For precise targeting of auditory cortex, intrinsic optical imaging (IOS) was performed using a 2-photon microscope (Neurolabware). The skull was first bilaterally thinned over a region of interest (ROI) and made translucent. On experiment day, 680nm red light (ThorLabs) is used to image the ROI. Data was collected via MATLAB running custom suites for online and offline analyses.
   Images:
     name: images
     description: Intrinsic signal optical images.

@@ -89,7 +89,10 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         }
         return metadata_schema
 
-    def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, normalize_timestamps: bool = False):
+
+    def add_to_nwbfile(
+        self, nwbfile: NWBFile, metadata: dict, normalize_timestamps: bool = False, verbose: bool = False
+    ):
         """Add behavior data to the NWBFile.
 
         Parameters
@@ -100,6 +103,8 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
             Metadata dictionary with information used to create the NWBFile.
         normalize_timestamps : bool, optional
             Whether to normalize the timestamps to the start of the first behavioral time series, by default False
+        verbose: bool, optional
+            Whether to print extra information during the conversion, by default False.
         """
         # Read Data
         file_path = self.source_data["file_path"]
@@ -170,6 +175,10 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         for event_dict in metadata["Behavior"]["Events"]:
             event_times = name_to_times[event_dict["name"]]
             if np.all(np.isnan(event_times)):
+                if verbose:
+                    print(
+                        f"An event provided in the metadata ({event_dict['name']}) will be skipped because no times were found."
+                    )
                 continue  # Skip if all times are NaNs
             event = Events(
                 name=event_dict["name"],
@@ -186,7 +195,11 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         for event_dict in metadata["Behavior"]["ValuedEvents"]:
             event_times = name_to_times[event_dict["name"]]
             if np.all(np.isnan(event_times)):
-                continue
+                if verbose:
+                    print(
+                        f"An event provided in the metadata ({event_dict['name']}) will be skipped because no times were found."
+                    )
+                continue  # Skip if all times are NaNs
             event_values = name_to_values[event_dict["name"]]
             valued_events_table.add_event_type(
                 label=event_dict["name"],
