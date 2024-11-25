@@ -13,7 +13,7 @@ from neuroconv.utils import DeepDict, get_base_schema
 from neuroconv.tools import nwb_helpers
 
 
-class Schneider2024BehaviorInterface(BaseDataInterface):
+class Zempolich2024BehaviorInterface(BaseDataInterface):
     """Behavior interface for schneider_2024 conversion"""
 
     keywords = ("behavior",)
@@ -89,14 +89,19 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
         }
         return metadata_schema
 
-    def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
+    def add_to_nwbfile(
+        self, nwbfile: NWBFile, metadata: dict, normalize_timestamps: bool = False, verbose: bool = False
+    ):
         # Read Data
         file_path = self.source_data["file_path"]
         file = read_mat(file_path)
         behavioral_time_series, name_to_times, name_to_values, name_to_trial_array = [], dict(), dict(), dict()
+        starting_timestamp = file["continuous"][metadata["Behavior"]["TimeSeries"][0]["name"]]["time"][0]
         for time_series_dict in metadata["Behavior"]["TimeSeries"]:
             name = time_series_dict["name"]
             timestamps = np.array(file["continuous"][name]["time"]).squeeze()
+            if normalize_timestamps:
+                timestamps = timestamps - starting_timestamp
             data = np.array(file["continuous"][name]["value"]).squeeze()
             time_series = TimeSeries(
                 name=name,
@@ -109,20 +114,34 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
         for event_dict in metadata["Behavior"]["Events"]:
             name = event_dict["name"]
             times = np.array(file["events"][name]["time"]).squeeze()
+            if normalize_timestamps:
+                times = times - starting_timestamp
             name_to_times[name] = times
         for event_dict in metadata["Behavior"]["ValuedEvents"]:
             name = event_dict["name"]
             times = np.array(file["events"][name]["time"]).squeeze()
+            if normalize_timestamps:
+                times = times - starting_timestamp
             values = np.array(file["events"][name]["value"]).squeeze()
             name_to_times[name] = times
             name_to_values[name] = values
 
         trial_start_times = np.array(file["events"]["push"]["time"]).squeeze()
         trial_stop_times = np.array(file["events"]["push"]["time_end"]).squeeze()
+        trial_is_nan = np.isnan(trial_start_times) | np.isnan(trial_stop_times)
+        trial_start_times = trial_start_times[~trial_is_nan]
+        trial_stop_times = trial_stop_times[~trial_is_nan]
+        if normalize_timestamps:
+            trial_start_times = trial_start_times - starting_timestamp
+            trial_stop_times = trial_stop_times - starting_timestamp
         for trials_dict in metadata["Behavior"]["Trials"]:
             name = trials_dict["name"]
+            dtype = trials_dict["dtype"]
             trial_array = np.array(file["events"]["push"][name]).squeeze()
-            name_to_trial_array[name] = trial_array
+            if dtype == "bool":
+                trial_array[np.isnan(trial_array)] = False
+            trial_array = np.asarray(trial_array, dtype=dtype)  # Can't cast to dtype right away bc bool(nan) = True
+            name_to_trial_array[name] = trial_array[~trial_is_nan]
 
         # Add Data to NWBFile
         behavior_module = nwb_helpers.get_module(
@@ -163,6 +182,12 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
         )
         for event_dict in metadata["Behavior"]["Events"]:
             event_times = name_to_times[event_dict["name"]]
+            if np.all(np.isnan(event_times)):
+                if verbose:
+                    print(
+                        f"An event provided in the metadata ({event_dict['name']}) will be skipped because no times were found."
+                    )
+                continue  # Skip if all times are NaNs
             event_type = event_type_name_to_row[event_dict["name"]]
             for event_time in event_times:
                 events_table.add_row(timestamp=event_time, event_type=event_type)
@@ -174,12 +199,20 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
         valued_events_table.add_column(name="value", description="Value of the event.")
         for event_dict in metadata["Behavior"]["ValuedEvents"]:
             event_times = name_to_times[event_dict["name"]]
+            if np.all(np.isnan(event_times)):
+                if verbose:
+                    print(
+                        f"An event provided in the metadata ({event_dict['name']}) will be skipped because no times were found."
+                    )
+                continue  # Skip if all times are NaNs
             event_values = name_to_values[event_dict["name"]]
             event_type = event_type_name_to_row[event_dict["name"]]
             for event_time, event_value in zip(event_times, event_values):
                 valued_events_table.add_row(timestamp=event_time, event_type=event_type, value=event_value)
-        behavior_module.add(events_table)
-        behavior_module.add(valued_events_table)
+        if len(events_table) > 0:
+            behavior_module.add(events_table)
+        if len(valued_events_table) > 0:
+            behavior_module.add(valued_events_table)
 
         task = Task(event_types=event_types_table)
         nwbfile.add_lab_meta_data(task)
@@ -191,6 +224,15 @@ class Schneider2024BehaviorInterface(BaseDataInterface):
             name = trials_dict["name"]
             trial_array = name_to_trial_array[name]
             nwbfile.add_trial_column(name=name, description=trials_dict["description"], data=trial_array)
+
+        # Add Epochs Table
+        nwbfile.add_epoch(start_time=trial_start_times[0], stop_time=trial_stop_times[-1], tags=["Active Behavior"])
+        if len(valued_events_table) > 0:
+            nwbfile.add_epoch(
+                start_time=valued_events_table["timestamp"][0],
+                stop_time=valued_events_table["timestamp"][-1],
+                tags=["Passive Listening"],
+            )
 
         # Add Devices
         for device_kwargs in metadata["Behavior"]["Devices"]:

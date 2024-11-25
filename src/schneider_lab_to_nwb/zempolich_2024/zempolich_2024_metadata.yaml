@@ -17,6 +17,14 @@ Subject:
   description: 12-week-old C57BL/6 or VGATChR2-EYFP mice (see Aims approaches below for details) will be used for all behavioral, electrophysiology, and optogenetic experiments. In the VGAT-ChR2-EYFP mouse line, channelrhodopsin (ChR2) is coupled to the vesicular GABA transporter, inducing expression in GABAergic inhibitory neurons ubiquitously across cortex and allowing for real time optogenetic inhibition of brain regions of interest.
   strain: C57BL/6
 
+BrainRegion:
+  A1:
+    electrode_group_location: Primary Auditory Cortex (A1)
+    optogenetic_stimulus_site_location: Primary Auditory Cortex (-2.8 AP, 4.2 ML relative to bregma; guided by intrinsic optical imaging)
+  M2:
+    electrode_group_location: Secondary Motor Cortex (M2)
+    optogenetic_stimulus_site_location: Secondary Motor Cortex (1.0-1.5 AP, 0.5-0.7 ML)
+
 Ecephys:
   Device:
     - name: MasmanidisSiliconMicroprobe128AxN
@@ -25,11 +33,20 @@ Ecephys:
   ElectrodeGroup:
     - name: ElectrodeGroup
       description: ElectrodeGroup for all channels in the recording probe.
-      location: Primary Auditory Cortex (A1)
       device: MasmanidisSiliconMicroprobe128AxN
   ElectricalSeries:
     - name: ElectricalSeries
       description: Recording of AC neural responses in mice performing this behavioral task will utilize dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data will be recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
+  folder_name_to_start_datetime:
+    m53/Day1_A1: 2023-10-29T16:56:01
+    m54/Day1_A1: 2023-10-29T18:18:03
+    m65/Day2_A1: 2023-10-26T18:49:04
+    m66/Day1_A1: 2023-10-25T18:41:03 # could be 2023-10-25T18:04:13 instead
+    m67/Day2_A1: 2023-10-28T15:54:01 # could be 2023-10-28T15:05:14 instead
+    m71/Day2_A1: 2023-11-01T18:04:30 # could be 2023-11-01T18:43:00 instead
+    m72/Day2_A1: 2023-10-21T20:03:27 # could be 2023-10-21T20:32:07 instead
+    m79/M2_Day1: 2024-08-19T15:58:07
+    m81/M2_Day1: 2024-08-17T17:59:09
 
 Behavior:
   Module:
@@ -61,29 +78,37 @@ Behavior:
       manufacturer: Schneider Lab
   Trials:
     - name: rewarded
-      description: Indicates if trial was rewarded (NaN = trial not rewarded, 1 = trial rewarded).
+      description: Indicates if trial was rewarded (False = trial not rewarded, True = trial rewarded).
+      dtype: bool
     - name: time_reward_s
       description: Time of reward if rewarded, otherwise NaN.
+      dtype: float64
     - name: opto_trial
-      description: Indicates if trial was an optogenetic stimulation trial (NaN = non opto trial, 1 = opto trial).
+      description: Indicates if trial was an optogenetic stimulation trial (False = non opto trial, True = opto trial).
+      dtype: bool
     - name: opto_time
       description: Time of optogenetic stimulation if opto trial, otherwise NaN.
+      dtype: float64
     - name: opto_time_end
       description: Time of start of optogenetic stimulation if it occurs, otherwise NaN.
+      dtype: float64
     - name: ITI_respect
-      description: Whether or not trial start obeyed inter trial interval wait time (300ms).
+      description: Whether or not trial start obeyed inter trial interval wait time of 300ms (False = trial did not obey ITI, True = trial obeyed ITI).
+      dtype: bool
     - name: ThresholdVector
       description: Position of start of the target zone on a given trial (in raw encoder values corresponding to value read out by quadrature encoder).
+      dtype: float64
     - name: endZone_ThresholdVector
       description: Position of ending/exit position of target zone on a given trial (in raw encoder values corresponding to value read out by quadrature encoder).
-  VideoCamera1:
-    - name: video_camera_1
-      description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 1 is a side angle view of the mouse.
-      unit: Frames
-  VideoCamera2:
-    - name: video_camera_2
-      description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 2 is a zoomed-in view of the pupil of the mouse.
-      unit: Frames
+      dtype: float64
+  # VideoCamera1:
+  #   - name: video_camera_1
+  #     description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 1 is a side angle view of the mouse.
+  #     unit: Frames
+  # VideoCamera2:
+  #   - name: video_camera_2
+  #     description: Two IR video cameras (AAK CA20 600TVL 2.8MM) are used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data if necessary. Camera 2 is a zoomed-in view of the pupil of the mouse.
+  #     unit: Frames
 
 Sorting:
   units_description: Neural spikes will be sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.

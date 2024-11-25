@@ -1,6 +1,7 @@
 """Primary class for converting optogenetic stimulation."""
 from pynwb.file import NWBFile
 from pydantic import FilePath
+from typing import Literal
 import numpy as np
 from pymatreader import read_mat
 from pynwb.device import Device
@@ -10,7 +11,7 @@ from neuroconv.basedatainterface import BaseDataInterface
 from neuroconv.utils import DeepDict
 
 
-class Schneider2024OptogeneticInterface(BaseDataInterface):
+class Zempolich2024OptogeneticInterface(BaseDataInterface):
     """Optogenetic interface for schneider_2024 conversion"""
 
     keywords = ["optogenetics"]
@@ -27,7 +28,7 @@ class Schneider2024OptogeneticInterface(BaseDataInterface):
         metadata_schema = super().get_metadata_schema()
         return metadata_schema
 
-    def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
+    def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, brain_region: Literal["A1", "M2"] = "A1"):
         # Read Data
         file_path = self.source_data["file_path"]
         file = read_mat(file_path)
@@ -56,7 +57,7 @@ class Schneider2024OptogeneticInterface(BaseDataInterface):
 
         # Add OptogeneticStimulusSite
         site_metadata = metadata["Optogenetics"]["OptogeneticStimulusSite"]
-        location = f"Injection location: {site_metadata['injection_location']} \n Stimulation location: {site_metadata['stimulation_location']}"
+        location = metadata["BrainRegion"][brain_region]["optogenetic_stimulus_site_location"]
         ogen_site = OptogeneticStimulusSite(
             name=site_metadata["name"],
             device=device,
