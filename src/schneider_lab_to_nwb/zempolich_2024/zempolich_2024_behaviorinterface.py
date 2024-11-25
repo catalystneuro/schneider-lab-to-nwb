@@ -6,7 +6,7 @@ from pymatreader import read_mat
 from hdmf.common.table import DynamicTableRegion
 from pynwb.behavior import BehavioralTimeSeries, TimeSeries
 from pynwb.device import Device
-from ndx_events import EventTypesTable, EventsTable, Task, TimestampVectorData
+from ndx_events import Events, AnnotatedEventsTable
 
 from neuroconv.basedatainterface import BaseDataInterface
 from neuroconv.utils import DeepDict, get_base_schema
@@ -158,28 +158,6 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         behavior_module.add(behavioral_time_series)
 
         # Add Events
-        event_types_table = EventTypesTable(name="event_types", description="Metadata about event types.")
-        event_type_name_to_row = dict()
-        i = 0
-        for event_dict in metadata["Behavior"]["Events"]:
-            event_type_name_to_row[event_dict["name"]] = i
-            event_types_table.add_row(
-                event_name=event_dict["name"],
-                event_type_description=event_dict["description"],
-            )
-            i += 1
-        for event_dict in metadata["Behavior"]["ValuedEvents"]:
-            event_type_name_to_row[event_dict["name"]] = i
-            event_types_table.add_row(
-                event_name=event_dict["name"],
-                event_type_description=event_dict["description"],
-            )
-            i += 1
-        events_table = EventsTable(
-            name="events_table",
-            description="Metadata about events.",
-            target_tables={"event_type": event_types_table},
-        )
         for event_dict in metadata["Behavior"]["Events"]:
             event_times = name_to_times[event_dict["name"]]
             if np.all(np.isnan(event_times)):
@@ -188,15 +166,18 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
                         f"An event provided in the metadata ({event_dict['name']}) will be skipped because no times were found."
                     )
                 continue  # Skip if all times are NaNs
-            event_type = event_type_name_to_row[event_dict["name"]]
-            for event_time in event_times:
-                events_table.add_row(timestamp=event_time, event_type=event_type)
-        valued_events_table = EventsTable(
+            event = Events(
+                name=event_dict["name"],
+                description=event_dict["description"],
+                timestamps=event_times,
+            )
+            behavior_module.add(event)
+
+        valued_events_table = AnnotatedEventsTable(
             name="valued_events_table",
             description="Metadata about valued events.",
-            target_tables={"event_type": event_types_table},
         )
-        valued_events_table.add_column(name="value", description="Value of the event.")
+        valued_events_table.add_column(name="value", description="Value of the event.", index=True)
         for event_dict in metadata["Behavior"]["ValuedEvents"]:
             event_times = name_to_times[event_dict["name"]]
             if np.all(np.isnan(event_times)):
@@ -206,16 +187,14 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
                     )
                 continue  # Skip if all times are NaNs
             event_values = name_to_values[event_dict["name"]]
-            event_type = event_type_name_to_row[event_dict["name"]]
-            for event_time, event_value in zip(event_times, event_values):
-                valued_events_table.add_row(timestamp=event_time, event_type=event_type, value=event_value)
-        if len(events_table) > 0:
-            behavior_module.add(events_table)
+            valued_events_table.add_event_type(
+                label=event_dict["name"],
+                event_description=event_dict["description"],
+                event_times=event_times,
+                value=event_values,
+            )
         if len(valued_events_table) > 0:
             behavior_module.add(valued_events_table)
-
-        task = Task(event_types=event_types_table)
-        nwbfile.add_lab_meta_data(task)
 
         # Add Trials Table
         for start_time, stop_time in zip(trial_start_times, trial_stop_times):
@@ -228,9 +207,10 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         # Add Epochs Table
         nwbfile.add_epoch(start_time=trial_start_times[0], stop_time=trial_stop_times[-1], tags=["Active Behavior"])
         if len(valued_events_table) > 0:
+            tuning_tone_times = valued_events_table[0].event_times[0]
             nwbfile.add_epoch(
-                start_time=valued_events_table["timestamp"][0],
-                stop_time=valued_events_table["timestamp"][-1],
+                start_time=tuning_tone_times[0],
+                stop_time=tuning_tone_times[-1],
                 tags=["Passive Listening"],
             )
 

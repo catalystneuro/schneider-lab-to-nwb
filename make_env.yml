@@ -6,4 +6,4 @@ dependencies:
 - python>=3.9
 - pip
 - pip:
-  - -e .  # This calls the setup and therefore requirements minimal
+  - -e .  # This calls the setup and therefore pyproject.toml dependencies
