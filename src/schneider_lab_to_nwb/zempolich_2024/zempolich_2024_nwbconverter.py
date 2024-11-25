@@ -4,7 +4,6 @@ from neuroconv.datainterfaces import (
     PhySortingInterface,
     VideoInterface,
 )
-from neuroconv.basedatainterface import BaseDataInterface
 
 from schneider_lab_to_nwb.zempolich_2024 import (
     Zempolich2024OpenEphysRecordingInterface,
@@ -15,7 +14,7 @@ from schneider_lab_to_nwb.zempolich_2024 import (
 
 
 class Zempolich2024NWBConverter(NWBConverter):
-    """Primary conversion class for my extracellular electrophysiology dataset."""
+    """Primary conversion class."""
 
     data_interface_classes = dict(
         Recording=Zempolich2024OpenEphysRecordingInterface,

@@ -4,22 +4,46 @@ from zoneinfo import ZoneInfo
 import shutil
 from datetime import datetime
 from typing import Optional, Literal
+from pydantic import FilePath, DirectoryPath
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.zempolich_2024 import Zempolich2024NWBConverter
 
 
 def session_to_nwb(
-    behavior_file_path: str | Path,
-    video_folder_path: str | Path,
-    intrinsic_signal_optical_imaging_folder_path: str | Path,
-    output_dir_path: str | Path,
-    ephys_folder_path: Optional[str | Path] = None,
+    behavior_file_path: FilePath,
+    video_folder_path: DirectoryPath,
+    intrinsic_signal_optical_imaging_folder_path: DirectoryPath,
+    output_dir_path: DirectoryPath,
+    ephys_folder_path: Optional[DirectoryPath] = None,
     has_opto: bool = False,
     brain_region: Literal["A1", "M2"] = "A1",
     stub_test: bool = False,
     verbose: bool = True,
 ):
+    """Convert a session of data to NWB format.
+
+    Parameters
+    ----------
+    behavior_file_path : FilePath
+        Path to the behavior .mat file.
+    video_folder_path : DirectoryPath
+        Path to the folder containing the video files.
+    intrinsic_signal_optical_imaging_folder_path : DirectoryPath
+        Path to the folder containing the intrinsic signal optical imaging files.
+    output_dir_path : DirectoryPath
+        Path to the directory where the output NWB file will be saved.
+    ephys_folder_path : Optional[DirectoryPath], optional
+        Path to the folder containing electrophysiology data, by default None.
+    has_opto : bool, optional
+        Whether the session includes optogenetic data, by default False.
+    brain_region : Literal["A1", "M2"], optional
+        Brain region of interest, by default "A1".
+    stub_test : bool, optional
+        Whether to run in stub test mode, by default False.
+    verbose : bool, optional
+        Whether to print verbose output, by default True.
+    """
     behavior_file_path = Path(behavior_file_path)
     video_folder_path = Path(video_folder_path)
     intrinsic_signal_optical_imaging_folder_path = Path(intrinsic_signal_optical_imaging_folder_path)
@@ -102,10 +126,21 @@ def session_to_nwb(
 
 
 def add_session_start_time_to_metadata(
-    behavior_file_path: str | Path,
-    ephys_folder_path: Optional[str | Path],
+    behavior_file_path: FilePath,
+    ephys_folder_path: Optional[DirectoryPath],
     metadata: dict,
 ):
+    """Add the session start time to the metadata, including timezone information.
+
+    Parameters
+    ----------
+    behavior_file_path : FilePath
+        Path to the behavior .mat file.
+    ephys_folder_path : Optional[DirectoryPath]
+        Path to the folder containing electrophysiology data, by default None.
+    metadata : dict
+        The metadata for the session.
+    """
     if ephys_folder_path is not None:
         folder_name = ephys_folder_path.parent.name + "/" + ephys_folder_path.name
         folder_name_to_start_datetime = metadata["Ecephys"].pop("folder_name_to_start_datetime")
@@ -185,6 +220,7 @@ def main():
         intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
         brain_region="M2",
         output_dir_path=output_dir_path,
+        has_opto=True,
         stub_test=stub_test,
         verbose=verbose,
     )

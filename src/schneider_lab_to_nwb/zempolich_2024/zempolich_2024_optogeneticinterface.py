@@ -8,7 +8,6 @@ from pynwb.device import Device
 from pynwb.ogen import OptogeneticSeries, OptogeneticStimulusSite
 
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.utils import DeepDict
 
 
 class Zempolich2024OptogeneticInterface(BaseDataInterface):
@@ -17,18 +16,27 @@ class Zempolich2024OptogeneticInterface(BaseDataInterface):
     keywords = ["optogenetics"]
 
     def __init__(self, file_path: FilePath):
+        """Initialize the OptogeneticInterface.
+
+        Parameters
+        ----------
+        file_path : FilePath
+            Path to the .mat file containing the optogenetic stimulation data.
+        """
         super().__init__(file_path=file_path)
 
-    def get_metadata(self) -> DeepDict:
-        metadata = super().get_metadata()
-
-        return metadata
-
-    def get_metadata_schema(self) -> dict:
-        metadata_schema = super().get_metadata_schema()
-        return metadata_schema
-
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, brain_region: Literal["A1", "M2"] = "A1"):
+        """Add optogenetic stimulation data to the NWBFile.
+
+        Parameters
+        ----------
+        nwbfile : pynwb.NWBFile
+            The in-memory object to add the data to.
+        metadata : dict
+            Metadata dictionary with information used to create the NWBFile.
+        brain_region : Literal["A1", "M2"], optional
+            Brain region for which the optogenetic stimulation data will be added, by default "A1".
+        """
         # Read Data
         file_path = self.source_data["file_path"]
         file = read_mat(file_path)

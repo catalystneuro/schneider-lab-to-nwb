@@ -3,13 +3,12 @@ from pynwb.file import NWBFile
 from pydantic import FilePath
 import numpy as np
 from pymatreader import read_mat
-from hdmf.common.table import DynamicTableRegion
 from pynwb.behavior import BehavioralTimeSeries, TimeSeries
 from pynwb.device import Device
 from ndx_events import Events, AnnotatedEventsTable
 
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.utils import DeepDict, get_base_schema
+from neuroconv.utils import get_base_schema
 from neuroconv.tools import nwb_helpers
 
 
@@ -19,13 +18,14 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
     keywords = ("behavior",)
 
     def __init__(self, file_path: FilePath):
+        """Initialize the behavior interface.
+
+        Parameters
+        ----------
+        file_path : FilePath
+            Path to the behavior .mat file.
+        """
         super().__init__(file_path=file_path)
-
-    def get_metadata(self) -> DeepDict:
-        # Automatically retrieve as much metadata as possible from the source files available
-        metadata = super().get_metadata()
-
-        return metadata
 
     def get_metadata_schema(self) -> dict:
         metadata_schema = super().get_metadata_schema()
@@ -89,9 +89,23 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         }
         return metadata_schema
 
+
     def add_to_nwbfile(
         self, nwbfile: NWBFile, metadata: dict, normalize_timestamps: bool = False, verbose: bool = False
     ):
+        """Add behavior data to the NWBFile.
+
+        Parameters
+        ----------
+        nwbfile : pynwb.NWBFile
+            The in-memory object to add the data to.
+        metadata : dict
+            Metadata dictionary with information used to create the NWBFile.
+        normalize_timestamps : bool, optional
+            Whether to normalize the timestamps to the start of the first behavioral time series, by default False
+        verbose: bool, optional
+            Whether to print extra information during the conversion, by default False.
+        """
         # Read Data
         file_path = self.source_data["file_path"]
         file = read_mat(file_path)
