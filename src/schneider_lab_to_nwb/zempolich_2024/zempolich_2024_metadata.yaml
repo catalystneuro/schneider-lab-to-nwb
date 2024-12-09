@@ -101,14 +101,14 @@ Behavior:
     - name: endZone_ThresholdVector
       description: Position of ending/exit position of target zone on a given trial (in raw encoder values corresponding to value read out by quadrature encoder).
       dtype: float64
-  # VideoCamera1:
-  #   - name: video_camera_1
-  #     description: Two IR video cameras (AAK CA20 600TVL 2.8MM) were used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data as necessary. Camera 1 is a side angle view of the mouse.
-  #     unit: Frames
-  # VideoCamera2:
-  #   - name: video_camera_2
-  #     description: Two IR video cameras (AAK CA20 600TVL 2.8MM) were used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data as necessary. Camera 2 is a zoomed-in view of the pupil of the mouse.
-  #     unit: Frames
+  VideoCamera1:
+    - name: video_camera_1
+      description: Two IR video cameras (AAK CA20 600TVL 2.8MM) were used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data as necessary. Camera 1 is a side angle view of the mouse.
+      unit: Frames
+  VideoCamera2:
+    - name: video_camera_2
+      description: Two IR video cameras (AAK CA20 600TVL 2.8MM) were used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data as necessary. Camera 2 is a zoomed-in view of the pupil of the mouse.
+      unit: Frames
 
 Sorting:
   units_description: Neural spikes were sorted offline using Kilosort 2.5 and Phy2 software and manually curated to ensure precise spike time acquisition.
