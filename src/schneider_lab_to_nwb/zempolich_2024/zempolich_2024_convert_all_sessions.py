@@ -156,8 +156,14 @@ def get_brain_region_kwargs(
         Path to the directory containing electrophysiology data for subjects.
     ephys_behavior_path : DirectoryPath
         Path to the directory containing electrophysiology behavior data files.
+    ephys_video_path : DirectoryPath
+        Path to the directory containing electrophysiology video data files.
     opto_path : DirectoryPath
         Path to the directory containing optogenetics behavior data files.
+    opto_video_path : DirectoryPath
+        Path to the directory containing optogenetics video data files.
+    intrinsic_signal_optical_imaging_path : DirectoryPath
+        Path to the directory containing intrinsic signal optical imaging data files.
     brain_region : str
         The brain region associated with the sessions.
 
