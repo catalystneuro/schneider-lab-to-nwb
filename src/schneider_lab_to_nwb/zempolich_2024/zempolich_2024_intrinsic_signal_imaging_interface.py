@@ -1,7 +1,7 @@
 """Primary class for converting intrinsic signal optical imaging."""
 from pynwb.file import NWBFile
 from pynwb.base import Images
-from pynwb.image import GrayscaleImage, RGBImage
+from pynwb.image import RGBImage
 from pynwb.device import Device
 from pydantic import DirectoryPath
 import numpy as np
@@ -60,12 +60,12 @@ class Zempolich2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
         # Read Data
         folder_path = self.source_data["folder_path"]
-        raw_image_path = folder_path / "BloodvesselPattern.tiff"
-        processed_image_path = folder_path / "IOS_imageOverlaidFinal.jpg"
-        with Image.open(raw_image_path) as image:
-            raw_image_array = np.array(image)
-        with Image.open(processed_image_path) as image:
-            processed_image_array = np.array(image)
+        overlaid_image_path = folder_path / "Overlaid.jpg"
+        target_image_path = folder_path / "Target.jpg"
+        with Image.open(overlaid_image_path) as image:
+            overlaid_image_array = np.array(image)
+        with Image.open(target_image_path) as image:
+            target_image_array = np.array(image)
 
         # Add Data to NWBFile
         isoi_metadata = metadata["IntrinsicSignalOpticalImaging"]
@@ -74,20 +74,20 @@ class Zempolich2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
             name=isoi_metadata["Module"]["name"],
             description=isoi_metadata["Module"]["description"],
         )
-        raw_image = GrayscaleImage(
-            name=isoi_metadata["RawImage"]["name"],
-            data=raw_image_array,
-            description=isoi_metadata["RawImage"]["description"],
+        overlaid_image = RGBImage(
+            name=isoi_metadata["OverlaidImage"]["name"],
+            data=overlaid_image_array,
+            description=isoi_metadata["OverlaidImage"]["description"],
         )
-        processed_image = RGBImage(
-            name=isoi_metadata["ProcessedImage"]["name"],
-            data=processed_image_array,
-            description=isoi_metadata["ProcessedImage"]["description"],
+        target_image = RGBImage(
+            name=isoi_metadata["TargetImage"]["name"],
+            data=target_image_array,
+            description=isoi_metadata["TargetImage"]["description"],
         )
         images = Images(
             name=isoi_metadata["Images"]["name"],
             description=isoi_metadata["Images"]["description"],
-            images=[raw_image, processed_image],
+            images=[overlaid_image, target_image],
         )
         isoi_module.add(images)
 

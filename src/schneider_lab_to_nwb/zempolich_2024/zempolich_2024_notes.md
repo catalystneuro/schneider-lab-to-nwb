@@ -3,6 +3,7 @@
 ## Behavior
 
 ## Video
+- M2EphysVideos/m80/240819 is missing video for Cam2
 
 ## Optogenetics
 - is_opto_trial in the trials table is `np.logical_not(np.isnan(onset_times))` rather than reading from the .mat file
@@ -12,9 +13,7 @@
 ## Intrinsic Signal Optical Imaging
 - Just including raw blood vessel image and processed overlay + pixel locations bc including the isoi roi response series would really require an extension for context, but seems like it has limited reuse potential.
 - Used the Audette paper for description of overlay image.
-- Need pixel locs for ephys
-- Need device info for 2p microscope and red light laser
-- Why is the overlaid image flipped left/right compared to the original?
+- m73 is missing the target image
 
 ## Temporal Alignment
 - For session A1/m53/Day1 (raw_m53_231029_001.mat),
@@ -32,12 +31,10 @@
 
 ## Active Requests
 - Mice sexes
-- Video for each session and ISOI data for each animal
-- pixel locs for ephys
-- ISOI device info for 2p microscope and red light laser
+- target image for m73
+- Cam2 Video for M2EphysVideos/m80/240819
 
 ## Questions for Midway Meeting
 - injection vs stimulation location(s) for A1 vs M2???
-- Why is the overlaid image flipped left/right compared to the original?
 - Want to split data into epochs: Active Behavior, Passive Listening, ??? What is happening post-2164? Before 1187s?
 - Double Check: Is it ok to normalize opto sessions to first encoder timestamp?
