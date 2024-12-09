@@ -144,8 +144,8 @@ IntrinsicSignalOpticalImaging:
     description: The ephys probe target location is indicated by an ellipse overlaid on top of the blood vessel pattern image.
   Devices:
     - name: two_photon_microscope
-      description: <microscope model> (Neurolabware)
+      description: Standard Microscope by Neurolabware.
       manufacturer: Neurolabware
     - name: intrinsic_signal_optical_imaging_laser
-      description: <laser model> (ThorLabs)
+      description: ThorLabs 700nm fiber coupled LED (M700F3) driven by their basic LED driver (LEDD1B).
       manufacturer: ThorLabs
