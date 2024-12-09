@@ -92,8 +92,8 @@ def session_to_nwb(
         conversion_options["Behavior"]["normalize_timestamps"] = True
 
     # Add Intrinsic Signal Optical Imaging
-    # source_data.update(dict(ISOI=dict(folder_path=intrinsic_signal_optical_imaging_folder_path)))
-    # conversion_options.update(dict(ISOI=dict()))
+    source_data.update(dict(ISOI=dict(folder_path=intrinsic_signal_optical_imaging_folder_path)))
+    conversion_options.update(dict(ISOI=dict()))
 
     converter = Zempolich2024NWBConverter(source_data=source_data, verbose=verbose)
     metadata = converter.get_metadata()
@@ -169,7 +169,7 @@ def main():
     ephys_folder_path = data_dir_path / "A1_EphysFiles" / "m53" / "Day1_A1"
     behavior_file_path = data_dir_path / "A1_EphysBehavioralFiles" / "raw_m53_231029_001.mat"
     video_folder_path = data_dir_path / "Videos" / "A1EphysVideos" / "m53" / "231029"
-    intrinsic_signal_optical_imaging_folder_path = Path("")
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m53"
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
         behavior_file_path=behavior_file_path,
@@ -183,7 +183,7 @@ def main():
     # Example Session A1 Ogen + Behavior
     behavior_file_path = data_dir_path / "A1_OptoBehavioralFiles" / "raw_m53_231013_001.mat"
     video_folder_path = data_dir_path / "Videos" / "A1OptoVideos" / "m53" / "231013"
-    intrinsic_signal_optical_imaging_folder_path = Path("")
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m53"
     session_to_nwb(
         behavior_file_path=behavior_file_path,
         video_folder_path=video_folder_path,
@@ -198,7 +198,7 @@ def main():
     ephys_folder_path = data_dir_path / "M2_EphysFiles" / "m74" / "M2_Day1"
     behavior_file_path = data_dir_path / "M2_EphysBehavioralFiles" / "raw_m74_240815_001.mat"
     video_folder_path = data_dir_path / "Videos" / "M2EphysVideos" / "m74" / "240815"
-    intrinsic_signal_optical_imaging_folder_path = Path("")
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m74"
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
         behavior_file_path=behavior_file_path,
@@ -213,7 +213,7 @@ def main():
     # Example Session M2 Opto + Behavior
     behavior_file_path = data_dir_path / "M2_OptoBehavioralFiles" / "raw_m74_240809_001.mat"
     video_folder_path = data_dir_path / "Videos" / "M2OptoVideos" / "m74" / "240809"
-    intrinsic_signal_optical_imaging_folder_path = Path("")
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m74"
     session_to_nwb(
         behavior_file_path=behavior_file_path,
         video_folder_path=video_folder_path,
