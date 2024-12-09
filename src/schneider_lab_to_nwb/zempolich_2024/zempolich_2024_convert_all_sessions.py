@@ -106,21 +106,32 @@ def get_session_to_nwb_kwargs_per_session(*, data_dir_path: DirectoryPath):
     """
     a1_ephys_path = data_dir_path / "A1_EphysFiles"
     a1_ephys_behavior_path = data_dir_path / "A1_EphysBehavioralFiles"
+    a1_ephys_video_path = data_dir_path / "Videos" / "A1EphysVideos"
     a1_opto_path = data_dir_path / "A1_OptoBehavioralFiles"
+    a1_opto_video_path = data_dir_path / "Videos" / "A1OptoVideos"
     m2_ephys_path = data_dir_path / "M2_EphysFiles"
     m2_ephys_behavior_path = data_dir_path / "M2_EphysBehavioralFiles"
+    m2_ephys_video_path = data_dir_path / "Videos" / "M2EphysVideos"
     m2_opto_path = data_dir_path / "M2_OptoBehavioralFiles"
+    m2_opto_video_path = data_dir_path / "Videos" / "M2OptoVideos"
+    intrinsic_signal_optical_imaging_path = data_dir_path / "Intrinsic Imaging Data"
 
     a1_kwargs = get_brain_region_kwargs(
         ephys_path=a1_ephys_path,
         ephys_behavior_path=a1_ephys_behavior_path,
+        ephys_video_path=a1_ephys_video_path,
         opto_path=a1_opto_path,
+        opto_video_path=a1_opto_video_path,
+        intrinsic_signal_optical_imaging_path=intrinsic_signal_optical_imaging_path,
         brain_region="A1",
     )
     m2_kwargs = get_brain_region_kwargs(
         ephys_path=m2_ephys_path,
         ephys_behavior_path=m2_ephys_behavior_path,
+        ephys_video_path=m2_ephys_video_path,
         opto_path=m2_opto_path,
+        opto_video_path=m2_opto_video_path,
+        intrinsic_signal_optical_imaging_path=intrinsic_signal_optical_imaging_path,
         brain_region="M2",
     )
     session_to_nwb_kwargs_per_session = a1_kwargs + m2_kwargs
@@ -129,7 +140,13 @@ def get_session_to_nwb_kwargs_per_session(*, data_dir_path: DirectoryPath):
 
 
 def get_brain_region_kwargs(
-    ephys_path: DirectoryPath, ephys_behavior_path: DirectoryPath, opto_path: DirectoryPath, brain_region: str
+    ephys_path: DirectoryPath,
+    ephys_behavior_path: DirectoryPath,
+    opto_path: DirectoryPath,
+    ephys_video_path: DirectoryPath,
+    opto_video_path: DirectoryPath,
+    intrinsic_signal_optical_imaging_path: DirectoryPath,
+    brain_region: str,
 ):
     """Get the session_to_nwb kwargs for each session in the dataset for a given brain region.
 
@@ -153,23 +170,33 @@ def get_brain_region_kwargs(
     for subject_dir in ephys_path.iterdir():
         subject_id = subject_dir.name
         matched_behavior_paths = sorted(ephys_behavior_path.glob(f"raw_{subject_id}_*.mat"))
+        video_subject_path = ephys_video_path / subject_id
+        matched_video_paths = sorted(list(video_subject_path.iterdir()))
+        matched_isoi_path = intrinsic_signal_optical_imaging_path / subject_id
         sorted_session_dirs = sorted(subject_dir.iterdir())
-        for ephys_folder_path, behavior_file_path in zip(sorted_session_dirs, matched_behavior_paths):
+        for ephys_folder_path, behavior_file_path, video_folder_path in zip(
+            sorted_session_dirs, matched_behavior_paths, matched_video_paths
+        ):
             session_to_nwb_kwargs = dict(
                 ephys_folder_path=ephys_folder_path,
                 behavior_file_path=behavior_file_path,
                 brain_region=brain_region,
-                intrinsic_signal_optical_imaging_folder_path="",  # TODO: Add intrinsic signal optical imaging folder path
-                video_folder_path="",  # TODO: Add video folder path
+                intrinsic_signal_optical_imaging_folder_path=matched_isoi_path,
+                video_folder_path=video_folder_path,
             )
             session_to_nwb_kwargs_per_session.append(session_to_nwb_kwargs)
     for behavior_file_path in opto_path.iterdir():
+        split_behavior_file_path = behavior_file_path.name.split("_")
+        subject_id = split_behavior_file_path[1]
+        date = split_behavior_file_path[2]
+        video_folder_path = opto_video_path / subject_id / date
+        matched_isoi_path = intrinsic_signal_optical_imaging_path / subject_id
         session_to_nwb_kwargs = dict(
             behavior_file_path=behavior_file_path,
             brain_region=brain_region,
             has_opto=True,
-            intrinsic_signal_optical_imaging_folder_path="",  # TODO: Add intrinsic signal optical imaging folder path
-            video_folder_path="",  # TODO: Add video folder path
+            intrinsic_signal_optical_imaging_folder_path=matched_isoi_path,
+            video_folder_path=video_folder_path,
         )
         session_to_nwb_kwargs_per_session.append(session_to_nwb_kwargs)
     return session_to_nwb_kwargs_per_session
