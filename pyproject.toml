@@ -18,7 +18,8 @@ dependencies = [
   "neuroconv",
   "nwbinspector",
   "ndx-events==0.2.0",
-  "spikeinterface>=101.1"
+  "spikeinterface>=101.1",
+  "pymatreader"
 ]
 
 [project.urls]
