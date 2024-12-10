@@ -103,6 +103,12 @@ def session_to_nwb(
     editable_metadata = load_dict_from_file(editable_metadata_path)
     metadata = dict_deep_update(metadata, editable_metadata)
 
+    # Add session description to metadata
+    behavior_folder_name = behavior_file_path.parent.name
+    session_metadata = next(meta for meta in metadata["Session"] if meta["name"] == behavior_folder_name)
+    session_description = session_metadata["description"]
+    metadata["NWBFile"]["session_description"] = session_description
+
     add_session_start_time_to_metadata(
         behavior_file_path=behavior_file_path, ephys_folder_path=ephys_folder_path, metadata=metadata
     )
