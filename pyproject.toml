@@ -15,9 +15,9 @@ classifiers = [
 ]
 
 dependencies = [
-  "neuroconv",
-  "nwbinspector",
-  "ndx-events==0.2.0"
+  "neuroconv==0.6.6",
+  "ndx-events==0.2.0",
+  "spikeinterface==0.101.2"
 ]
 
 [project.urls]

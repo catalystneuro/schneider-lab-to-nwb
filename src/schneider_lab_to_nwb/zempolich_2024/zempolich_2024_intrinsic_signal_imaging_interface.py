@@ -1,11 +1,12 @@
 """Primary class for converting intrinsic signal optical imaging."""
 from pynwb.file import NWBFile
 from pynwb.base import Images
-from pynwb.image import GrayscaleImage, RGBImage
+from pynwb.image import RGBImage
 from pynwb.device import Device
-from pydantic import DirectoryPath
+from pydantic import FilePath
 import numpy as np
 from PIL import Image
+from pathlib import Path
 
 from neuroconv.basedatainterface import BaseDataInterface
 from neuroconv.tools import nwb_helpers
@@ -16,15 +17,17 @@ class Zempolich2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
 
     keywords = ("intrinsic signal optical imaging",)
 
-    def __init__(self, folder_path: DirectoryPath):
+    def __init__(self, overlaid_image_path: FilePath, target_image_path: FilePath):
         """Initialize the intrinsic signal optical imaging interface.
 
         Parameters
         ----------
-        folder_path : DirectoryPath
-            Path to the folder containing the intrinsic signal optical imaging files.
+        overlaid_image_path : FilePath
+            Path to the intrinsic signal optical imaging overlaid image file.
+        target_image_path : FilePath
+            Path to the intrinsic signal optical imaging target image file.
         """
-        super().__init__(folder_path=folder_path)
+        super().__init__(overlaid_image_path=overlaid_image_path, target_image_path=target_image_path)
 
     def get_metadata_schema(self) -> dict:
         metadata_schema = super().get_metadata_schema()
@@ -59,13 +62,12 @@ class Zempolich2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
         # Read Data
-        folder_path = self.source_data["folder_path"]
-        raw_image_path = folder_path / "BloodvesselPattern.tiff"
-        processed_image_path = folder_path / "IOS_imageOverlaidFinal.jpg"
-        with Image.open(raw_image_path) as image:
-            raw_image_array = np.array(image)
-        with Image.open(processed_image_path) as image:
-            processed_image_array = np.array(image)
+        overlaid_image_path = Path(self.source_data["overlaid_image_path"])
+        target_image_path = Path(self.source_data["target_image_path"])
+        with Image.open(overlaid_image_path) as image:
+            overlaid_image_array = np.array(image)
+        with Image.open(target_image_path) as image:
+            target_image_array = np.array(image)
 
         # Add Data to NWBFile
         isoi_metadata = metadata["IntrinsicSignalOpticalImaging"]
@@ -74,20 +76,20 @@ class Zempolich2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
             name=isoi_metadata["Module"]["name"],
             description=isoi_metadata["Module"]["description"],
         )
-        raw_image = GrayscaleImage(
-            name=isoi_metadata["RawImage"]["name"],
-            data=raw_image_array,
-            description=isoi_metadata["RawImage"]["description"],
+        overlaid_image = RGBImage(
+            name=isoi_metadata["OverlaidImage"]["name"],
+            data=overlaid_image_array,
+            description=isoi_metadata["OverlaidImage"]["description"],
         )
-        processed_image = RGBImage(
-            name=isoi_metadata["ProcessedImage"]["name"],
-            data=processed_image_array,
-            description=isoi_metadata["ProcessedImage"]["description"],
+        target_image = RGBImage(
+            name=isoi_metadata["TargetImage"]["name"],
+            data=target_image_array,
+            description=isoi_metadata["TargetImage"]["description"],
         )
         images = Images(
             name=isoi_metadata["Images"]["name"],
             description=isoi_metadata["Images"]["description"],
-            images=[raw_image, processed_image],
+            images=[overlaid_image, target_image],
         )
         isoi_module.add(images)
 
