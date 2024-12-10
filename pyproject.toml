@@ -17,6 +17,7 @@ classifiers = [
 dependencies = [
   "neuroconv==0.6.6",
   "ndx-events==0.2.0",
+  "pymatreader==1.0.0"
   "spikeinterface==0.101.2"
 ]
 
