@@ -25,6 +25,16 @@ BrainRegion:
     electrode_group_location: Secondary Motor Cortex (M2)
     optogenetic_stimulus_site_location: Secondary Motor Cortex (1.0-1.5 AP, 0.5-0.7 ML)
 
+Session:
+  - name: A1_EphysBehavioralFiles
+    description: Mice performed the auditory guided task while electricophysiological neural activity was recorded in the primary auditory cortex (A1).
+  - name: A1_OptoBehavioralFiles
+    description: Mice performed the auditory guided task while optogenetic stimulation was delivered to the primary auditory cortex (A1).
+  - name: M2_EphysBehavioralFiles
+    description: Mice performed the auditory guided task while electricophysiological neural activity was recorded in the secondary motor cortex (M2).
+  - name: M2_OptoBehavioralFiles
+    description: Mice performed the auditory guided task while optogenetic stimulation was delivered to the secondary motor cortex (M2).
+
 Ecephys:
   Device:
     - name: MasmanidisSiliconMicroprobe128AxN
