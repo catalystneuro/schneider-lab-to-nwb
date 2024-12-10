@@ -3,9 +3,10 @@ from pynwb.file import NWBFile
 from pynwb.base import Images
 from pynwb.image import RGBImage
 from pynwb.device import Device
-from pydantic import DirectoryPath
+from pydantic import FilePath
 import numpy as np
 from PIL import Image
+from pathlib import Path
 
 from neuroconv.basedatainterface import BaseDataInterface
 from neuroconv.tools import nwb_helpers
@@ -16,15 +17,17 @@ class Zempolich2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
 
     keywords = ("intrinsic signal optical imaging",)
 
-    def __init__(self, folder_path: DirectoryPath):
+    def __init__(self, overlaid_image_path: FilePath, target_image_path: FilePath):
         """Initialize the intrinsic signal optical imaging interface.
 
         Parameters
         ----------
-        folder_path : DirectoryPath
-            Path to the folder containing the intrinsic signal optical imaging files.
+        overlaid_image_path : FilePath
+            Path to the intrinsic signal optical imaging overlaid image file.
+        target_image_path : FilePath
+            Path to the intrinsic signal optical imaging target image file.
         """
-        super().__init__(folder_path=folder_path)
+        super().__init__(overlaid_image_path=overlaid_image_path, target_image_path=target_image_path)
 
     def get_metadata_schema(self) -> dict:
         metadata_schema = super().get_metadata_schema()
@@ -59,9 +62,8 @@ class Zempolich2024IntrinsicSignalOpticalImagingInterface(BaseDataInterface):
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
         # Read Data
-        folder_path = self.source_data["folder_path"]
-        overlaid_image_path = folder_path / "Overlaid.jpg"
-        target_image_path = folder_path / "Target.jpg"
+        overlaid_image_path = Path(self.source_data["overlaid_image_path"])
+        target_image_path = Path(self.source_data["target_image_path"])
         with Image.open(overlaid_image_path) as image:
             overlaid_image_array = np.array(image)
         with Image.open(target_image_path) as image:

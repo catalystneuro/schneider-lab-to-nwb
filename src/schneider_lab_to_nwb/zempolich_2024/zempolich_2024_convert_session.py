@@ -92,7 +92,9 @@ def session_to_nwb(
         conversion_options["Behavior"]["normalize_timestamps"] = True
 
     # Add Intrinsic Signal Optical Imaging
-    source_data.update(dict(ISOI=dict(folder_path=intrinsic_signal_optical_imaging_folder_path)))
+    overlaid_image_path = intrinsic_signal_optical_imaging_folder_path / "Overlaid.jpg"
+    target_image_path = intrinsic_signal_optical_imaging_folder_path / "Target.jpg"
+    source_data.update(dict(ISOI=dict(overlaid_image_path=overlaid_image_path, target_image_path=target_image_path)))
     conversion_options.update(dict(ISOI=dict()))
 
     converter = Zempolich2024NWBConverter(source_data=source_data, verbose=verbose)
