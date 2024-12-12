@@ -39,5 +39,7 @@ class Zempolich2024NWBConverter(NWBConverter):
         behavior_file_path = Path(behavior_interface.source_data["file_path"])
         file = read_mat(behavior_file_path)
         cam1_timestamps, cam2_timestamps = file["continuous"]["cam"]["time"]
-        self.data_interface_objects["VideoCamera1"].set_aligned_timestamps([cam1_timestamps])
-        self.data_interface_objects["VideoCamera2"].set_aligned_timestamps([cam2_timestamps])
+        if "VideoCamera1" in self.data_interface_objects:
+            self.data_interface_objects["VideoCamera1"].set_aligned_timestamps([cam1_timestamps])
+        if "VideoCamera2" in self.data_interface_objects:
+            self.data_interface_objects["VideoCamera2"].set_aligned_timestamps([cam2_timestamps])
