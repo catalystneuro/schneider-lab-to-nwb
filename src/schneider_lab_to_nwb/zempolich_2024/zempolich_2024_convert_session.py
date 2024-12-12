@@ -134,6 +134,10 @@ def session_to_nwb(
     metadata["NWBFile"]["session_id"] = session_id
     metadata["Subject"]["subject_id"] = subject_id
 
+    # Add subject info to metadata
+    metadata["Subject"]["sex"] = metadata["SubjectMaps"]["subject_id_to_sex"][subject_id]
+    metadata["Subject"]["genotype"] = metadata["SubjectMaps"]["subject_id_to_genotype"][subject_id]
+
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
 
@@ -178,65 +182,65 @@ def main():
     if output_dir_path.exists():
         shutil.rmtree(output_dir_path, ignore_errors=True)
 
-    # # Example Session A1 Ephys + Behavior
-    # ephys_folder_path = data_dir_path / "A1_EphysFiles" / "m53" / "Day1_A1"
-    # behavior_file_path = data_dir_path / "A1_EphysBehavioralFiles" / "raw_m53_231029_001.mat"
-    # video_folder_path = data_dir_path / "Videos" / "A1EphysVideos" / "m53" / "231029"
-    # intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m53"
-    # session_to_nwb(
-    #     ephys_folder_path=ephys_folder_path,
-    #     behavior_file_path=behavior_file_path,
-    #     video_folder_path=video_folder_path,
-    #     intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
-    #     output_dir_path=output_dir_path,
-    #     stub_test=stub_test,
-    #     verbose=verbose,
-    # )
+    # Example Session A1 Ephys + Behavior
+    ephys_folder_path = data_dir_path / "A1_EphysFiles" / "m53" / "Day1_A1"
+    behavior_file_path = data_dir_path / "A1_EphysBehavioralFiles" / "raw_m53_231029_001.mat"
+    video_folder_path = data_dir_path / "Videos" / "A1EphysVideos" / "m53" / "231029"
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m53"
+    session_to_nwb(
+        ephys_folder_path=ephys_folder_path,
+        behavior_file_path=behavior_file_path,
+        video_folder_path=video_folder_path,
+        intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
+        output_dir_path=output_dir_path,
+        stub_test=stub_test,
+        verbose=verbose,
+    )
 
-    # # Example Session A1 Ogen + Behavior
-    # behavior_file_path = data_dir_path / "A1_OptoBehavioralFiles" / "raw_m53_231013_001.mat"
-    # video_folder_path = data_dir_path / "Videos" / "A1OptoVideos" / "m53" / "231013"
-    # intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m53"
-    # session_to_nwb(
-    #     behavior_file_path=behavior_file_path,
-    #     video_folder_path=video_folder_path,
-    #     intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
-    #     output_dir_path=output_dir_path,
-    #     has_opto=True,
-    #     stub_test=stub_test,
-    #     verbose=verbose,
-    # )
+    # Example Session A1 Ogen + Behavior
+    behavior_file_path = data_dir_path / "A1_OptoBehavioralFiles" / "raw_m53_231013_001.mat"
+    video_folder_path = data_dir_path / "Videos" / "A1OptoVideos" / "m53" / "231013"
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m53"
+    session_to_nwb(
+        behavior_file_path=behavior_file_path,
+        video_folder_path=video_folder_path,
+        intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
+        output_dir_path=output_dir_path,
+        has_opto=True,
+        stub_test=stub_test,
+        verbose=verbose,
+    )
 
-    # # Example Session M2 Ephys + Behavior
-    # ephys_folder_path = data_dir_path / "M2_EphysFiles" / "m74" / "M2_Day1"
-    # behavior_file_path = data_dir_path / "M2_EphysBehavioralFiles" / "raw_m74_240815_001.mat"
-    # video_folder_path = data_dir_path / "Videos" / "M2EphysVideos" / "m74" / "240815"
-    # intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m74"
-    # session_to_nwb(
-    #     ephys_folder_path=ephys_folder_path,
-    #     behavior_file_path=behavior_file_path,
-    #     video_folder_path=video_folder_path,
-    #     intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
-    #     brain_region="M2",
-    #     output_dir_path=output_dir_path,
-    #     stub_test=stub_test,
-    #     verbose=verbose,
-    # )
+    # Example Session M2 Ephys + Behavior
+    ephys_folder_path = data_dir_path / "M2_EphysFiles" / "m74" / "M2_Day1"
+    behavior_file_path = data_dir_path / "M2_EphysBehavioralFiles" / "raw_m74_240815_001.mat"
+    video_folder_path = data_dir_path / "Videos" / "M2EphysVideos" / "m74" / "240815"
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m74"
+    session_to_nwb(
+        ephys_folder_path=ephys_folder_path,
+        behavior_file_path=behavior_file_path,
+        video_folder_path=video_folder_path,
+        intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
+        brain_region="M2",
+        output_dir_path=output_dir_path,
+        stub_test=stub_test,
+        verbose=verbose,
+    )
 
-    # # Example Session M2 Opto + Behavior
-    # behavior_file_path = data_dir_path / "M2_OptoBehavioralFiles" / "raw_m74_240809_001.mat"
-    # video_folder_path = data_dir_path / "Videos" / "M2OptoVideos" / "m74" / "240809"
-    # intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m74"
-    # session_to_nwb(
-    #     behavior_file_path=behavior_file_path,
-    #     video_folder_path=video_folder_path,
-    #     intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
-    #     brain_region="M2",
-    #     output_dir_path=output_dir_path,
-    #     has_opto=True,
-    #     stub_test=stub_test,
-    #     verbose=verbose,
-    # )
+    # Example Session M2 Opto + Behavior
+    behavior_file_path = data_dir_path / "M2_OptoBehavioralFiles" / "raw_m74_240809_001.mat"
+    video_folder_path = data_dir_path / "Videos" / "M2OptoVideos" / "m74" / "240809"
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m74"
+    session_to_nwb(
+        behavior_file_path=behavior_file_path,
+        video_folder_path=video_folder_path,
+        intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
+        brain_region="M2",
+        output_dir_path=output_dir_path,
+        has_opto=True,
+        stub_test=stub_test,
+        verbose=verbose,
+    )
 
     # Example Session missing Camera 2
     behavior_file_path = data_dir_path / "M2_EphysBehavioralFiles" / "raw_m80_240819_001.mat"
