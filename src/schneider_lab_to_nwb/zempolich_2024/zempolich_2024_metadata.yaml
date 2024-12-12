@@ -10,6 +10,7 @@ NWBFile:
   experimenter:
     - Zempolich, Grant W.
     - Schneider, David M.
+
 Subject:
   species: Mus musculus
   age: P12W/  # in ISO 8601, such as "P1W2D"
