@@ -14,6 +14,7 @@ from schneider_lab_to_nwb.zempolich_2024 import (
     Zempolich2024OptogeneticInterface,
     Zempolich2024IntrinsicSignalOpticalImagingInterface,
 )
+from schneider_lab_to_nwb.zempolich_2024.zempolich_2024_behaviorinterface import get_starting_timestamp
 
 # neuroconv.NWBConverter.run_conversion imports
 import warnings
@@ -56,7 +57,7 @@ class Zempolich2024NWBConverter(NWBConverter):
         file = read_mat(behavior_file_path)
         cam1_timestamps, cam2_timestamps = file["continuous"]["cam"]["time"]
         if conversion_options["Behavior"].get("normalize_timestamps", False):
-            starting_timestamp = file["continuous"][metadata["Behavior"]["TimeSeries"][0]["name"]]["time"][0]
+            starting_timestamp = get_starting_timestamp(mat_file=file)
             cam1_timestamps -= starting_timestamp
             cam2_timestamps -= starting_timestamp
         self.data_interface_objects["VideoCamera1"].set_aligned_timestamps([cam1_timestamps])

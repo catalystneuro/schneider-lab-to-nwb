@@ -89,7 +89,6 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         }
         return metadata_schema
 
-
     def add_to_nwbfile(
         self, nwbfile: NWBFile, metadata: dict, normalize_timestamps: bool = False, verbose: bool = False
     ):
@@ -110,7 +109,7 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         file_path = self.source_data["file_path"]
         file = read_mat(file_path)
         behavioral_time_series, name_to_times, name_to_values, name_to_trial_array = [], dict(), dict(), dict()
-        starting_timestamp = file["continuous"][metadata["Behavior"]["TimeSeries"][0]["name"]]["time"][0]
+        starting_timestamp = get_starting_timestamp(file)
         for time_series_dict in metadata["Behavior"]["TimeSeries"]:
             name = time_series_dict["name"]
             timestamps = np.array(file["continuous"][name]["time"]).squeeze()
@@ -232,3 +231,15 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
         for device_kwargs in metadata["Behavior"]["Devices"]:
             device = Device(**device_kwargs)
             nwbfile.add_device(device)
+
+
+def get_starting_timestamp(mat_file: dict):
+    starting_timestamp = np.min(
+        [
+            mat_file["continuous"]["encoder"]["time"][0],
+            mat_file["continuous"]["lick"]["time"][0],
+            mat_file["continuous"]["cam"]["time"][0][0],
+            mat_file["continuous"]["cam"]["time"][1][0],
+        ]
+    )
+    return starting_timestamp
