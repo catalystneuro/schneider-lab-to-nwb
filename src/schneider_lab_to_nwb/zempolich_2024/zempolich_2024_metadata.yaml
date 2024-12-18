@@ -93,7 +93,7 @@ Ecephys:
   ElectricalSeries:
     - name: ElectricalSeries
       description: Recording of AC neural responses in mice performing this behavioral task utilized dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data was recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
-  folder_name_to_start_datetime: # This mapping is used for ambiguous start times from OpenEphys ex. 16561
+  folder_name_to_start_datetime: # This mapping is used for ambiguous start times from OpenEphys ex. '18413' could be 18:41:03 or 18:04:13
     m53/Day1_A1: 2023-10-29T16:56:01
     m54/Day1_A1: 2023-10-29T18:18:03
     m65/Day2_A1: 2023-10-26T18:49:04
