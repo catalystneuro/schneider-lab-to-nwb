@@ -10,10 +10,10 @@ NWBFile:
   experimenter:
     - Zempolich, Grant W.
     - Schneider, David M.
+
 Subject:
   species: Mus musculus
   age: P12W/  # in ISO 8601, such as "P1W2D"
-  sex: U  # One of M, F, U, or O
   description: 12-week-old C57BL/6 or VGATChR2-EYFP mice were used for all behavioral, electrophysiology, and optogenetic experiments. In the VGAT-ChR2-EYFP mouse line, channelrhodopsin (ChR2) was coupled to the vesicular GABA transporter, inducing expression in GABAergic inhibitory neurons ubiquitously across cortex and allowing for real time optogenetic inhibition of brain regions of interest.
   strain: C57BL/6
 
@@ -24,6 +24,62 @@ BrainRegion:
   M2:
     electrode_group_location: Secondary Motor Cortex (M2)
     optogenetic_stimulus_site_location: Secondary Motor Cortex (1.0-1.5 AP, 0.5-0.7 ML)
+
+SubjectMaps:
+  subject_id_to_genotype: # TODO: Replace with actual genotype
+    m53: C57BL/6 or VGATChR2-EYFP
+    m54: C57BL/6 or VGATChR2-EYFP
+    m55: C57BL/6 or VGATChR2-EYFP
+    m63: C57BL/6 or VGATChR2-EYFP
+    m64: C57BL/6 or VGATChR2-EYFP
+    m65: C57BL/6 or VGATChR2-EYFP
+    m66: C57BL/6 or VGATChR2-EYFP
+    m67: C57BL/6 or VGATChR2-EYFP
+    m69: C57BL/6 or VGATChR2-EYFP
+    m70: C57BL/6 or VGATChR2-EYFP
+    m71: C57BL/6 or VGATChR2-EYFP
+    m72: C57BL/6 or VGATChR2-EYFP
+    m73: C57BL/6 or VGATChR2-EYFP
+    m74: C57BL/6 or VGATChR2-EYFP
+    m75: C57BL/6 or VGATChR2-EYFP
+    m76: C57BL/6 or VGATChR2-EYFP
+    m77: C57BL/6 or VGATChR2-EYFP
+    m78: C57BL/6 or VGATChR2-EYFP
+    m79: C57BL/6 or VGATChR2-EYFP
+    m80: C57BL/6 or VGATChR2-EYFP
+    m81: C57BL/6 or VGATChR2-EYFP
+  subject_id_to_sex: # TODO: Replace with actual sex (M, F, U, or O)
+    m53: U
+    m54: U
+    m55: U
+    m63: U
+    m64: U
+    m65: U
+    m66: U
+    m67: U
+    m69: U
+    m70: U
+    m71: U
+    m72: U
+    m73: U
+    m74: U
+    m75: U
+    m76: U
+    m77: U
+    m78: U
+    m79: U
+    m80: U
+    m81: U
+
+Session:
+  - name: A1_EphysBehavioralFiles
+    description: Mice performed the auditory guided task while electricophysiological neural activity was recorded in the primary auditory cortex (A1).
+  - name: A1_OptoBehavioralFiles
+    description: Mice performed the auditory guided task while optogenetic stimulation was delivered to the primary auditory cortex (A1).
+  - name: M2_EphysBehavioralFiles
+    description: Mice performed the auditory guided task while electricophysiological neural activity was recorded in the secondary motor cortex (M2).
+  - name: M2_OptoBehavioralFiles
+    description: Mice performed the auditory guided task while optogenetic stimulation was delivered to the secondary motor cortex (M2).
 
 Ecephys:
   Device:
@@ -37,7 +93,7 @@ Ecephys:
   ElectricalSeries:
     - name: ElectricalSeries
       description: Recording of AC neural responses in mice performing this behavioral task utilized dense 128-channel recording probes (Masmanidis Lab). These recording probes span a depth ~1mm, allowing for sampling of all layers of cortex. Electrophysiology data was recorded using OpenEphys Acquisition Board v2.4 and associated OpenEphys GUI software.
-  folder_name_to_start_datetime:
+  folder_name_to_start_datetime: # This mapping is used for ambiguous start times from OpenEphys ex. '18413' could be 18:41:03 or 18:04:13
     m53/Day1_A1: 2023-10-29T16:56:01
     m54/Day1_A1: 2023-10-29T18:18:03
     m65/Day2_A1: 2023-10-26T18:49:04

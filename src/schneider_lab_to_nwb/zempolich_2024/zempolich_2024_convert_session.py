@@ -105,6 +105,12 @@ def session_to_nwb(
     editable_metadata = load_dict_from_file(editable_metadata_path)
     metadata = dict_deep_update(metadata, editable_metadata)
 
+    # Add session description to metadata
+    behavior_folder_name = behavior_file_path.parent.name
+    session_metadata = next(meta for meta in metadata["Session"] if meta["name"] == behavior_folder_name)
+    session_description = session_metadata["description"]
+    metadata["NWBFile"]["session_description"] = session_description
+
     add_session_start_time_to_metadata(
         behavior_file_path=behavior_file_path, ephys_folder_path=ephys_folder_path, metadata=metadata
     )
@@ -116,12 +122,21 @@ def session_to_nwb(
     for i, video_file_path in enumerate(video_file_paths):
         metadata_key_name = f"VideoCamera{i+1}"
         metadata["Behavior"][metadata_key_name] = editable_metadata["Behavior"][metadata_key_name]
+    # remove extra videos from metadata
+    i += 1
+    while f"VideoCamera{i+1}" in metadata["Behavior"]:
+        metadata["Behavior"].pop(f"VideoCamera{i+1}")
+        i += 1
 
     subject_id = behavior_file_path.name.split("_")[1]
     session_id = behavior_file_path.name.split("_")[2]
     nwbfile_path = output_dir_path / f"sub-{subject_id}_ses-{session_id}.nwb"
     metadata["NWBFile"]["session_id"] = session_id
     metadata["Subject"]["subject_id"] = subject_id
+
+    # Add subject info to metadata
+    metadata["Subject"]["sex"] = metadata["SubjectMaps"]["subject_id_to_sex"][subject_id]
+    metadata["Subject"]["genotype"] = metadata["SubjectMaps"]["subject_id_to_genotype"][subject_id]
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
@@ -223,6 +238,20 @@ def main():
         brain_region="M2",
         output_dir_path=output_dir_path,
         has_opto=True,
+        stub_test=stub_test,
+        verbose=verbose,
+    )
+
+    # Example Session missing Camera 2
+    behavior_file_path = data_dir_path / "M2_EphysBehavioralFiles" / "raw_m80_240819_001.mat"
+    video_folder_path = data_dir_path / "Videos" / "M2EphysVideos" / "m80" / "240819"
+    intrinsic_signal_optical_imaging_folder_path = data_dir_path / "Intrinsic Imaging Data" / "m80"
+    session_to_nwb(
+        behavior_file_path=behavior_file_path,
+        video_folder_path=video_folder_path,
+        intrinsic_signal_optical_imaging_folder_path=intrinsic_signal_optical_imaging_folder_path,
+        brain_region="M2",
+        output_dir_path=output_dir_path,
         stub_test=stub_test,
         verbose=verbose,
     )

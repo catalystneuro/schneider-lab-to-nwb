@@ -94,15 +94,37 @@ conversion scripts and datainterfaces.  As a placeholder, here we have `src/schn
 
 ## Running a Conversion
 
-To convert the 4 example sessions, simply run
-```bash
-python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_session.py
-```
+To convert the 5 example sessions,
+1. In `src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_session.py`, update the `data_dir_path` and
+    `output_dir_path` to appropriate local paths. `data_dir_path` should be the high-level directory where the data is
+    stored, corresponding to `Grant Zempolich Project Data` in the GDrive. `output_dir_path` can be any valid path on
+    your system where the output NWB files will be stored.
+2. simply run
+    ```bash
+    python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_session.py
+    ```
 
-To convert the whole dataset, simply run
-```bash
-python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_dataset.py
-```
+To convert the whole dataset,
+1. Update `data_dir_path` and `output_dir_path` in `src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_all_sessions.py`
+    as with the example sessions.
+2. simply run
+    ```bash
+    python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_all_sessions.py
+    ```
 
 Note that the dataset conversion uses multiprocessing, currently set to 4 workers.  To use more or fewer workers, simply
 change the `max_workers` argument to `dataset_to_nwb()`.
+
+### TODOs
+
+There are some placeholders in the current version of the conversion that will need to be filled in by the Schneider Lab
+before the conversion can be completed with the full data/metadata. These placeholders are marked with TODOs in the code
+to make them easier to spot, and a list is provided below for convenience:
+
+* In `src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_open_ephys_recording_interface.py` Line 36,
+    channel_positions are truncated to account for the 1-channel ephys data provided in the google drive. Lines 36-37
+    will need to be removed to enable running the conversion on the full ephys data.
+* In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 29, the mapping between subject_id and genotype is a
+    placeholder. Please specify the genotype for each subject, and it will automatically propagate to the NWB file.
+* In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 51, the mapping between subject_id and sex is a
+    placeholder. Please specify the sex for each subject, and it will automatically propagate to the NWB file.
