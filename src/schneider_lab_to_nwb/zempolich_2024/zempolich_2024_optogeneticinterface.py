@@ -9,6 +9,8 @@ from pynwb.ogen import OptogeneticSeries, OptogeneticStimulusSite
 
 from neuroconv.basedatainterface import BaseDataInterface
 
+from .zempolich_2024_behaviorinterface import get_starting_timestamp
+
 
 class Zempolich2024OptogeneticInterface(BaseDataInterface):
     """Optogenetic interface for schneider_2024 conversion"""
@@ -57,7 +59,7 @@ class Zempolich2024OptogeneticInterface(BaseDataInterface):
             np.logical_not(np.isnan(offset_times))
         ), "Some of the offset times are nan when onset times are not nan."
         power = metadata["Optogenetics"]["OptogeneticSeries"]["power"]
-        starting_timestamp = file["continuous"][metadata["Behavior"]["TimeSeries"][0]["name"]]["time"][0]
+        starting_timestamp = get_starting_timestamp(mat_file=file)
         if normalize_timestamps:
             onset_times = onset_times - starting_timestamp
             offset_times = offset_times - starting_timestamp
