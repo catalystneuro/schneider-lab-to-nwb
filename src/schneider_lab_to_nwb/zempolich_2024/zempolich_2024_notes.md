@@ -31,8 +31,6 @@
 
 ## Active Requests
 - Mice sexes
-- target image for m73
-- Cam2 Video for M2EphysVideos/m80/240819
 
 ## Questions for Midway Meeting
 - injection vs stimulation location(s) for A1 vs M2???

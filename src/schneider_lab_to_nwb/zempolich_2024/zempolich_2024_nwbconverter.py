@@ -44,8 +44,10 @@ class Zempolich2024NWBConverter(NWBConverter):
             starting_timestamp = get_starting_timestamp(mat_file=file)
             cam1_timestamps -= starting_timestamp
             cam2_timestamps -= starting_timestamp
-        self.data_interface_objects["VideoCamera1"].set_aligned_timestamps([cam1_timestamps])
-        self.data_interface_objects["VideoCamera2"].set_aligned_timestamps([cam2_timestamps])
+        if "VideoCamera1" in self.data_interface_objects:
+            self.data_interface_objects["VideoCamera1"].set_aligned_timestamps([cam1_timestamps])
+        if "VideoCamera2" in self.data_interface_objects:
+            self.data_interface_objects["VideoCamera2"].set_aligned_timestamps([cam2_timestamps])
 
     # NOTE: passing in conversion_options as an attribute is a temporary solution until the neuroconv library is updated
     #  to allow for easier customization of the conversion process
