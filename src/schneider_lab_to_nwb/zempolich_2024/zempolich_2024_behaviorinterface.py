@@ -154,6 +154,8 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
             if dtype == "bool":
                 trial_array[np.isnan(trial_array)] = False
             trial_array = np.asarray(trial_array, dtype=dtype)  # Can't cast to dtype right away bc bool(nan) = True
+            if normalize_timestamps and name in ["time_reward_s", "opto_time", "opto_time_end"]:
+                trial_array = trial_array - starting_timestamp
             name_to_trial_array[name] = trial_array[~trial_is_nan]
 
         # Add Data to NWBFile
