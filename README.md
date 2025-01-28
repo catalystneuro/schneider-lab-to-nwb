@@ -151,10 +151,7 @@ dandi download https://dandiarchive.org/dandiset/<dataset_id>/draft
 cd <dataset_id>
 dandi organize <source_folder> --update-external-file-paths --files-mode copy
 dandi validate .
-dandi upload
+dandi upload --sync
 ```
 the extra options for dandi organize will ensure that the external movie files are organized and uploaded properly.
-* After uploading, the external movie files for any session that was already on DANDI will be duplicated. Remove each one that is NOT referenced by an NWB file by running
-```bash
-dandi rm <file_path>
-```
+The --sync option removes extra external files on the dandi archive, which are renamed during the organize step.
