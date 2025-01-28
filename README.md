@@ -140,3 +140,21 @@ to make them easier to spot, and a list is provided below for convenience:
     placeholder. Please specify the genotype for each subject, and it will automatically propagate to the NWB file.
 * In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 51, the mapping between subject_id and sex is a
     placeholder. Please specify the sex for each subject, and it will automatically propagate to the NWB file.
+
+## Uploading to DANDI
+
+To upload the data to DANDI, follow the instructions [here](https://docs.dandiarchive.org/13_upload/), with the following changes:
+
+* For step 5, instead of running the code as it appears in the instructions, use this
+```bash
+dandi download https://dandiarchive.org/dandiset/<dataset_id>/draft
+cd <dataset_id>
+dandi organize <source_folder> --update-external-file-paths --files-mode copy
+dandi validate .
+dandi upload
+```
+the extra options for dandi organize will ensure that the external movie files are organized and uploaded properly.
+* After uploading, the external movie files for any session that was already on DANDI will be duplicated. Remove each one that is NOT referenced by an NWB file by running
+```bash
+dandi rm <file_path>
+```
