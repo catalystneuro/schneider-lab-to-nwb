@@ -3,19 +3,37 @@ NWBFile:
     - auditory cortex
     - predictive coding
     - optogenetics
-  experiment_description: TODO -- add experiment description here.
-  session_description: TODO -- add session description here.
+  experiment_description: Experiments involve recording audio, video and electrophisiology data from the auditory cortex as mice walk on a squared arena with different surfaces for 1 hour. After this period, a series of "threats" are presented, including both visual and auditory cues to induce a fear response. The goal is to quantify both behavior and neuronal responses to self-generated sounds (footsteps on different surfaces) over time, particularly under varying levels of predatory risk.
   institution: New York University
   lab: Schneider
   experimenter:
     - Corredera, Ariadna
+    - Peterson, Ralph E.
+    - La Chioma, Alessandro
+    - Barth, Per-Niklas
+    - Garcia, Dianna
+    - Chang, Suha
     - Schneider, David M.
 
 Subject:
   species: Mus musculus
-  age: P12W/  # in ISO 8601, such as "P1W2D" TODO: replace with actual age
-  description: TODO -- add description here.
-  strain: TODO -- add strain here.
+  age: P3M/P4M  # ISO 8601 format
+  description: Three to four month old, male and female, wild-type C57BL/6J mice from The Jackson Laboratories were used in all experiments.
+  strain: C57BL/6J
+
+Session:
+  - name: natural_exploration
+    description: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
+  - name: vr_exploration
+    description: Mice explored a square arena in which virtual-reality self-generated sounds were played back to them only in the VR half of the arena for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
+  - name: playback
+    description: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded. During this time, virtual-reality self-generated sounds were played back to the mice in the arena in three 10-minute sets interleaved with 10-minute pre-sets without audio playback.
+  - name: loom_threat
+    description: Mice explored a square arena in which virtual-reality self-generated sounds were played back to them only in the VR half of the arena for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded. After this period, a series of threats were presented, including both visual and auditory cues, for 10 minutes.
+
+SubjectMaps:
+  subject_id_to_sex: # TODO: Replace with actual sex (M, F, U, or O)
+    m14: U
 
 Ecephys:
   Device:
@@ -30,7 +48,12 @@ Ecephys:
     - name: ElectricalSeries
       description: TODO -- add description here.
 
-# Behavior:
+Behavior:
+  ExternalVideo:
+    VideoFLIR:
+      description: FLIR video of the mouse in the arena.
+      unit: Frames
+
 #   Module:
 #     name: behavior
 #     description: C57BL/6 mice were first be water restricted, habituated to head fixation in the behavioral set up for two days and classically conditioned to associate a 16 kHz tone with a small water reward given 150 ms after the tone plays (~12 seconds inter-tone-interval). Mice were then be trained for 15 to 20 sessions on an auditory guided task described as follows. Inspired by human performance on stringed instruments, whereby a target note is achieved via modulation of forelimb and hand movements, we have engineered a novel behavioral paradigm that requires mice to skillfully adjust the size of lever presses in response to a dynamic virtual acoustic environment. Mice were trained to press a small 3-D printed lever forward with their forelimb toward a 2 mm wide target zone. Mice heard a 16 Hz tone when the lever enters the zone and a 10 kHz tone if the press exceeds the bounds of the zone. Presses that peak within the zone produce only the entry tone and are rewarded when the lever returns to the starting position. Presses that undershoot (producing no tones) or overshoot (producing both an entry and an exit tone) are unrewarded. Every 30 trials, which we refer to as a block, the target zone was relocated without warning and the mice must use acoustic feedback to adjust their lever presses to peak at the new location.
@@ -83,14 +106,6 @@ Ecephys:
 #     - name: endZone_ThresholdVector
 #       description: Position of ending/exit position of target zone on a given trial (in raw encoder values corresponding to value read out by quadrature encoder).
 #       dtype: float64
-#   VideoCamera1:
-#     - name: video_camera_1
-#       description: Two IR video cameras (AAK CA20 600TVL 2.8MM) were used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data as necessary. Camera 1 is a side angle view of the mouse.
-#       unit: Frames
-#   VideoCamera2:
-#     - name: video_camera_2
-#       description: Two IR video cameras (AAK CA20 600TVL 2.8MM) were used to monitor the experiments from different angles of interest, allowing for offline analysis of body movements, pupillometry, and other behavioral data as necessary. Camera 2 is a zoomed-in view of the pupil of the mouse.
-#       unit: Frames
 
 # Sorting:
 #   units_description: TODO -- add units description here.

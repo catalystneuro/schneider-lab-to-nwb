@@ -3,22 +3,21 @@
 ## Behavior
 - Lots of relevant variables in the .mat files
 - Need subject_id, age, strain, description, etc.
+- Based on the SfN poster, it looks like there are at least 4 different types of sessions:
+    1. 60 min exploration on leaves/rubber (top left)
+    2. exploration on VR environment (bottom left)
+    3. 3-set session with self-generated playback (middle)
+    4. exploration with Loom threat (right)
+shared data looks like session type 1.
 
 ## Video
-- Need make and model for FLIR camera
-
-## Optogenetics
-- Do these experiments include optogenetic data?
-
-## Intrinsic Signal Optical Imaging
-- Do these experiments include ISOI?
+- TODO: Add support for camera device from Video metadata
 
 ## Ephys
-- Need brain region
-- Need channel_positions.npy
-- Need probe info, is it also a Masminidis Lab probe?
-- Raw binary file uses .bin extension instead of .dat (or .continuous)
-- Need settings.xml and (probably) the structure.oebin file to read the data properly -- maybe just send the full folder of output files from OpenEphys
+- brain region = left auditory cortex
+- For channel positions, see CN_ASSY236_P1_kilosortChanMap.mat
+- Recording Probe = 64-channel P1 probes from Cambridge Neurotech (ASSY-236)
+- WhiteMatter logger = eCube?
 
 ## Sleap
 - Output file not loading in sleap interface for some reason -- missing 'tracks_json'...

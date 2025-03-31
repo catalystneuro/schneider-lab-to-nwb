@@ -9,12 +9,19 @@ from pydantic import FilePath, DirectoryPath
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.corredera_2025 import Corredera2025NWBConverter
 
+# Session:
+#   natural_exploration: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
+#   vr_exploration: Mice explored a square arena in which virtual-reality self-generated sounds were played back to them only in the VR half of the arena for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
+#   playback: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded. During this time, virtual-reality self-generated sounds were played back to the mice in the arena in three 10-minute sets interleaved with 10-minute pre-sets without audio playback.
+#   loom_threat: Mice explored a square arena in which virtual-reality self-generated sounds were played back to them only in the VR half of the arena for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded. After this period, a series of threats were presented, including both visual and auditory cues, for 10 minutes.
+
 
 def session_to_nwb(
     output_dir_path: DirectoryPath,
     ephys_folder_path: DirectoryPath,
     video_file_path: FilePath,
     sleap_file_path: FilePath,
+    session_type: Literal["natural_exploration", "vr_exploration", "playback", "loom_threat"],
     stub_test: bool = False,
     verbose: bool = True,
 ):
@@ -58,12 +65,12 @@ def session_to_nwb(
     # conversion_options.update(dict(Sorting=dict()))
 
     # Add Video
-    source_data.update(dict(Video=dict(file_paths=[video_file_path], verbose=verbose)))
+    source_data.update(dict(Video=dict(file_paths=[video_file_path], verbose=verbose, video_name="VideoFLIR")))
     conversion_options.update(dict(Video=dict()))
 
-    # Add SLEAP
-    source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
-    conversion_options.update(dict(SLEAP=dict()))
+    # # Add SLEAP
+    # source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
+    # conversion_options.update(dict(SLEAP=dict()))
 
     converter = Corredera2025NWBConverter(source_data=source_data, verbose=verbose)
     metadata = converter.get_metadata()
@@ -87,8 +94,11 @@ def session_to_nwb(
     EST = ZoneInfo("US/Eastern")
     metadata["NWBFile"]["session_start_time"] = session_start_time.replace(tzinfo=EST)
 
-    # Add subject info to metadata
-    metadata["Subject"]["sex"] = "U"  # TODO: Get sex
+    # Add subject and session info to metadata
+    metadata["Subject"]["sex"] = metadata["SubjectMaps"]["subject_id_to_sex"][subject_id]
+    session_metadata = next(meta for meta in metadata["Session"] if meta["name"] == session_type)
+    session_description = session_metadata["description"]
+    metadata["NWBFile"]["session_description"] = session_description
 
     # Run conversion
     converter.run_conversion(metadata=metadata, nwbfile_path=nwbfile_path, conversion_options=conversion_options)
@@ -111,11 +121,13 @@ def main():
         data_dir_path
         / "labels.v001.slp.241216_121950.predictions.000_m14_pb_2024-12-12_001_CamFlir1_20241212_102813.analysis.h5"
     )
+    session_type = "natural_exploration"
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
         video_file_path=video_file_path,
         sleap_file_path=sleap_file_path,
         output_dir_path=output_dir_path,
+        session_type=session_type,
         stub_test=stub_test,
         verbose=verbose,
     )
