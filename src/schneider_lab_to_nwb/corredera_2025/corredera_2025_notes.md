@@ -19,7 +19,10 @@
 - Need probe info, is it also a Masminidis Lab probe?
 - Raw binary file uses .bin extension instead of .dat (or .continuous)
 - Need settings.xml and (probably) the structure.oebin file to read the data properly -- maybe just send the full folder of output files from OpenEphys
--
+
+## Sleap
+- Output file not loading in sleap interface for some reason -- missing 'tracks_json'...
+
 
 ## Temporal Alignment
 

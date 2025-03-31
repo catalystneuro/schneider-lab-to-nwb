@@ -3,6 +3,7 @@ from neuroconv import NWBConverter
 from neuroconv.datainterfaces import (
     PhySortingInterface,
     ExternalVideoInterface,
+    SLEAPInterface,
 )
 
 from schneider_lab_to_nwb.corredera_2025 import (
@@ -16,4 +17,5 @@ class Corredera2025NWBConverter(NWBConverter):
     data_interface_classes = dict(
         Recording=Corredera2025OpenEphysRecordingInterface,
         Video=ExternalVideoInterface,
+        SLEAP=SLEAPInterface,
     )

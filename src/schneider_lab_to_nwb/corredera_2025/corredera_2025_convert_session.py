@@ -14,6 +14,7 @@ def session_to_nwb(
     output_dir_path: DirectoryPath,
     ephys_folder_path: DirectoryPath,
     video_file_path: FilePath,
+    sleap_file_path: FilePath,
     stub_test: bool = False,
     verbose: bool = True,
 ):
@@ -41,6 +42,8 @@ def session_to_nwb(
         Whether to print verbose output, by default True.
     """
     ephys_folder_path = Path(ephys_folder_path)
+    video_file_path = Path(video_file_path)
+    sleap_file_path = Path(sleap_file_path)
     output_dir_path = Path(output_dir_path)
     output_dir_path.mkdir(parents=True, exist_ok=True)
 
@@ -57,6 +60,10 @@ def session_to_nwb(
     # Add Video
     source_data.update(dict(Video=dict(file_paths=[video_file_path], verbose=verbose)))
     conversion_options.update(dict(Video=dict()))
+
+    # Add SLEAP
+    source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
+    conversion_options.update(dict(SLEAP=dict()))
 
     converter = Corredera2025NWBConverter(source_data=source_data, verbose=verbose)
     metadata = converter.get_metadata()
@@ -100,9 +107,14 @@ def main():
     # Example Session
     ephys_folder_path = data_dir_path
     video_file_path = data_dir_path / "m14_pb_2024-12-12_001_CamFlir1_20241212_102813.avi"
+    sleap_file_path = (
+        data_dir_path
+        / "labels.v001.slp.241216_121950.predictions.000_m14_pb_2024-12-12_001_CamFlir1_20241212_102813.analysis.h5"
+    )
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
         video_file_path=video_file_path,
+        sleap_file_path=sleap_file_path,
         output_dir_path=output_dir_path,
         stub_test=stub_test,
         verbose=verbose,
