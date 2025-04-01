@@ -2,7 +2,6 @@
 
 ## Behavior
 - Lots of relevant variables in the .mat files
-- Need subject_id, age, strain, description, etc.
 - Based on the SfN poster, it looks like there are at least 4 different types of sessions:
     1. 60 min exploration on leaves/rubber (top left)
     2. exploration on VR environment (bottom left)
