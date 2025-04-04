@@ -49,10 +49,15 @@ Ecephys:
       description: TODO -- add description here.
 
 Behavior:
-  ExternalVideo:
+  ExternalVideos:
     VideoFLIR:
       description: FLIR video of the mouse in the arena.
       unit: Frames
+      device:
+        name: FLIRCamera
+        description: Blackfly S BFS-PGE-16S2M with Serial Number 23072324
+        manufacturer: Teledyne
+
 
 #   Module:
 #     name: behavior

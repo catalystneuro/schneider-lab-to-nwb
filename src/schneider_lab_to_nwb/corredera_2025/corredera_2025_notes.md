@@ -10,7 +10,6 @@
 shared data looks like session type 1.
 
 ## Video
-- TODO: Add support for camera device from Video metadata
 
 ## Ephys
 - brain region = left auditory cortex
