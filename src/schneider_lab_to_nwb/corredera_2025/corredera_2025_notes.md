@@ -20,8 +20,12 @@ shared data looks like session type 1.
 ## Sleap
 - Output file not loading in sleap interface for some reason -- missing 'tracks_json'...
 
+## Audio
+- Might want to switch to ndx-sound --> then add link for device
+- .wav style compression?
+
 
 ## Temporal Alignment
-
+- Timestamps in the .mat file are relevant for temporal alignment
 
 ## Active Questions/Requests

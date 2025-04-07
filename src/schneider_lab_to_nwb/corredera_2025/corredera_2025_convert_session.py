@@ -9,18 +9,13 @@ from pydantic import FilePath, DirectoryPath
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.corredera_2025 import Corredera2025NWBConverter
 
-# Session:
-#   natural_exploration: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
-#   vr_exploration: Mice explored a square arena in which virtual-reality self-generated sounds were played back to them only in the VR half of the arena for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
-#   playback: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded. During this time, virtual-reality self-generated sounds were played back to the mice in the arena in three 10-minute sets interleaved with 10-minute pre-sets without audio playback.
-#   loom_threat: Mice explored a square arena in which virtual-reality self-generated sounds were played back to them only in the VR half of the arena for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded. After this period, a series of threats were presented, including both visual and auditory cues, for 10 minutes.
-
 
 def session_to_nwb(
     output_dir_path: DirectoryPath,
     ephys_folder_path: DirectoryPath,
     video_file_path: FilePath,
     sleap_file_path: FilePath,
+    audio_file_path: FilePath,
     session_type: Literal["natural_exploration", "vr_exploration", "playback", "loom_threat"],
     stub_test: bool = False,
     verbose: bool = True,
@@ -67,6 +62,10 @@ def session_to_nwb(
     # Add Video
     source_data.update(dict(Video=dict(file_paths=[video_file_path], verbose=verbose, video_name="VideoFLIR")))
     conversion_options.update(dict(Video=dict()))
+
+    # Add Audio
+    source_data.update(dict(Audio=dict(file_path=audio_file_path)))
+    conversion_options.update(dict(Audio=dict()))
 
     # # Add SLEAP
     # source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
@@ -117,6 +116,7 @@ def main():
     # Example Session
     ephys_folder_path = data_dir_path
     video_file_path = data_dir_path / "m14_pb_2024-12-12_001_CamFlir1_20241212_102813.avi"
+    audio_file_path = data_dir_path / "m14_pb_2024-12-12_001_micrec.mic"
     sleap_file_path = (
         data_dir_path
         / "labels.v001.slp.241216_121950.predictions.000_m14_pb_2024-12-12_001_CamFlir1_20241212_102813.analysis.h5"
@@ -125,6 +125,7 @@ def main():
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
         video_file_path=video_file_path,
+        audio_file_path=audio_file_path,
         sleap_file_path=sleap_file_path,
         output_dir_path=output_dir_path,
         session_type=session_type,
