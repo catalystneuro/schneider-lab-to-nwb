@@ -9,7 +9,7 @@ from ndx_events import Events, AnnotatedEventsTable
 import os
 
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.utils import get_base_schema
+from neuroconv.utils import get_base_schema, get_schema_from_hdmf_class
 from neuroconv.tools import nwb_helpers
 from neuroconv.tools.hdmf import SliceableDataChunkIterator
 
@@ -32,6 +32,24 @@ class Corredera2025AudioInterface(BaseDataInterface):
         super().__init__(file_path=file_path)
         self.verbose = verbose
 
+    def get_metadata_schema(self) -> dict:
+        metadata_schema = super().get_metadata_schema()
+        device_schema = get_schema_from_hdmf_class(Device)
+        time_series_schema = get_schema_from_hdmf_class(TimeSeries)
+        time_series_schema["required"].remove("unit")
+        metadata_schema["properties"]["Audio"] = {
+            "type": "object",
+            "properties": {
+                "Microphones": {
+                    "type": "array",
+                    "items": device_schema,
+                    "description": "List of microphones used for recording.",
+                },
+                "AudioRecording": time_series_schema,
+            },
+        }
+        return metadata_schema
+
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, stub_test: bool = False):
         # Define constants
         NUM_CHANNELS = 4
@@ -49,13 +67,11 @@ class Corredera2025AudioInterface(BaseDataInterface):
         data = SliceableDataChunkIterator(data=memmaped_data, display_progress=self.verbose)
 
         # Add Data to NWBFile
-        audio_series = TimeSeries(
-            name="AudioRecording",
-            data=data,
-            unit="a.u.",
-            rate=SAMPLING_RATE,
-            description="Audio recording from four AVISOFT microphones.",
-        )
+        audio_kwargs = metadata["Audio"]["AudioRecording"]
+        audio_kwargs["data"] = data
+        audio_kwargs["rate"] = SAMPLING_RATE
+        audio_kwargs["unit"] = "a.u."
+        audio_series = TimeSeries(**audio_kwargs)
         nwbfile.add_acquisition(audio_series)
 
         # Add Devices
