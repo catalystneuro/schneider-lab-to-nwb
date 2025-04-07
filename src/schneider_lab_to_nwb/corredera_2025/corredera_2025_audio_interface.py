@@ -19,15 +19,18 @@ class Corredera2025AudioInterface(BaseDataInterface):
 
     keywords = ("audio",)
 
-    def __init__(self, file_path: FilePath):
+    def __init__(self, file_path: FilePath, verbose: bool = True):
         """Initialize the audio interface.
 
         Parameters
         ----------
         file_path : FilePath
             Path to the audio .mic file.
+        verbose : bool, optional
+            Whether to print verbose output, by default True.
         """
         super().__init__(file_path=file_path)
+        self.verbose = verbose
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, stub_test: bool = False):
         # Define constants
@@ -43,19 +46,19 @@ class Corredera2025AudioInterface(BaseDataInterface):
         if stub_test:
             num_samples = min(num_samples, int(SAMPLING_RATE))
         memmaped_data = np.memmap(file_path, dtype=dtype, mode="r", shape=(num_samples, num_channels))
-        data = SliceableDataChunkIterator(data=memmaped_data, display_progress=True)
+        data = SliceableDataChunkIterator(data=memmaped_data, display_progress=self.verbose)
 
         # Add Data to NWBFile
         audio_series = TimeSeries(
             name="AudioRecording",
             data=data,
-            unit="V",
+            unit="a.u.",
             rate=SAMPLING_RATE,
             description="Audio recording from four AVISOFT microphones.",
         )
         nwbfile.add_acquisition(audio_series)
 
-        # # Add Devices
-        # for device_kwargs in metadata["Behavior"]["Devices"]:
-        #     device = Device(**device_kwargs)
-        #     nwbfile.add_device(device)
+        # Add Devices
+        for device_kwargs in metadata["Audio"]["Microphones"]:
+            device = Device(**device_kwargs)
+            nwbfile.add_device(device)

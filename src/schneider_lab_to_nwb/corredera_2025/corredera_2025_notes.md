@@ -21,8 +21,9 @@ shared data looks like session type 1.
 - Output file not loading in sleap interface for some reason -- missing 'tracks_json'...
 
 ## Audio
-- Might want to switch to ndx-sound --> then add link for device
+- Might want to switch to ndx-sound --> then add link for microphones and speakers
 - .wav style compression?
+- Are the microphones at different spots around the square arena? Which is where?
 
 
 ## Temporal Alignment
