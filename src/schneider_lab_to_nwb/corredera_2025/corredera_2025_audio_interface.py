@@ -57,13 +57,12 @@ class Corredera2025AudioInterface(BaseDataInterface):
 
         # Read Data
         file_path = self.source_data["file_path"]
-        num_channels = 4
         file_size = os.path.getsize(file_path)
         dtype = np.dtype("float32")
-        num_samples = int(file_size // (dtype.itemsize * num_channels))
+        num_samples = int(file_size // (dtype.itemsize * NUM_CHANNELS))
         if stub_test:
             num_samples = min(num_samples, int(SAMPLING_RATE))
-        memmaped_data = np.memmap(file_path, dtype=dtype, mode="r", shape=(num_samples, num_channels))
+        memmaped_data = np.memmap(file_path, dtype=dtype, mode="r", shape=(num_samples, NUM_CHANNELS))
         data = SliceableDataChunkIterator(data=memmaped_data, display_progress=self.verbose)
 
         # Add Data to NWBFile
