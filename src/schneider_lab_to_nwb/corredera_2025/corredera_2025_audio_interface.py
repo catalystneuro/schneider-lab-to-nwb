@@ -29,13 +29,19 @@ class Corredera2025AudioInterface(BaseDataInterface):
         """
         super().__init__(file_path=file_path)
 
-    def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
+    def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, stub_test: bool = False):
+        # Define constants
+        NUM_CHANNELS = 4
+        SAMPLING_RATE = 192_000.0
+
         # Read Data
         file_path = self.source_data["file_path"]
         num_channels = 4
         file_size = os.path.getsize(file_path)
         dtype = np.dtype("float32")
         num_samples = int(file_size // (dtype.itemsize * num_channels))
+        if stub_test:
+            num_samples = min(num_samples, int(SAMPLING_RATE))
         memmaped_data = np.memmap(file_path, dtype=dtype, mode="r", shape=(num_samples, num_channels))
         data = SliceableDataChunkIterator(data=memmaped_data, display_progress=True)
 
@@ -44,7 +50,7 @@ class Corredera2025AudioInterface(BaseDataInterface):
             name="AudioRecording",
             data=data,
             unit="V",
-            rate=192_000.0,
+            rate=SAMPLING_RATE,
             description="Audio recording from four AVISOFT microphones.",
         )
         nwbfile.add_acquisition(audio_series)

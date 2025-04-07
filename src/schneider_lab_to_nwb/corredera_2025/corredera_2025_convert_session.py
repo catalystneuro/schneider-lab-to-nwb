@@ -65,7 +65,7 @@ def session_to_nwb(
 
     # Add Audio
     source_data.update(dict(Audio=dict(file_path=audio_file_path)))
-    conversion_options.update(dict(Audio=dict()))
+    conversion_options.update(dict(Audio=dict(stub_test=stub_test)))
 
     # # Add SLEAP
     # source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
