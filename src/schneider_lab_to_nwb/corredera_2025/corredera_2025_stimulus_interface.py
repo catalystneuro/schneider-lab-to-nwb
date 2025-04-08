@@ -29,6 +29,16 @@ class Corredera2025StimulusInterface(BaseDataInterface):
         """
         super().__init__(file_path=file_path)
 
+    def get_metadata(self):
+        metadata = super().get_metadata()
+
+        file_path = self.source_data["file_path"]
+        file = read_mat(file_path)
+        metadata["Subject"]["subject_id"] = file["settings"]["animalID"]
+        metadata["NWBFile"]["session_id"] = file["settings"]["date_str"]
+
+        return metadata
+
     def get_metadata_schema(self) -> dict:
         metadata_schema = super().get_metadata_schema()
         device_schema = get_schema_from_hdmf_class(Device)

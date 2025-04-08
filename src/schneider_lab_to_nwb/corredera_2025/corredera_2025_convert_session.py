@@ -86,11 +86,9 @@ def session_to_nwb(
 
     # conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
 
-    subject_id = "m14"  # TODO: Get subject_id
-    session_id = "2024-12-12"  # TODO: Get session_id
+    session_id = metadata["NWBFile"]["session_id"]
+    subject_id = metadata["Subject"]["subject_id"]
     nwbfile_path = output_dir_path / f"sub-{subject_id}_ses-{session_id}.nwb"
-    metadata["NWBFile"]["session_id"] = session_id
-    metadata["Subject"]["subject_id"] = subject_id
 
     # Add session start time to metadata
     split_name = video_file_path.stem.split("_")

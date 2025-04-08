@@ -33,7 +33,7 @@ Session:
 
 SubjectMaps:
   subject_id_to_sex: # TODO: Replace with actual sex (M, F, U, or O)
-    m14: U
+    m14_pb: U
 
 Ecephys:
   Device:
