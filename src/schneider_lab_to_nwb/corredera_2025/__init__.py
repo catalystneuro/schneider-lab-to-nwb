@@ -1,2 +1,3 @@
 from .corredera_2025_audio_interface import Corredera2025AudioInterface
+from .corredera_2025_stimulus_interface import Corredera2025StimulusInterface
 from .corredera_2025_nwbconverter import Corredera2025NWBConverter
