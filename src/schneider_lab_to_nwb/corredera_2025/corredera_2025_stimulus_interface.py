@@ -10,7 +10,7 @@ from ndx_events import Events, AnnotatedEventsTable
 from pathlib import PureWindowsPath
 
 from neuroconv.basedatainterface import BaseDataInterface
-from neuroconv.utils import get_base_schema
+from neuroconv.utils import get_base_schema, get_schema_from_hdmf_class
 from neuroconv.tools import nwb_helpers
 
 
@@ -28,6 +28,21 @@ class Corredera2025StimulusInterface(BaseDataInterface):
             Path to the .mat file.
         """
         super().__init__(file_path=file_path)
+
+    def get_metadata_schema(self) -> dict:
+        metadata_schema = super().get_metadata_schema()
+        device_schema = get_schema_from_hdmf_class(Device)
+        metadata_schema["properties"]["Stimulus"] = {
+            "type": "object",
+            "properties": {
+                "Speakers": {
+                    "type": "array",
+                    "items": device_schema,
+                    "description": "List of speakers used for audio stimulus.",
+                },
+            },
+        }
+        return metadata_schema
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict):
         file_path = self.source_data["file_path"]
@@ -66,3 +81,7 @@ class Corredera2025StimulusInterface(BaseDataInterface):
                         stimulus_name=name,
                     )
         nwbfile.add_stimulus(audio_stimulus_table)
+
+        for device_kwargs in metadata["Stimulus"]["Speakers"]:
+            device = Device(**device_kwargs)
+            nwbfile.add_device(device)
