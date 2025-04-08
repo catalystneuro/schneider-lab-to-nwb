@@ -1,4 +1,4 @@
-"""Primary class for converting SpikeGadgets Ephys Recordings."""
+"""Primary class for converting OpenEphys Recordings."""
 from pynwb.file import NWBFile
 import numpy as np
 from typing import Literal

@@ -1,0 +1,136 @@
+NWBFile:
+  keywords:
+    - auditory cortex
+    - predictive coding
+    - optogenetics
+  experiment_description: Experiments involve recording audio, video and electrophisiology data from the auditory cortex as mice walk on a squared arena with different surfaces for 1 hour. After this period, a series of "threats" are presented, including both visual and auditory cues to induce a fear response. The goal is to quantify both behavior and neuronal responses to self-generated sounds (footsteps on different surfaces) over time, particularly under varying levels of predatory risk.
+  institution: New York University
+  lab: Schneider
+  experimenter:
+    - Corredera, Ariadna
+    - Peterson, Ralph E.
+    - La Chioma, Alessandro
+    - Barth, Per-Niklas
+    - Garcia, Dianna
+    - Chang, Suha
+    - Schneider, David M.
+
+Subject:
+  species: Mus musculus
+  age: P3M/P4M  # ISO 8601 format
+  description: Three to four month old, male and female, wild-type C57BL/6J mice from The Jackson Laboratories were used in all experiments.
+  strain: C57BL/6J
+
+Session:
+  - name: natural_exploration
+    description: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
+  - name: vr_exploration
+    description: Mice explored a square arena in which virtual-reality self-generated sounds were played back to them only in the VR half of the arena for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
+  - name: playback
+    description: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded. During this time, virtual-reality self-generated sounds were played back to the mice in the arena in three 10-minute sets interleaved with 10-minute pre-sets without audio playback.
+  - name: loom_threat
+    description: Mice explored a square arena in which virtual-reality self-generated sounds were played back to them only in the VR half of the arena for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded. After this period, a series of threats were presented, including both visual and auditory cues, for 10 minutes.
+
+SubjectMaps:
+  subject_id_to_sex: # TODO: Replace with actual sex (M, F, U, or O)
+    m14: U
+
+Ecephys:
+  Device:
+    - name: MasmanidisSiliconMicroprobe128AxN
+      description: Masmanidis Lab dense 128-channel recording probes (https://masmanidislab.neurobio.ucla.edu/technology.html).
+      manufacturer: Masmanidis Lab
+  ElectrodeGroup:
+    - name: ElectrodeGroup
+      description: ElectrodeGroup for all channels in the recording probe.
+      device: MasmanidisSiliconMicroprobe128AxN
+  ElectricalSeries:
+    - name: ElectricalSeries
+      description: TODO -- add description here.
+
+Behavior:
+  ExternalVideos:
+    VideoFLIR:
+      description: FLIR video of the mouse in the arena.
+      unit: Frames
+      device:
+        name: FLIRCamera
+        description: Blackfly S BFS-PGE-16S2M with Serial Number 23072324
+        manufacturer: Teledyne
+
+Audio:
+  AudioRecording:
+    name: AudioRecording
+    description: Audio recording from four AVISOFT microphones.
+  Microphones:
+    - name: Microphone1
+      description: AVISOFT microphone 1. # TODO: Add model here.
+      manufacturer: AVISOFT
+    - name: Microphone2
+      description: AVISOFT microphone 2. # TODO: Add model here.
+      manufacturer: AVISOFT
+    - name: Microphone3
+      description: AVISOFT microphone 3. # TODO: Add model here.
+      manufacturer: AVISOFT
+    - name: Microphone4
+      description: AVISOFT microphone 4. # TODO: Add model here.
+      manufacturer: AVISOFT
+
+
+
+
+#   Module:
+#     name: behavior
+#     description: C57BL/6 mice were first be water restricted, habituated to head fixation in the behavioral set up for two days and classically conditioned to associate a 16 kHz tone with a small water reward given 150 ms after the tone plays (~12 seconds inter-tone-interval). Mice were then be trained for 15 to 20 sessions on an auditory guided task described as follows. Inspired by human performance on stringed instruments, whereby a target note is achieved via modulation of forelimb and hand movements, we have engineered a novel behavioral paradigm that requires mice to skillfully adjust the size of lever presses in response to a dynamic virtual acoustic environment. Mice were trained to press a small 3-D printed lever forward with their forelimb toward a 2 mm wide target zone. Mice heard a 16 Hz tone when the lever enters the zone and a 10 kHz tone if the press exceeds the bounds of the zone. Presses that peak within the zone produce only the entry tone and are rewarded when the lever returns to the starting position. Presses that undershoot (producing no tones) or overshoot (producing both an entry and an exit tone) are unrewarded. Every 30 trials, which we refer to as a block, the target zone was relocated without warning and the mice must use acoustic feedback to adjust their lever presses to peak at the new location.
+#   TimeSeries:
+#     - name: encoder
+#       description: Sampled values for entire duration of experiment for lever pressing behavior read from a rotary encoder (US Digital). Digital signals for licking and lever movement were collected by a data acquisition card (National Instruments) connected to a computer and logged by custom Matlab software (Mathworks, PsychToolBox) and sampled at 2kHz.
+#     - name: lick
+#       description: Samples values for entire duration of experiment for voltage signal readout from a custom infrared/capacitive lickometer sensor (Schneider Lab).  Digital signals for licking and lever movement were collected by a data acquisition card (National Instruments) connected to a computer and logged by custom Matlab software (Mathworks, PsychToolBox) and sampled at 2kHz.
+#   Events:
+#     - name: toneIN
+#       description: Time at which target zone is entered and target entry tone is played.
+#     - name: targetOUT
+#       description: Time at which the target zone is overshot during a press.
+#     - name: toneOUT
+#       description: Time at which target exit tone is played (this is delayed 50ms relative to targetOUT so that entry and exit tones don't bleed into each other.
+#     - name: valve
+#       description: Times at which solenoid valve opens to deliver water after a correct trial.
+#   ValuedEvents:
+#     - name: tuningTones
+#       description: Times at which tuning tones are played to an animal after a behavioral experiment during ephys recording sessions. Integer values correspond to the frequency of the tuning tone played i.e. 2 for 2kHz, 4 for 4kHz, etc.
+#   Devices:
+#     - name: rotary_encoder
+#       description: H5 BALL BEARING OPTICAL SHAFT ENCODER
+#       manufacturer: US Digital
+#     - name: lickometer
+#       description: The lickometer comprised a custom-mounted (3D printed using Formlabs Form2) IR-beam emitter and receiver. IR signal was titrated and pre-processed using a custom printed circuit board (designed by Melissa Caras and Dan Sanes) to generate a binary TTL signal with IR sensitivity controlled by a potentiometer.
+#       manufacturer: Schneider Lab
+#   Trials:
+#     - name: rewarded
+#       description: Indicates if trial was rewarded (False = trial not rewarded, True = trial rewarded).
+#       dtype: bool
+#     - name: time_reward_s
+#       description: Time of reward if rewarded, otherwise NaN.
+#       dtype: float64
+#     - name: opto_trial
+#       description: Indicates if trial was an optogenetic stimulation trial (False = non opto trial, True = opto trial).
+#       dtype: bool
+#     - name: opto_time
+#       description: Time of optogenetic stimulation if opto trial, otherwise NaN.
+#       dtype: float64
+#     - name: opto_time_end
+#       description: Time of start of optogenetic stimulation if it occurs, otherwise NaN.
+#       dtype: float64
+#     - name: ITI_respect
+#       description: Whether or not trial start obeyed inter trial interval wait time of 300ms (False = trial did not obey ITI, True = trial obeyed ITI).
+#       dtype: bool
+#     - name: ThresholdVector
+#       description: Position of start of the target zone on a given trial (in raw encoder values corresponding to value read out by quadrature encoder).
+#       dtype: float64
+#     - name: endZone_ThresholdVector
+#       description: Position of ending/exit position of target zone on a given trial (in raw encoder values corresponding to value read out by quadrature encoder).
+#       dtype: float64
+
+# Sorting:
+#   units_description: TODO -- add units description here.
