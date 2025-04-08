@@ -16,6 +16,7 @@ def session_to_nwb(
     video_file_path: FilePath,
     sleap_file_path: FilePath,
     audio_file_path: FilePath,
+    stimulus_file_path: FilePath,
     session_type: Literal["natural_exploration", "vr_exploration", "playback", "loom_threat"],
     stub_test: bool = False,
     verbose: bool = True,
@@ -66,6 +67,10 @@ def session_to_nwb(
     # Add Audio
     source_data.update(dict(Audio=dict(file_path=audio_file_path)))
     conversion_options.update(dict(Audio=dict(stub_test=stub_test)))
+
+    # Add Stimulus
+    source_data.update(dict(Stimulus=dict(file_path=stimulus_file_path)))
+    conversion_options.update(dict(Stimulus=dict()))
 
     # # Add SLEAP
     # source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
@@ -121,12 +126,14 @@ def main():
         data_dir_path
         / "labels.v001.slp.241216_121950.predictions.000_m14_pb_2024-12-12_001_CamFlir1_20241212_102813.analysis.h5"
     )
+    stimulus_file_path = data_dir_path / "m14_pb_2024-12-12_001_data.mat"
     session_type = "natural_exploration"
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
         video_file_path=video_file_path,
         audio_file_path=audio_file_path,
         sleap_file_path=sleap_file_path,
+        stimulus_file_path=stimulus_file_path,
         output_dir_path=output_dir_path,
         session_type=session_type,
         stub_test=stub_test,
