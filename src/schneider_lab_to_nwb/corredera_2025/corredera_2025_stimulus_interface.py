@@ -82,6 +82,18 @@ class Corredera2025StimulusInterface(BaseDataInterface):
                     )
         nwbfile.add_stimulus(audio_stimulus_table)
 
+        # Add epochs
+        battery_start_time = np.min(np.concatenate(file["sounds"]["fullBattery"]["soundTimeStamps"]))
+        battery_stop_time = np.max(np.concatenate(file["sounds"]["fullBattery"]["soundTimeStamps"]))
+        threat_start_time = np.min(np.concatenate(file["sounds"]["threat"]["soundTimeStamps"]))
+        threat_stop_time = np.max(np.concatenate(file["sounds"]["threat"]["soundTimeStamps"]))
+        exploration_start_time = battery_stop_time
+        exploration_stop_time = threat_start_time
+
+        nwbfile.add_epoch(start_time=battery_start_time, stop_time=battery_stop_time, tags=["fullBattery"])
+        nwbfile.add_epoch(start_time=exploration_start_time, stop_time=exploration_stop_time, tags=["exploration"])
+        nwbfile.add_epoch(start_time=threat_start_time, stop_time=threat_stop_time, tags=["threat"])
+
         for device_kwargs in metadata["Stimulus"]["Speakers"]:
             device = Device(**device_kwargs)
             nwbfile.add_device(device)
