@@ -37,16 +37,16 @@ SubjectMaps:
 
 Ecephys:
   Device:
-    - name: MasmanidisSiliconMicroprobe128AxN
-      description: Masmanidis Lab dense 128-channel recording probes (https://masmanidislab.neurobio.ucla.edu/technology.html).
-      manufacturer: Masmanidis Lab
+    - name: P1Probe
+      description: 64-channel P1 Probe Molex Connector ASSY-236
+      manufacturer: Cambridge NeuroTech
   ElectrodeGroup:
     - name: ElectrodeGroup
       description: ElectrodeGroup for all channels in the recording probe.
-      device: MasmanidisSiliconMicroprobe128AxN
+      device: P1Probe
   ElectricalSeries:
     - name: ElectricalSeries
-      description: TODO -- add description here.
+      description: Extracellular voltage traces recorded by the probe.
 
 Behavior:
   ExternalVideos:
