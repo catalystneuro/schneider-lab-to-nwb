@@ -4,6 +4,7 @@ from neuroconv.datainterfaces import (
     PhySortingInterface,
     ExternalVideoInterface,
     SLEAPInterface,
+    WhiteMatterRecordingInterface,
 )
 
 from schneider_lab_to_nwb.corredera_2025 import (
@@ -18,4 +19,5 @@ class Corredera2025NWBConverter(NWBConverter):
         Video=ExternalVideoInterface,
         SLEAP=SLEAPInterface,
         Audio=Corredera2025AudioInterface,
+        Recording=WhiteMatterRecordingInterface,
     )
