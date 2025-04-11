@@ -58,23 +58,23 @@ Behavior:
         description: Blackfly S BFS-PGE-16S2M with Serial Number 23072324
         manufacturer: Teledyne
 
-Audio:
-  AudioRecording:
-    name: AudioRecording
-    description: Audio recording from four AVISOFT microphones.
-  Microphones:
-    - name: Microphone1
-      description: AVISOFT microphone 1. # TODO: Add model here.
-      manufacturer: AVISOFT
-    - name: Microphone2
-      description: AVISOFT microphone 2. # TODO: Add model here.
-      manufacturer: AVISOFT
-    - name: Microphone3
-      description: AVISOFT microphone 3. # TODO: Add model here.
-      manufacturer: AVISOFT
-    - name: Microphone4
-      description: AVISOFT microphone 4. # TODO: Add model here.
-      manufacturer: AVISOFT
+# Audio:
+#   AudioRecording:
+#     name: AudioRecording
+#     description: Audio recording from four AVISOFT microphones.
+#   Microphones:
+#     - name: Microphone1
+#       description: AVISOFT microphone 1. # TODO: Add model here.
+#       manufacturer: AVISOFT
+#     - name: Microphone2
+#       description: AVISOFT microphone 2. # TODO: Add model here.
+#       manufacturer: AVISOFT
+#     - name: Microphone3
+#       description: AVISOFT microphone 3. # TODO: Add model here.
+#       manufacturer: AVISOFT
+#     - name: Microphone4
+#       description: AVISOFT microphone 4. # TODO: Add model here.
+#       manufacturer: AVISOFT
 
 
 Stimulus:

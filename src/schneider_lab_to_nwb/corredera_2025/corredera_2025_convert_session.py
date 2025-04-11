@@ -126,6 +126,7 @@ def main():
     )
     stimulus_file_path = data_dir_path / "m14_pb_2024-12-12_001_data.mat"
     session_type = "natural_exploration"
+
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
         video_file_path=video_file_path,
