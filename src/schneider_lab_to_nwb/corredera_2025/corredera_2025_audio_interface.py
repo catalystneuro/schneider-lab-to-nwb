@@ -15,7 +15,7 @@ from ndx_sound import (
     AcousticStimulusSeries,
     MicrophoneTable,
     AcousticLabMetaData,
-    AudioInterface,
+    AudioInterfaceDevice,
 )
 
 from neuroconv.basedatainterface import BaseDataInterface
@@ -91,13 +91,13 @@ class Corredera2025AudioInterface(BaseDataInterface):
         }
         microphone = Microphone(**microphone_kwargs)
         nwbfile.add_device(microphone)
-        audio_interface = AudioInterface(
+        audio_interface_device = AudioInterfaceDevice(
             name="AudioInterface",
             description="Audio interface used for recording.",
             signal_to_noise_ratio_in_db=115.0,
             channel_separation_in_db=110.0,
         )
-        nwbfile.add_device(audio_interface)
+        nwbfile.add_device(audio_interface_device)
 
         microphone_table = MicrophoneTable(
             name="MicrophoneTable",
@@ -106,7 +106,7 @@ class Corredera2025AudioInterface(BaseDataInterface):
         for i in range(4):
             microphone_table.add_row(
                 microphone=microphone,
-                audio_interface=audio_interface,
+                audio_interface_device=audio_interface_device,
                 location=f"Location {i+1}",
             )
         microphone_table_region = microphone_table.create_microphone_table_region(
