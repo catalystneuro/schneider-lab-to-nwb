@@ -8,6 +8,7 @@
     3. 3-set session with self-generated playback (middle)
     4. exploration with Loom threat (right)
 shared data looks like session type 1.
+- visual stimulus should be stored as a pynwb.image.OpticalSeries
 
 ## Video
 
