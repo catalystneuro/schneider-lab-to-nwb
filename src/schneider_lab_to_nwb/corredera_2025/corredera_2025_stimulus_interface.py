@@ -17,7 +17,7 @@ from neuroconv.tools import nwb_helpers
 class Corredera2025StimulusInterface(BaseDataInterface):
     """Stimulus interface for corredera_2025 conversion"""
 
-    keywords = ("auditory stimulus",)
+    keywords = ("auditory stimulus", "visual stimulus")
 
     def __init__(self, file_path: FilePath):
         """Initialize the interface.
@@ -71,6 +71,8 @@ class Corredera2025StimulusInterface(BaseDataInterface):
             description="Name of the stimulus ex. sound01_F2000_L65_D0.1+0.005",
         )
         for epoch_name in epoch_names:
+            if file["sounds"][epoch_name]["button_cnt"] == 0:
+                continue  # Skip if no audio stimulus is present
             sound_data = file["sounds"][epoch_name]["soundData"]
             soundTimeStamps = file["sounds"][epoch_name]["soundTimeStamps"]
             rates = file["sounds"][epoch_name]["soundFS"]
@@ -92,18 +94,35 @@ class Corredera2025StimulusInterface(BaseDataInterface):
                     )
         nwbfile.add_stimulus(audio_stimulus_table)
 
-        # Add epochs
-        battery_start_time = np.min(np.concatenate(file["sounds"]["fullBattery"]["soundTimeStamps"]))
-        battery_stop_time = np.max(np.concatenate(file["sounds"]["fullBattery"]["soundTimeStamps"]))
-        threat_start_time = np.min(np.concatenate(file["sounds"]["threat"]["soundTimeStamps"]))
-        threat_stop_time = np.max(np.concatenate(file["sounds"]["threat"]["soundTimeStamps"]))
-        exploration_start_time = battery_stop_time
-        exploration_stop_time = threat_start_time
-
-        nwbfile.add_epoch(start_time=battery_start_time, stop_time=battery_stop_time, tags=["fullBattery"])
-        nwbfile.add_epoch(start_time=exploration_start_time, stop_time=exploration_stop_time, tags=["exploration"])
-        nwbfile.add_epoch(start_time=threat_start_time, stop_time=threat_stop_time, tags=["threat"])
-
         for device_kwargs in metadata["Stimulus"]["Speakers"]:
             device = Device(**device_kwargs)
             nwbfile.add_device(device)
+
+        # Add visual stimulus
+        if len(file["vis"]["visTimeStamps"]) == 0:
+            return  # Skip if no visual stimulus is present
+        visual_stimulus_table = DynamicTable(
+            name="VisualStimulus",
+            description="Table of visual stimulus presentations",
+        )
+        visual_stimulus_table.add_column(
+            name="onset_time",
+            description="Time when the visual stimulus (disk) first appears.",
+        )
+        visual_stimulus_table.add_column(
+            name="peak_expansion_time",
+            description="Time when the visual stimulus (disk) reaches its maximum size.",
+        )
+        visual_stimulus_table.add_column(
+            name="offset_time",
+            description="Time when the visual stimulus (disk) disappears from the screen.",
+        )
+        # When only one visual stimulus is presented, the timestamps are stored in a 1D array (3,)
+        visual_stimulus_timestamps = file["vis"]["visTimeStamps"].reshape(-1, 3)
+        for row in visual_stimulus_timestamps:
+            visual_stimulus_table.add_row(
+                onset_time=row[0],
+                peak_expansion_time=row[1],
+                offset_time=row[2],
+            )
+        nwbfile.add_stimulus(visual_stimulus_table)

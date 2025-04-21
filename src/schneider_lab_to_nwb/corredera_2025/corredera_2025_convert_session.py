@@ -116,13 +116,33 @@ def main():
     if output_dir_path.exists():
         shutil.rmtree(output_dir_path, ignore_errors=True)
 
-    # Example Session
-    session_dir_path = data_dir_path / "example_data_ari_01"
+    # Example Session w/o visual stimulus
+    # session_dir_path = data_dir_path / "example_data_ari_01"
+    # ephys_folder_path = session_dir_path
+    # video_file_path = session_dir_path / "m14_pb_2024-12-12_001_CamFlir1_20241212_102813.avi"
+    # audio_file_path = session_dir_path / "m14_pb_2024-12-12_001_micrec.mic"
+    # sleap_file_path = session_dir_path / "labels.v002.slp.241216_121950.predictions.slp"
+    # stimulus_file_path = session_dir_path / "m14_pb_2024-12-12_001_data.mat"
+    # session_type = "natural_exploration"
+    # session_to_nwb(
+    #     ephys_folder_path=ephys_folder_path,
+    #     video_file_path=video_file_path,
+    #     audio_file_path=audio_file_path,
+    #     sleap_file_path=sleap_file_path,
+    #     stimulus_file_path=stimulus_file_path,
+    #     output_dir_path=output_dir_path,
+    #     session_type=session_type,
+    #     stub_test=stub_test,
+    #     verbose=verbose,
+    # )
+
+    # Example Session w/ visual stimulus
+    session_dir_path = data_dir_path / "example_data_ari_02"
     ephys_folder_path = session_dir_path
-    video_file_path = session_dir_path / "m14_pb_2024-12-12_001_CamFlir1_20241212_102813.avi"
-    audio_file_path = session_dir_path / "m14_pb_2024-12-12_001_micrec.mic"
-    sleap_file_path = session_dir_path / "labels.v002.slp.241216_121950.predictions.slp"
-    stimulus_file_path = session_dir_path / "m14_pb_2024-12-12_001_data.mat"
+    video_file_path = session_dir_path / "m14_vr_threat_2024-12-12_001_CamFlir1_20241212_120339.avi"
+    audio_file_path = session_dir_path / "m14_vr_threat_2024-12-12_001_micrec.mic"
+    sleap_file_path = session_dir_path / "labels.v001.slp.241216_143124.predictions.slp"
+    stimulus_file_path = session_dir_path / "m14_vr_threat_2024-12-12_001_data.mat"
     session_type = "natural_exploration"
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
