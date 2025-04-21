@@ -72,9 +72,9 @@ def session_to_nwb(
     source_data.update(dict(Stimulus=dict(file_path=stimulus_file_path)))
     conversion_options.update(dict(Stimulus=dict()))
 
-    # # Add SLEAP
-    # source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
-    # conversion_options.update(dict(SLEAP=dict()))
+    # Add SLEAP
+    source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
+    conversion_options.update(dict(SLEAP=dict()))
 
     converter = Corredera2025NWBConverter(source_data=source_data, verbose=verbose)
     metadata = converter.get_metadata()
@@ -117,14 +117,12 @@ def main():
         shutil.rmtree(output_dir_path, ignore_errors=True)
 
     # Example Session
-    ephys_folder_path = data_dir_path
-    video_file_path = data_dir_path / "m14_pb_2024-12-12_001_CamFlir1_20241212_102813.avi"
-    audio_file_path = data_dir_path / "m14_pb_2024-12-12_001_micrec.mic"
-    sleap_file_path = (
-        data_dir_path
-        / "labels.v001.slp.241216_121950.predictions.000_m14_pb_2024-12-12_001_CamFlir1_20241212_102813.analysis.h5"
-    )
-    stimulus_file_path = data_dir_path / "m14_pb_2024-12-12_001_data.mat"
+    session_dir_path = data_dir_path / "example_data_ari_01"
+    ephys_folder_path = session_dir_path
+    video_file_path = session_dir_path / "m14_pb_2024-12-12_001_CamFlir1_20241212_102813.avi"
+    audio_file_path = session_dir_path / "m14_pb_2024-12-12_001_micrec.mic"
+    sleap_file_path = session_dir_path / "labels.v002.slp.241216_121950.predictions.slp"
+    stimulus_file_path = session_dir_path / "m14_pb_2024-12-12_001_data.mat"
     session_type = "natural_exploration"
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
