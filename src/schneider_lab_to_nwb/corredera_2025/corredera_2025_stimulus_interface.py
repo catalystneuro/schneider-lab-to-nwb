@@ -50,6 +50,22 @@ class Corredera2025StimulusInterface(BaseDataInterface):
                     "items": device_schema,
                     "description": "List of speakers used for audio stimulus.",
                 },
+                "VisualStimulusProperties": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the visual stimulus property.",
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description of the visual stimulus property.",
+                            },
+                        },
+                    },
+                },
             },
         }
         return metadata_schema
@@ -117,6 +133,14 @@ class Corredera2025StimulusInterface(BaseDataInterface):
             name="offset_time",
             description="Time when the visual stimulus (disk) disappears from the screen.",
         )
+        row_properties = dict()
+        for property_metadata in metadata["Stimulus"]["VisualStimulusProperties"]:
+            visual_stimulus_table.add_column(
+                name=property_metadata["name"],
+                description=property_metadata["description"],
+            )
+            row_properties[property_metadata["name"]] = file["vis"][property_metadata["name"]]
+
         # When only one visual stimulus is presented, the timestamps are stored in a 1D array (3,)
         visual_stimulus_timestamps = file["vis"]["visTimeStamps"].reshape(-1, 3)
         for row in visual_stimulus_timestamps:
@@ -124,5 +148,6 @@ class Corredera2025StimulusInterface(BaseDataInterface):
                 onset_time=row[0],
                 peak_expansion_time=row[1],
                 offset_time=row[2],
+                **row_properties,
             )
         nwbfile.add_stimulus(visual_stimulus_table)
