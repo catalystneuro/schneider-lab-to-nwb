@@ -21,7 +21,7 @@ Subject:
   description: Three to four month old, male and female, wild-type C57BL/6J mice from The Jackson Laboratories were used in all experiments.
   strain: C57BL/6J
 
-Session:
+Session: # TODO: Double-check these descriptions
   - name: natural_exploration
     description: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
   - name: vr_exploration

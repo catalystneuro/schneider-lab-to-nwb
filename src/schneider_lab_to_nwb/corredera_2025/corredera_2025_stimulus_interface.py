@@ -95,9 +95,11 @@ class Corredera2025StimulusInterface(BaseDataInterface):
             names = [PureWindowsPath(path).stem for path in file["sounds"][epoch_name]["wavFiles_fullpath"]]
 
             for name, data, rate, presentation_times in zip(names, sound_data, rates, soundTimeStamps):
+                data = data[0, :]
                 rate = float(rate)
                 template_time_series = TimeSeries(
                     name=name,
+                    description="Time series of audio stimulus. See AudioStimulusTable for presentation times.",
                     data=data,
                     unit="a.u.",
                     rate=rate,

@@ -1,6 +1,6 @@
 # Notes concerning the corredera_2025 conversion
 
-## Behavior
+## Stimulus
 - Lots of relevant variables in the .mat files
 - Based on the SfN poster, it looks like there are at least 4 different types of sessions:
     1. 60 min exploration on leaves/rubber (top left)
@@ -9,6 +9,10 @@
     4. exploration with Loom threat (right)
 shared data looks like session type 1.
 - Why are there 2 video files in example_data_ari_02?
+- Skipped ISI bc it's fully recoverable from the stim times
+- Skipped sound_id TTLs (sound data channel 2), bc sounds are already uniquely accounted for by index/name
+- Skipped buffer_handle bc it's fully recoverable from stimulus template time series.
+
 
 ## Video
 
