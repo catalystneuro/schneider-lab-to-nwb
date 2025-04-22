@@ -55,7 +55,7 @@ def session_to_nwb(
     source_data = dict()
     conversion_options = dict()
 
-    # Add Ephys Recording and Sorting
+    # Add Ephys Recording
     num_channels = 64
     sampling_frequency = 25_000.0
     source_data.update(
@@ -65,12 +65,14 @@ def session_to_nwb(
                 num_channels=num_channels,
                 sampling_frequency=sampling_frequency,
                 verbose=verbose,
+                es_key="ElectricalSeriesRaw",
             ),
             ProcessedRecording=dict(
                 file_path=processed_ephys_file_path,
                 num_channels=num_channels,
                 sampling_frequency=sampling_frequency,
                 verbose=verbose,
+                es_key="ElectricalSeriesProcessed",
             ),
         )
     )
@@ -80,6 +82,8 @@ def session_to_nwb(
             ProcessedRecording=dict(stub_test=stub_test, write_as="processed"),
         )
     )
+
+    # Add Sorting
     # source_data.update(dict(Sorting=dict(folder_path=ephys_folder_path, verbose=verbose)))
     # conversion_options.update(dict(Sorting=dict()))
 
