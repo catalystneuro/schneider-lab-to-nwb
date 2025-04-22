@@ -21,6 +21,7 @@ class Corredera2025NWBConverter(NWBConverter):
         Video=ExternalVideoInterface,
         SLEAP=SLEAPInterface,
         Audio=Corredera2025AudioInterface,
-        Recording=Corredera2025WhiteMatterRecordingInterface,
+        RawRecording=Corredera2025WhiteMatterRecordingInterface,
+        ProcessedRecording=Corredera2025WhiteMatterRecordingInterface,
         Stimulus=Corredera2025StimulusInterface,
     )
