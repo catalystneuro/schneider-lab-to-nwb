@@ -74,17 +74,17 @@ def session_to_nwb(
     source_data.update(dict(Video=dict(file_paths=[video_file_path], verbose=verbose, video_name="VideoFLIR")))
     conversion_options.update(dict(Video=dict()))
 
-    # Add Audio
-    source_data.update(dict(Audio=dict(file_path=audio_file_path)))
-    conversion_options.update(dict(Audio=dict(stub_test=stub_test)))
+    # # Add Audio
+    # source_data.update(dict(Audio=dict(file_path=audio_file_path)))
+    # conversion_options.update(dict(Audio=dict(stub_test=stub_test)))
 
     # Add Stimulus
     source_data.update(dict(Stimulus=dict(file_path=stimulus_file_path)))
     conversion_options.update(dict(Stimulus=dict()))
 
-    # Add SLEAP
-    source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
-    conversion_options.update(dict(SLEAP=dict()))
+    # # Add SLEAP
+    # source_data.update(dict(SLEAP=dict(file_path=sleap_file_path, video_file_path=video_file_path, verbose=verbose)))
+    # conversion_options.update(dict(SLEAP=dict()))
 
     converter = Corredera2025NWBConverter(source_data=source_data, verbose=verbose)
     metadata = converter.get_metadata()

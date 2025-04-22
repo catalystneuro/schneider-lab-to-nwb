@@ -41,9 +41,22 @@ Ecephys:
       description: 64-channel P1 Probe Molex Connector ASSY-236
       manufacturer: Cambridge NeuroTech
   ElectrodeGroup:
-    - name: ElectrodeGroup
-      description: ElectrodeGroup for all channels in the recording probe.
+    - name: Shank1
+      description: ElectrodeGroup for all channels in the first shank of the probe.
       device: P1Probe
+      location: Left auditory cortex
+    - name: Shank2
+      description: ElectrodeGroup for all channels in the second shank of the probe.
+      device: P1Probe
+      location: Left auditory cortex
+    - name: Shank3
+      description: ElectrodeGroup for all channels in the third shank of the probe.
+      device: P1Probe
+      location: Left auditory cortex
+    - name: Shank4
+      description: ElectrodeGroup for all channels in the fourth shank of the probe.
+      device: P1Probe
+      location: Left auditory cortex
   ElectricalSeries:
     - name: ElectricalSeries
       description: Extracellular voltage traces recorded by the probe.
