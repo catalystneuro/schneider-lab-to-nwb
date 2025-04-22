@@ -10,6 +10,7 @@ from neuroconv.datainterfaces import (
 from schneider_lab_to_nwb.corredera_2025 import (
     Corredera2025AudioInterface,
     Corredera2025StimulusInterface,
+    Corredera2025WhiteMatterRecordingInterface,
 )
 
 
@@ -20,6 +21,6 @@ class Corredera2025NWBConverter(NWBConverter):
         Video=ExternalVideoInterface,
         SLEAP=SLEAPInterface,
         Audio=Corredera2025AudioInterface,
-        Recording=WhiteMatterRecordingInterface,
+        Recording=Corredera2025WhiteMatterRecordingInterface,
         Stimulus=Corredera2025StimulusInterface,
     )
