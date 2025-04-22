@@ -59,7 +59,7 @@ def session_to_nwb(
     source_data.update(
         dict(
             Recording=dict(
-                file_paths=[ephys_file_path],
+                file_path=ephys_file_path,
                 num_channels=num_channels,
                 sampling_frequency=sampling_frequency,
                 verbose=verbose,
