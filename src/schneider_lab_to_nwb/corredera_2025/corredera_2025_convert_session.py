@@ -14,6 +14,7 @@ def session_to_nwb(
     output_dir_path: DirectoryPath,
     raw_ephys_file_path: FilePath,
     processed_ephys_file_path: FilePath,
+    sorting_folder_path: DirectoryPath,
     video_file_path: FilePath,
     sleap_file_path: FilePath,
     audio_file_path: FilePath,
@@ -47,6 +48,7 @@ def session_to_nwb(
     """
     raw_ephys_file_path = Path(raw_ephys_file_path)
     processed_ephys_file_path = Path(processed_ephys_file_path)
+    sorting_folder_path = Path(sorting_folder_path)
     video_file_path = Path(video_file_path)
     sleap_file_path = Path(sleap_file_path)
     output_dir_path = Path(output_dir_path)
@@ -84,8 +86,8 @@ def session_to_nwb(
     )
 
     # Add Sorting
-    # source_data.update(dict(Sorting=dict(folder_path=ephys_folder_path, verbose=verbose)))
-    # conversion_options.update(dict(Sorting=dict()))
+    source_data.update(dict(Sorting=dict(folder_path=sorting_folder_path, verbose=verbose)))
+    conversion_options.update(dict(Sorting=dict()))
 
     # Add Video
     source_data.update(dict(Video=dict(file_paths=[video_file_path], verbose=verbose, video_name="VideoFLIR")))
@@ -149,6 +151,7 @@ def main():
     processed_ephys_file_path = (
         session_dir_path / "preKS_HSW_2024_12_12__10_28_23__70min_17sec__hsamp_64ch_25000sps.bin"
     )
+    sorting_folder_path = session_dir_path / "kilosort4_curated"
     video_file_path = session_dir_path / "m14_pb_2024-12-12_001_CamFlir1_20241212_102813.avi"
     audio_file_path = session_dir_path / "m14_pb_2024-12-12_001_micrec.mic"
     sleap_file_path = session_dir_path / "labels.v002.slp.241216_121950.predictions.slp"
@@ -157,6 +160,7 @@ def main():
     session_to_nwb(
         raw_ephys_file_path=raw_ephys_file_path,
         processed_ephys_file_path=processed_ephys_file_path,
+        sorting_folder_path=sorting_folder_path,
         video_file_path=video_file_path,
         audio_file_path=audio_file_path,
         sleap_file_path=sleap_file_path,

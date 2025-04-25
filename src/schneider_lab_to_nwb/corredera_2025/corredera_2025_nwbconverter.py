@@ -23,5 +23,6 @@ class Corredera2025NWBConverter(NWBConverter):
         Audio=Corredera2025AudioInterface,
         RawRecording=Corredera2025WhiteMatterRecordingInterface,
         ProcessedRecording=Corredera2025WhiteMatterRecordingInterface,
+        Sorting=PhySortingInterface,
         Stimulus=Corredera2025StimulusInterface,
     )
