@@ -81,8 +81,8 @@ Audio:
 Stimulus:
   Speakers:
     - name: Speaker1
-      description: TODO -- add description here.
-      manufacturer: TODO -- add manufacturer here.
+      description: AS05308AS-R Speaker from PUI Audio -- 8 Ohms Full Range Speaker 10 W 100 Hz ~ 40 kHz Top Round, Square Frame
+      manufacturer: PUI Audio, Inc.
   VisualStimulusProperties: # TODO: Double-check these descriptions
     - name: post_stim_interval_sec
       description: Time interval in seconds after the stimulus presentation.
