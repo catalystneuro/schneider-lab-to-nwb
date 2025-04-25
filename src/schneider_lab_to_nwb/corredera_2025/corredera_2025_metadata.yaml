@@ -65,16 +65,16 @@ Audio:
     description: Audio recording from four AVISOFT microphones.
   Microphones:
     - name: Microphone1
-      description: AVISOFT microphone 1. # TODO: Add model here.
+      description: Condenser ultrasound microphone Avisoft-Bioacoustics CM16/CMPA, located in the top left corner.
       manufacturer: AVISOFT
     - name: Microphone2
-      description: AVISOFT microphone 2. # TODO: Add model here.
+      description: Condenser ultrasound microphone Avisoft-Bioacoustics CM16/CMPA, located in the top right corner.
       manufacturer: AVISOFT
     - name: Microphone3
-      description: AVISOFT microphone 3. # TODO: Add model here.
+      description: Condenser ultrasound microphone Avisoft-Bioacoustics CM16/CMPA, located in the bottom right corner.
       manufacturer: AVISOFT
     - name: Microphone4
-      description: AVISOFT microphone 4. # TODO: Add model here.
+      description: Condenser ultrasound microphone Avisoft-Bioacoustics CM16/CMPA, located in the bottom left corner.
       manufacturer: AVISOFT
 
 
