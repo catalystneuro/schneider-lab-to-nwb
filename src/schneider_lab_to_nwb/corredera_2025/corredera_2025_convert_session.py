@@ -113,7 +113,7 @@ def session_to_nwb(
     editable_metadata = load_dict_from_file(editable_metadata_path)
     metadata = dict_deep_update(metadata, editable_metadata)
 
-    # conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
+    conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
 
     session_id = metadata["NWBFile"]["session_id"]
     subject_id = metadata["Subject"]["subject_id"]

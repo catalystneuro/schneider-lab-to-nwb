@@ -98,5 +98,6 @@ Stimulus:
     - name: Speaker1
       description: TODO -- add description here.
       manufacturer: TODO -- add manufacturer here.
-# Sorting:
-#   units_description: TODO -- add units description here.
+
+Sorting:
+  units_description: Neural spikes were sorted offline using Kilosort 4 and Phy2 software and manually curated to ensure precise spike time acquisition.
