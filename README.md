@@ -142,10 +142,39 @@ dandi upload --sync
 the extra options for dandi organize will ensure that the external movie files are organized and uploaded properly.
 The --sync option removes extra external files on the dandi archive, which are renamed during the organize step.
 
-## Updating the conversion code
+## Contributing Your Changes
 
-### TODOs
+This section guides you through the process of extending the repository with your own custom changes and submitting them back to the main repository. Note that this process is temporary for syncing between the CatalystNeuro fork and the Schneider lab's fork until the official end of the conversion, after which the Schneider lab will maintain their own fork.
 
+### Step 1: Create a GitHub account
+1. Go to [https://github.com/](https://github.com/)
+2. Sign up for a new account if you don't already have one
+
+### Step 2: Fork the repository
+1. Navigate to [https://github.com/catalystneuro/schneider-lab-to-nwb](https://github.com/catalystneuro/schneider-lab-to-nwb)
+2. Click the "Fork" button in the top-right corner of the page
+3. This creates a copy of the repository under your GitHub account
+
+### Step 3: Clone your fork locally
+```bash
+git clone https://github.com/YOUR_USERNAME/schneider-lab-to-nwb
+cd schneider-lab-to-nwb
+```
+Replace `YOUR_USERNAME` with your GitHub username.
+
+### Step 4: Set up the development environment
+```bash
+conda env create --file make_env.yml
+conda activate schneider_lab_to_nwb_env
+```
+
+### Step 5: Create a new branch for your changes
+```bash
+git checkout -b your-feature-name
+```
+Use a descriptive name for your branch that reflects the changes you're making.
+
+### Step 6: Address TODOs
 There are some placeholders in the current version of the conversion that will need to be filled in by the Schneider Lab
 before the conversion can be completed with the full data/metadata. These placeholders are marked with TODOs in the code
 to make them easier to spot, and a list is provided below for convenience:
@@ -157,3 +186,22 @@ to make them easier to spot, and a list is provided below for convenience:
     placeholder. Please specify the genotype for each subject, and it will automatically propagate to the NWB file.
 * In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 51, the mapping between subject_id and sex is a
     placeholder. Please specify the sex for each subject, and it will automatically propagate to the NWB file.
+
+### Step 8: Commit your changes
+```bash
+git add .
+git commit . -m "Brief description of your changes"
+```
+
+### Step 9: Push your changes to your fork
+```bash
+git push -u origin your-feature-name
+```
+
+### Step 10: Create a Pull Request
+1. Go to your fork on GitHub at `https://github.com/YOUR_USERNAME/schneider-lab-to-nwb`
+2. Click on "Pull request"
+3. Click "New pull request"
+4. Select your branch from the dropdown
+5. Add a title and description explaining your changes
+6. Click "Create pull request"
