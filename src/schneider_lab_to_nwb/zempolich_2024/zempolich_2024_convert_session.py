@@ -174,8 +174,8 @@ def add_session_start_time_to_metadata(
 
 def main():
     # Parameters for conversion
-    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Grant Zempolich Project Data")
-    output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb")
+    data_dir_path = Path("Z:\\Users\\Grant\\New Project Data for Conversion")
+    output_dir_path = Path("Z:\\Users\\Grant\\New Project Data for Conversion\\SavedOutput")
     stub_test = False
     verbose = True
 
