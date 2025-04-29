@@ -127,20 +127,6 @@ To convert the whole dataset,
 Note that the dataset conversion uses multiprocessing, currently set to 4 workers.  To use more or fewer workers, simply
 change the `max_workers` argument to `dataset_to_nwb()`.
 
-### TODOs
-
-There are some placeholders in the current version of the conversion that will need to be filled in by the Schneider Lab
-before the conversion can be completed with the full data/metadata. These placeholders are marked with TODOs in the code
-to make them easier to spot, and a list is provided below for convenience:
-
-* In `src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_open_ephys_recording_interface.py` Line 36,
-    channel_positions are truncated to account for the 1-channel ephys data provided in the google drive. Lines 36-37
-    will need to be removed to enable running the conversion on the full ephys data.
-* In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 29, the mapping between subject_id and genotype is a
-    placeholder. Please specify the genotype for each subject, and it will automatically propagate to the NWB file.
-* In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 51, the mapping between subject_id and sex is a
-    placeholder. Please specify the sex for each subject, and it will automatically propagate to the NWB file.
-
 ## Uploading to DANDI
 
 To upload the data to DANDI, follow the instructions [here](https://docs.dandiarchive.org/13_upload/), with the following changes:
@@ -155,3 +141,19 @@ dandi upload --sync
 ```
 the extra options for dandi organize will ensure that the external movie files are organized and uploaded properly.
 The --sync option removes extra external files on the dandi archive, which are renamed during the organize step.
+
+## Updating the conversion code
+
+### TODOs
+
+There are some placeholders in the current version of the conversion that will need to be filled in by the Schneider Lab
+before the conversion can be completed with the full data/metadata. These placeholders are marked with TODOs in the code
+to make them easier to spot, and a list is provided below for convenience:
+
+* In `src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_open_ephys_recording_interface.py` Line 36,
+    channel_positions are truncated to account for the 1-channel ephys data provided in the google drive. Lines 36-37
+    will need to be removed to enable running the conversion on the full ephys data.
+* In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 29, the mapping between subject_id and genotype is a
+    placeholder. Please specify the genotype for each subject, and it will automatically propagate to the NWB file.
+* In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 51, the mapping between subject_id and sex is a
+    placeholder. Please specify the sex for each subject, and it will automatically propagate to the NWB file.
