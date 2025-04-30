@@ -115,7 +115,7 @@ To convert the 5 example sessions,
     ```bash
     python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_session.py
     ```
-2*. In Windows, run
+    Or, if running the conversion on a Windows machine, run
     ```bash
     python src\\schneider_lab_to_nwb\\zempolich_2024\\zempolich_2024_convert_session.py
     ```
@@ -127,7 +127,7 @@ To convert the whole dataset,
     ```bash
     python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_all_sessions.py
     ```
-2*. In Windows, run
+    Or, if running the conversion on a Windows machine, run
     ```bash
     python src\\schneider_lab_to_nwb\\zempolich_2024\\zempolich_2024_convert_all_sessions.py
     ```
