@@ -115,6 +115,10 @@ To convert the 5 example sessions,
     ```bash
     python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_session.py
     ```
+2*. In Windows, run
+    ```bash
+    python src\\schneider_lab_to_nwb\\zempolich_2024\\zempolich_2024_convert_session.py
+    ```
 
 To convert the whole dataset,
 1. Update `data_dir_path` and `output_dir_path` in `src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_all_sessions.py`
@@ -122,6 +126,10 @@ To convert the whole dataset,
 2. simply run
     ```bash
     python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_all_sessions.py
+    ```
+2*. In Windows, run
+    ```bash
+    python src\\schneider_lab_to_nwb\\zempolich_2024\\zempolich_2024_convert_all_sessions.py
     ```
 
 Note that the dataset conversion uses multiprocessing, currently set to 4 workers.  To use more or fewer workers, simply
