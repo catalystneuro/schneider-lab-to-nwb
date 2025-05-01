@@ -143,7 +143,7 @@ To upload the data to DANDI, follow the instructions [here](https://docs.dandiar
 ```bash
 dandi download https://dandiarchive.org/dandiset/<dataset_id>/draft
 cd <dataset_id>
-dandi organize <source_folder> --update-external-file-paths --files-mode copy
+dandi organize <source_folder> --update-external-file-paths --files-mode copy --media-files-mode copy
 dandi validate .
 dandi upload --sync
 ```
