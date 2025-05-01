@@ -137,7 +137,7 @@ change the `max_workers` argument to `dataset_to_nwb()`.
 
 ## Uploading to DANDI
 
-To upload the data to DANDI, follow the instructions [here](https://docs.dandiarchive.org/13_upload/), with the following changes:
+To upload the data to DANDI, follow the instructions [here](https://docs.dandiarchive.org/user-guide-sharing/uploading-data/), with the following changes:
 
 * For step 5, instead of running the code as it appears in the instructions, use this
 ```bash
