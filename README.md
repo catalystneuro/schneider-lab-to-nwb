@@ -115,6 +115,10 @@ To convert the 5 example sessions,
     ```bash
     python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_session.py
     ```
+    Or, if running the conversion on a Windows machine, run
+    ```bash
+    python src\\schneider_lab_to_nwb\\zempolich_2024\\zempolich_2024_convert_session.py
+    ```
 
 To convert the whole dataset,
 1. Update `data_dir_path` and `output_dir_path` in `src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_all_sessions.py`
@@ -123,12 +127,56 @@ To convert the whole dataset,
     ```bash
     python src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_convert_all_sessions.py
     ```
+    Or, if running the conversion on a Windows machine, run
+    ```bash
+    python src\\schneider_lab_to_nwb\\zempolich_2024\\zempolich_2024_convert_all_sessions.py
+    ```
 
 Note that the dataset conversion uses multiprocessing, currently set to 4 workers.  To use more or fewer workers, simply
 change the `max_workers` argument to `dataset_to_nwb()`.
 
-### TODOs
+## Uploading to DANDI
 
+To upload the data to DANDI, follow the instructions [here](https://docs.dandiarchive.org/user-guide-sharing/uploading-data/), with the following changes:
+
+* For step 5, instead of running the code as it appears in the instructions, use this
+```bash
+dandi download https://dandiarchive.org/dandiset/<dataset_id>/draft
+cd <dataset_id>
+dandi organize <source_folder> --update-external-file-paths --files-mode copy --media-files-mode copy
+dandi validate .
+dandi upload --sync
+```
+the extra options for dandi organize will ensure that the external movie files are organized and uploaded properly.
+The --sync option removes extra external files on the dandi archive, which are renamed during the organize step.
+
+## Contributing Your Changes
+
+This section guides you through the process of extending the repository with your own custom changes and submitting them back to the main repository. Note that this process is temporary for syncing between the CatalystNeuro fork and the Schneider lab's fork until the official end of the conversion, after which the Schneider lab will maintain their own fork.
+
+### Step 1: Create a GitHub account
+1. Go to [https://github.com/](https://github.com/)
+2. Sign up for a new account if you don't already have one
+
+### Step 2: Fork the repository
+1. Navigate to [https://github.com/catalystneuro/schneider-lab-to-nwb](https://github.com/catalystneuro/schneider-lab-to-nwb)
+2. Click the "Fork" button in the top-right corner of the page
+3. This creates a copy of the repository under your GitHub account
+
+### Step 3: Clone your fork locally
+```bash
+git clone https://github.com/YOUR_USERNAME/schneider-lab-to-nwb
+cd schneider-lab-to-nwb
+```
+Replace `YOUR_USERNAME` with your GitHub username.
+
+### Step 4: Create a new branch for your changes
+```bash
+git checkout -b your-feature-name
+```
+Use a descriptive name for your branch that reflects the changes you're making.
+
+### Step 5: Address TODOs
 There are some placeholders in the current version of the conversion that will need to be filled in by the Schneider Lab
 before the conversion can be completed with the full data/metadata. These placeholders are marked with TODOs in the code
 to make them easier to spot, and a list is provided below for convenience:
@@ -141,17 +189,21 @@ to make them easier to spot, and a list is provided below for convenience:
 * In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 51, the mapping between subject_id and sex is a
     placeholder. Please specify the sex for each subject, and it will automatically propagate to the NWB file.
 
-## Uploading to DANDI
-
-To upload the data to DANDI, follow the instructions [here](https://docs.dandiarchive.org/13_upload/), with the following changes:
-
-* For step 5, instead of running the code as it appears in the instructions, use this
+### Step 6: Commit your changes
 ```bash
-dandi download https://dandiarchive.org/dandiset/<dataset_id>/draft
-cd <dataset_id>
-dandi organize <source_folder> --update-external-file-paths --files-mode copy
-dandi validate .
-dandi upload --sync
+git add .
+git commit . -m "Brief description of your changes"
 ```
-the extra options for dandi organize will ensure that the external movie files are organized and uploaded properly.
-The --sync option removes extra external files on the dandi archive, which are renamed during the organize step.
+
+### Step 7: Push your changes to your fork
+```bash
+git push -u origin your-feature-name
+```
+
+### Step 8: Create a Pull Request
+1. Go to your fork on GitHub at `https://github.com/YOUR_USERNAME/schneider-lab-to-nwb`
+2. Click on "Pull request"
+3. Click "New pull request"
+4. Select your branch from the dropdown
+5. Add a title and description explaining your changes
+6. Click "Create pull request"

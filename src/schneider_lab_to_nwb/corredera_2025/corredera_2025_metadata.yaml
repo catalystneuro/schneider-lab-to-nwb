@@ -21,7 +21,7 @@ Subject:
   description: Three to four month old, male and female, wild-type C57BL/6J mice from The Jackson Laboratories were used in all experiments.
   strain: C57BL/6J
 
-Session:
+Session: # TODO: Double-check these descriptions
   - name: natural_exploration
     description: Mice explored a square arena with a natural substrate (leaves) and an artificial surface (rubber) for 60 minutes while audio, video, and auditory cortex electrophysiological activity were recorded.
   - name: vr_exploration
@@ -34,6 +34,7 @@ Session:
 SubjectMaps:
   subject_id_to_sex: # TODO: Replace with actual sex (M, F, U, or O)
     m14_pb: U
+    m14_vr_threat: U
 
 Ecephys:
   Device:
@@ -64,23 +65,77 @@ Audio:
     description: Audio recording from four AVISOFT microphones.
   Microphones:
     - name: Microphone1
-      description: AVISOFT microphone 1. # TODO: Add model here.
+      description: Condenser ultrasound microphone Avisoft-Bioacoustics CM16/CMPA, located in the top left corner.
       manufacturer: AVISOFT
     - name: Microphone2
-      description: AVISOFT microphone 2. # TODO: Add model here.
+      description: Condenser ultrasound microphone Avisoft-Bioacoustics CM16/CMPA, located in the top right corner.
       manufacturer: AVISOFT
     - name: Microphone3
-      description: AVISOFT microphone 3. # TODO: Add model here.
+      description: Condenser ultrasound microphone Avisoft-Bioacoustics CM16/CMPA, located in the bottom right corner.
       manufacturer: AVISOFT
     - name: Microphone4
-      description: AVISOFT microphone 4. # TODO: Add model here.
+      description: Condenser ultrasound microphone Avisoft-Bioacoustics CM16/CMPA, located in the bottom left corner.
       manufacturer: AVISOFT
 
 
 Stimulus:
   Speakers:
     - name: Speaker1
-      description: TODO -- add description here.
-      manufacturer: TODO -- add manufacturer here.
+      description: AS05308AS-R Speaker from PUI Audio -- 8 Ohms Full Range Speaker 10 W 100 Hz ~ 40 kHz Top Round, Square Frame
+      manufacturer: PUI Audio, Inc.
+  VisualStimulusProperties: # TODO: Double-check these descriptions
+    - name: post_stim_interval_sec
+      description: Time interval in seconds after the stimulus presentation.
+    - name: win
+      description: Window size for the visual stimulus presentation in pixels.
+    - name: screenRect
+      description: Screen rectangle dimensions in pixels [x y width height].
+    - name: width_px
+      description: Width of the display in pixels.
+    - name: height_px
+      description: Height of the display in pixels.
+    - name: ifi
+      description: Inter-frame interval in seconds.
+    - name: sigma
+      description: Sigma parameter for Gaussian smoothing of the visual stimulus.
+    - name: useAlpha
+      description: Boolean flag indicating whether alpha blending is used.
+    - name: smoothMethod
+      description: Method used for smoothing the visual stimulus (1 = Gaussian).
+    - name: rotAngle
+      description: Rotation angle of the stimulus in degrees.
+    - name: myAlpha
+      description: Alpha transparency value for the stimulus.
+    - name: discColor
+      description: RGBA color values for the disc stimulus [R G B A].
+    - name: pixel_cm
+      description: Horizontal pixels per centimeter conversion factor.
+    - name: pixel_cm_vert
+      description: Vertical pixels per centimeter conversion factor.
+    - name: degperpix
+      description: Visual degrees per pixel at the viewing distance.
+    - name: pixperdeg
+      description: Pixels per visual degree at the viewing distance.
+    - name: width_deg
+      description: Width of the display in visual degrees.
+    - name: height_deg
+      description: Height of the display in visual degrees.
+    - name: radius_init_px
+      description: Initial radius of the visual stimulus in pixels.
+    - name: discSize_init_px
+      description: Initial diameter of the disc stimulus in pixels.
+    - name: expansionIncrement_degpf
+      description: Expansion increment in degrees per frame.
+    - name: expansionIncrement_pxpf
+      description: Expansion increment in pixels per frame.
+    - name: discSize_end_px
+      description: Final diameter of the disc stimulus in pixels.
+    - name: discTexture
+      description: Texture identifier for the disc stimulus.
+    - name: texRect
+      description: Texture rectangle dimensions in pixels [x y width height].
+    - name: dstRects
+      description: Destination rectangle coordinates for the stimulus [x y width height].
+
 # Sorting:
 #   units_description: TODO -- add units description here.
