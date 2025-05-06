@@ -211,9 +211,9 @@ def get_brain_region_kwargs(
 if __name__ == "__main__":
 
     # Parameters for conversion
-    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Grant Zempolich Project Data")
-    output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb")
-    max_workers = 4
+    data_dir_path = Path("Z:\\Users\\Grant\\New Project Data for Conversion")
+    output_dir_path = Path("Z:\\Users\\Grant\\New Project Data for Conversion\\SavedOutput")
+    max_workers = 16
     if output_dir_path.exists():
         shutil.rmtree(
             output_dir_path, ignore_errors=True

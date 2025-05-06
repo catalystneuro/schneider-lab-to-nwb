@@ -26,50 +26,50 @@ BrainRegion:
     optogenetic_stimulus_site_location: Secondary Motor Cortex (1.0-1.5 AP, 0.5-0.7 ML)
 
 SubjectMaps:
-  subject_id_to_genotype: # TODO: Replace with actual genotype
-    m53: C57BL/6 or VGATChR2-EYFP
-    m54: C57BL/6 or VGATChR2-EYFP
-    m55: C57BL/6 or VGATChR2-EYFP
-    m63: C57BL/6 or VGATChR2-EYFP
-    m64: C57BL/6 or VGATChR2-EYFP
-    m65: C57BL/6 or VGATChR2-EYFP
-    m66: C57BL/6 or VGATChR2-EYFP
-    m67: C57BL/6 or VGATChR2-EYFP
-    m69: C57BL/6 or VGATChR2-EYFP
-    m70: C57BL/6 or VGATChR2-EYFP
-    m71: C57BL/6 or VGATChR2-EYFP
-    m72: C57BL/6 or VGATChR2-EYFP
-    m73: C57BL/6 or VGATChR2-EYFP
-    m74: C57BL/6 or VGATChR2-EYFP
-    m75: C57BL/6 or VGATChR2-EYFP
-    m76: C57BL/6 or VGATChR2-EYFP
-    m77: C57BL/6 or VGATChR2-EYFP
-    m78: C57BL/6 or VGATChR2-EYFP
-    m79: C57BL/6 or VGATChR2-EYFP
-    m80: C57BL/6 or VGATChR2-EYFP
-    m81: C57BL/6 or VGATChR2-EYFP
-  subject_id_to_sex: # TODO: Replace with actual sex (M, F, U, or O)
-    m53: U
-    m54: U
-    m55: U
-    m63: U
-    m64: U
-    m65: U
-    m66: U
-    m67: U
-    m69: U
-    m70: U
-    m71: U
-    m72: U
-    m73: U
-    m74: U
-    m75: U
-    m76: U
-    m77: U
-    m78: U
-    m79: U
-    m80: U
-    m81: U
+  subject_id_to_genotype:
+    m53: C57BL/6
+    m54: C57BL/6
+    m55: C57BL/6
+    m63: VGATChR2-EYFP (+)
+    m64: VGATChR2-EYFP (+)
+    m65: VGATChR2-EYFP (+)
+    m66: VGATChR2-EYFP (+)
+    m67: VGATChR2-EYFP (-)
+    m69: VGATChR2-EYFP (+)
+    m70: VGATChR2-EYFP (+)
+    m71: VGATChR2-EYFP (+)
+    m72: VGATChR2-EYFP (+)
+    m73: C57BL/6
+    m74: C57BL/6
+    m75: VGATChR2-EYFP (+)
+    m76: VGATChR2-EYFP (+)
+    m77: VGATChR2-EYFP (+)
+    m78: VGATChR2-EYFP (+)
+    m79: VGATChR2-EYFP (-)
+    m80: VGATChR2-EYFP (-)
+    m81: VGATChR2-EYFP (-)
+  subject_id_to_sex:
+    m53: F
+    m54: F
+    m55: F
+    m63: M
+    m64: M
+    m65: M
+    m66: M
+    m67: M
+    m69: F
+    m70: F
+    m71: F
+    m72: F
+    m73: M
+    m74: M
+    m75: F
+    m76: F
+    m77: M
+    m78: M
+    m79: F
+    m80: F
+    m81: F
 
 Session:
   - name: A1_EphysBehavioralFiles
