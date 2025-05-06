@@ -170,19 +170,13 @@ cd schneider-lab-to-nwb
 ```
 Replace `YOUR_USERNAME` with your GitHub username.
 
-### Step 4: Set up the development environment
-```bash
-conda env create --file make_env.yml
-conda activate schneider_lab_to_nwb_env
-```
-
-### Step 5: Create a new branch for your changes
+### Step 4: Create a new branch for your changes
 ```bash
 git checkout -b your-feature-name
 ```
 Use a descriptive name for your branch that reflects the changes you're making.
 
-### Step 6: Address TODOs
+### Step 5: Address TODOs
 There are some placeholders in the current version of the conversion that will need to be filled in by the Schneider Lab
 before the conversion can be completed with the full data/metadata. These placeholders are marked with TODOs in the code
 to make them easier to spot, and a list is provided below for convenience:
@@ -195,18 +189,18 @@ to make them easier to spot, and a list is provided below for convenience:
 * In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 51, the mapping between subject_id and sex is a
     placeholder. Please specify the sex for each subject, and it will automatically propagate to the NWB file.
 
-### Step 8: Commit your changes
+### Step 6: Commit your changes
 ```bash
 git add .
 git commit . -m "Brief description of your changes"
 ```
 
-### Step 9: Push your changes to your fork
+### Step 7: Push your changes to your fork
 ```bash
 git push -u origin your-feature-name
 ```
 
-### Step 10: Create a Pull Request
+### Step 8: Create a Pull Request
 1. Go to your fork on GitHub at `https://github.com/YOUR_USERNAME/schneider-lab-to-nwb`
 2. Click on "Pull request"
 3. Click "New pull request"
