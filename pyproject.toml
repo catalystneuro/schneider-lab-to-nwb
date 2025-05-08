@@ -22,6 +22,7 @@ dependencies = [
   "pillow==11.1.0",
   "opencv-python==4.10.0.84",
   "pre-commit",
+  "lxml==5.4.0",  # for OpenEphysBinaryRecordingInterface
 ]
 
 [project.urls]
