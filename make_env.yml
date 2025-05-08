@@ -1,9 +1,0 @@
-name: schneider_lab_to_nwb_env
-channels:
-- conda-forge
-- defaults
-dependencies:
-- python==3.12
-- pip
-- pip:
-  - -e .  # This calls the setup and therefore pyproject.toml dependencies
