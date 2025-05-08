@@ -14,6 +14,7 @@ classifiers = [
 dependencies = [
   "pre-commit",
   "pymatreader==1.0.0",
+  "opencv-python",
 ]
 
 [project.optional-dependencies]
@@ -24,7 +25,6 @@ zempolich_2024 = [
   "ndx-events==0.2.0",
   "spikeinterface==0.101.2",
   "pillow==11.1.0",
-  "opencv-python==4.10.0.84",
 ]
 
 corredera_2025 = [
