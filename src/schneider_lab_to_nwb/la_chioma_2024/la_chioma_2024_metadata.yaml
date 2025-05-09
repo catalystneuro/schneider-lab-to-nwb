@@ -1,0 +1,18 @@
+NWBFile:
+  # keywords:
+    # TODO: Add keywords here
+  # experiment_description:
+    # TODO: Add experiment description here
+  institution: New York University
+  lab: Schneider
+  experimenter:
+    - La Chioma, Alessandro
+    - Schneider, David M.
+
+#Subject:
+#  species: # Add species here
+#  age: # Add age here
+#  description: # Add description here
+#  strain: # Add strain here
+
+# Add other metadata sections
