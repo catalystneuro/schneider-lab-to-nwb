@@ -9,8 +9,8 @@ From a terminal (note that conda should install one in your system) you can do t
 ```bash
 git clone https://github.com/catalystneuro/schneider-lab-to-nwb
 cd schneider-lab-to-nwb
-conda env create --file make_env.yml
-conda activate schneider_lab_to_nwb_env
+conda env create --file zempolich_2024_env.yml
+conda activate zempolich_2024_env
 ```
 
 This creates a [conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html) which isolates the conversion code from your system libraries.  We recommend that you run all your conversion related tasks and analysis from the created environment in order to minimize issues related to package dependencies.
@@ -23,8 +23,8 @@ git clone https://github.com/your_github_username/schneider-lab-to-nwb
 Then you can run
 ```bash
 cd schneider-lab-to-nwb
-conda env create --file make_env.yml
-conda activate schneider_lab_to_nwb_env
+conda env create --file zempolich_2024_env.yml
+conda activate zempolich_2024_env
 ```
 
 Alternatively, if you want to avoid conda altogether (for example if you use another virtual environment tool) you can install the repository with the following commands using only pip:
@@ -32,12 +32,27 @@ Alternatively, if you want to avoid conda altogether (for example if you use ano
 ```bash
 git clone https://github.com/catalystneuro/schneider-lab-to-nwb
 cd schneider-lab-to-nwb
-pip install -e .
+pip install -e ".[zempolich_2024]"
 ```
 
 Note:
 both of the methods above install the repository in [editable mode](https://pip.pypa.io/en/stable/cli/pip_install/#editable-installs).
 The dependencies for this environment are stored in the dependencies section of the `pyproject.toml` file.
+
+Each conversion has a separate environment to avoid dependency conflicts (zempolich_2024, corredera_2025, etc.), so to
+run the other conversions just replace 'zempolich_2024' with the appropriate conversion name.
+
+If you run into any installation issues due to updated dependencies, a fully specified locked version of the dependencies
+used to run each conversion are listed in the `requirements-frozen.txt` file. To install from these frozen dependencies,
+
+```bash
+git clone https://github.com/catalystneuro/schneider-lab-to-nwb
+cd schneider-lab-to-nwb
+conda create --name zempolich_2024_env --python=3.12
+conda activate zempolich_2024_env
+pip install -r src/schneider_lab_to_nwb/zempolich_2024/requirements-frozen.txt
+pip install -e .
+```
 
 ## Helpful Definitions
 
