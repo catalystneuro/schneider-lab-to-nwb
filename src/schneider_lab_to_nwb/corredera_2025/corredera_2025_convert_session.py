@@ -158,7 +158,9 @@ def main():
     stimulus_file_path = session_dir_path / "m14_pb_2024-12-12_001_data.mat"
     session_type = "loom_threat"
     session_to_nwb(
-        ephys_folder_path=ephys_folder_path,
+        raw_ephys_file_path=raw_ephys_file_path,
+        processed_ephys_file_path=processed_ephys_file_path,
+        sorting_folder_path=sorting_folder_path,
         video_file_path=video_file_path,
         audio_file_path=audio_file_path,
         sleap_file_path=sleap_file_path,
@@ -171,7 +173,10 @@ def main():
 
     # Example Session w/ visual stimulus
     session_dir_path = data_dir_path / "example_data_ari_02"
-    ephys_folder_path = session_dir_path
+    raw_ephys_file_path = session_dir_path / "HSW_2024_12_12__12_03_48__59min_14sec__hsamp_64ch_25000sps.bin"
+    processed_ephys_file_path = (
+        session_dir_path / "preKS_HSW_2024_12_12__12_03_48__59min_14sec__hsamp_64ch_25000sps.bin"
+    )
     video_file_path = session_dir_path / "m14_vr_threat_2024-12-12_001_CamFlir1_20241212_120339.avi"
     audio_file_path = session_dir_path / "m14_vr_threat_2024-12-12_001_micrec.mic"
     sleap_file_path = session_dir_path / "labels.v001.slp.241216_143124.predictions.slp"
