@@ -46,6 +46,11 @@ def session_to_nwb(
     converter = LaChioma2024NWBConverter(source_data=source_data, verbose=verbose)
     metadata = converter.get_metadata()
 
+    # Add timezone for session start time
+    session_start_time = metadata["NWBFile"]["session_start_time"]
+    session_start_time = session_start_time.replace(tzinfo=ZoneInfo("US/Eastern"))
+    metadata["NWBFile"].update(session_start_time=session_start_time)
+
     # Load metadata
     editable_metadata_path = Path(__file__).parent / "la_chioma_2024_metadata.yaml"
     editable_metadata = load_dict_from_file(editable_metadata_path)
@@ -59,7 +64,7 @@ def session_to_nwb(
     )
 
 
-if __name__ == "__main__":
+def main():
     # Parameters for conversion
     data_dir_path = Path("/Volumes/T9/data/Alessandro La Chioma Project Data")
     output_dir_path = data_dir_path / "nwbfiles"
@@ -78,3 +83,7 @@ if __name__ == "__main__":
         stub_test=stub_test,
         verbose=verbose,
     )
+
+
+if __name__ == "__main__":
+    main()
