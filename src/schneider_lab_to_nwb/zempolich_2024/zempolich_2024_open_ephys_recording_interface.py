@@ -33,8 +33,8 @@ class Zempolich2024OpenEphysRecordingInterface(OpenEphysLegacyRecordingInterface
         """
         folder_path = self.source_data["folder_path"]
         channel_positions = np.load(folder_path / "channel_positions.npy")
-        if True:  # TODO: Remove this if block once all channels are present in the data
-            channel_positions = channel_positions[:1, :]
+        """if True:  # TODO: Remove this if block once all channels are present in the data
+            channel_positions = channel_positions[:1, :]"""
         location = metadata["BrainRegion"][brain_region]["electrode_group_location"]
         for electrode_group in metadata["Ecephys"]["ElectrodeGroup"]:
             electrode_group["location"] = location
