@@ -12,7 +12,9 @@ from schneider_lab_to_nwb.corredera_2025 import Corredera2025NWBConverter
 
 def session_to_nwb(
     output_dir_path: DirectoryPath,
-    ephys_folder_path: DirectoryPath,
+    raw_ephys_file_path: FilePath,
+    processed_ephys_file_path: FilePath,
+    sorting_folder_path: DirectoryPath,
     video_file_path: FilePath,
     sleap_file_path: FilePath,
     audio_file_path: FilePath,
@@ -44,7 +46,9 @@ def session_to_nwb(
     verbose : bool, optional
         Whether to print verbose output, by default True.
     """
-    ephys_folder_path = Path(ephys_folder_path)
+    raw_ephys_file_path = Path(raw_ephys_file_path)
+    processed_ephys_file_path = Path(processed_ephys_file_path)
+    sorting_folder_path = Path(sorting_folder_path)
     video_file_path = Path(video_file_path)
     sleap_file_path = Path(sleap_file_path)
     output_dir_path = Path(output_dir_path)
@@ -53,12 +57,37 @@ def session_to_nwb(
     source_data = dict()
     conversion_options = dict()
 
-    # Add Ephys Recording and Sorting
-    # stream_name = "Signals CH"
-    # source_data.update(dict(Recording=dict(folder_path=ephys_folder_path, stream_name=stream_name, verbose=verbose)))
-    # conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
-    # source_data.update(dict(Sorting=dict(folder_path=ephys_folder_path, verbose=verbose)))
-    # conversion_options.update(dict(Sorting=dict()))
+    # Add Ephys Recording
+    num_channels = 64
+    sampling_frequency = 25_000.0
+    source_data.update(
+        dict(
+            RawRecording=dict(
+                file_path=raw_ephys_file_path,
+                num_channels=num_channels,
+                sampling_frequency=sampling_frequency,
+                verbose=verbose,
+                es_key="ElectricalSeriesRaw",
+            ),
+            ProcessedRecording=dict(
+                file_path=processed_ephys_file_path,
+                num_channels=num_channels,
+                sampling_frequency=sampling_frequency,
+                verbose=verbose,
+                es_key="ElectricalSeriesProcessed",
+            ),
+        )
+    )
+    conversion_options.update(
+        dict(
+            RawRecording=dict(stub_test=stub_test),
+            ProcessedRecording=dict(stub_test=stub_test, write_as="processed"),
+        )
+    )
+
+    # Add Sorting
+    source_data.update(dict(Sorting=dict(folder_path=sorting_folder_path, verbose=verbose)))
+    conversion_options.update(dict(Sorting=dict()))
 
     # Add Video
     source_data.update(dict(Video=dict(file_paths=[video_file_path], verbose=verbose, video_name="VideoFLIR")))
@@ -84,7 +113,7 @@ def session_to_nwb(
     editable_metadata = load_dict_from_file(editable_metadata_path)
     metadata = dict_deep_update(metadata, editable_metadata)
 
-    # conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
+    conversion_options["Sorting"]["units_description"] = metadata["Sorting"]["units_description"]
 
     session_id = metadata["NWBFile"]["session_id"]
     subject_id = metadata["Subject"]["subject_id"]
@@ -118,14 +147,20 @@ def main():
 
     # Example Session w/o visual stimulus
     session_dir_path = data_dir_path / "example_data_ari_01"
-    ephys_folder_path = session_dir_path
+    raw_ephys_file_path = session_dir_path / "HSW_2024_12_12__10_28_23__70min_17sec__hsamp_64ch_25000sps.bin"
+    processed_ephys_file_path = (
+        session_dir_path / "preKS_HSW_2024_12_12__10_28_23__70min_17sec__hsamp_64ch_25000sps.bin"
+    )
+    sorting_folder_path = session_dir_path / "kilosort4_curated"
     video_file_path = session_dir_path / "m14_pb_2024-12-12_001_CamFlir1_20241212_102813.avi"
     audio_file_path = session_dir_path / "m14_pb_2024-12-12_001_micrec.mic"
     sleap_file_path = session_dir_path / "labels.v002.slp.241216_121950.predictions.slp"
     stimulus_file_path = session_dir_path / "m14_pb_2024-12-12_001_data.mat"
     session_type = "loom_threat"
     session_to_nwb(
-        ephys_folder_path=ephys_folder_path,
+        raw_ephys_file_path=raw_ephys_file_path,
+        processed_ephys_file_path=processed_ephys_file_path,
+        sorting_folder_path=sorting_folder_path,
         video_file_path=video_file_path,
         audio_file_path=audio_file_path,
         sleap_file_path=sleap_file_path,
@@ -138,14 +173,19 @@ def main():
 
     # Example Session w/ visual stimulus
     session_dir_path = data_dir_path / "example_data_ari_02"
-    ephys_folder_path = session_dir_path
+    raw_ephys_file_path = session_dir_path / "HSW_2024_12_12__12_03_48__59min_14sec__hsamp_64ch_25000sps.bin"
+    processed_ephys_file_path = (
+        session_dir_path / "preKS_HSW_2024_12_12__12_03_48__59min_14sec__hsamp_64ch_25000sps.bin"
+    )
     video_file_path = session_dir_path / "m14_vr_threat_2024-12-12_001_CamFlir1_20241212_120339.avi"
     audio_file_path = session_dir_path / "m14_vr_threat_2024-12-12_001_micrec.mic"
     sleap_file_path = session_dir_path / "labels.v001.slp.241216_143124.predictions.slp"
     stimulus_file_path = session_dir_path / "m14_vr_threat_2024-12-12_001_data.mat"
     session_type = "loom_threat"
     session_to_nwb(
-        ephys_folder_path=ephys_folder_path,
+        raw_ephys_file_path=raw_ephys_file_path,
+        processed_ephys_file_path=processed_ephys_file_path,
+        sorting_folder_path=sorting_folder_path,
         video_file_path=video_file_path,
         audio_file_path=audio_file_path,
         sleap_file_path=sleap_file_path,

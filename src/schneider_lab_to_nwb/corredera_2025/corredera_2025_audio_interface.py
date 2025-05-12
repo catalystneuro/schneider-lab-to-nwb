@@ -7,6 +7,7 @@ from pynwb.behavior import BehavioralTimeSeries, TimeSeries
 from pynwb.device import Device
 from ndx_events import Events, AnnotatedEventsTable
 import os
+from copy import deepcopy
 
 from neuroconv.basedatainterface import BaseDataInterface
 from neuroconv.utils import get_base_schema, get_schema_from_hdmf_class
@@ -66,7 +67,8 @@ class Corredera2025AudioInterface(BaseDataInterface):
         data = SliceableDataChunkIterator(data=memmaped_data, display_progress=self.verbose)
 
         # Add Data to NWBFile
-        audio_kwargs = metadata["Audio"]["AudioRecording"]
+        metadata_copy = deepcopy(metadata)  # Avoid modifying the original metadata
+        audio_kwargs = metadata_copy["Audio"]["AudioRecording"]
         audio_kwargs["data"] = data
         audio_kwargs["rate"] = SAMPLING_RATE
         audio_kwargs["unit"] = "a.u."
