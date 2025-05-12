@@ -38,16 +38,32 @@ SubjectMaps:
 
 Ecephys:
   Device:
-    - name: MasmanidisSiliconMicroprobe128AxN
-      description: Masmanidis Lab dense 128-channel recording probes (https://masmanidislab.neurobio.ucla.edu/technology.html).
-      manufacturer: Masmanidis Lab
+    - name: P1Probe
+      description: 64-channel P1 Probe Molex Connector ASSY-236
+      manufacturer: Cambridge NeuroTech
   ElectrodeGroup:
-    - name: ElectrodeGroup
-      description: ElectrodeGroup for all channels in the recording probe.
-      device: MasmanidisSiliconMicroprobe128AxN
-  ElectricalSeries:
-    - name: ElectricalSeries
-      description: TODO -- add description here.
+    - name: Shank1
+      description: ElectrodeGroup for all channels in the first shank of the probe.
+      device: P1Probe
+      location: Left auditory cortex
+    - name: Shank2
+      description: ElectrodeGroup for all channels in the second shank of the probe.
+      device: P1Probe
+      location: Left auditory cortex
+    - name: Shank3
+      description: ElectrodeGroup for all channels in the third shank of the probe.
+      device: P1Probe
+      location: Left auditory cortex
+    - name: Shank4
+      description: ElectrodeGroup for all channels in the fourth shank of the probe.
+      device: P1Probe
+      location: Left auditory cortex
+  ElectricalSeriesRaw:
+    - name: ElectricalSeriesRaw
+      description: Raw extracellular voltage traces recorded directly from the probe.
+  ElectricalSeriesProcessed:
+    - name: ElectricalSeriesProcessed
+      description: Extracellular voltage traces pre-processed with a bandpass filter (300-4000 Hz) and common median reference.
 
 Behavior:
   ExternalVideos:
@@ -137,5 +153,5 @@ Stimulus:
     - name: dstRects
       description: Destination rectangle coordinates for the stimulus [x y width height].
 
-# Sorting:
-#   units_description: TODO -- add units description here.
+Sorting:
+  units_description: Neural spikes were sorted offline using Kilosort 4 and Phy2 software and manually curated to ensure precise spike time acquisition.
