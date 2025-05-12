@@ -6,22 +6,31 @@ readme = "README.md"
 authors = [{ name = "CatalystNeuro", email = "paul.adkisson@catalystneuro.com" }]
 maintainers = [{ name = "CatalystNeuro", email = "paul.adkisson@catalystneuro.com" }]
 license = { file = "LICENSE" }
-requires-python = ">=3.9"
+requires-python = "==3.12"
 classifiers = [
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
 
 dependencies = [
-  "neuroconv==0.6.6",
-  "ndx-events==0.2.0",
+  "pre-commit",
   "pymatreader==1.0.0",
+  "opencv-python",
+]
+
+[project.optional-dependencies]
+zempolich_2024 = [
+  "neuroconv==0.6.6",
+  "hdmf==3.14.6",
+  "numcodecs<0.16",
+  "ndx-events==0.2.0",
   "spikeinterface==0.101.2",
   "pillow==11.1.0",
-  "opencv-python==4.10.0.84",
-  "pre-commit",
+]
+
+corredera_2025 = [
+  "neuroconv==0.7.3",
+  "ndx-events==0.2.1",
+  "ndx-pose==0.2.2",
 ]
 
 [project.urls]
