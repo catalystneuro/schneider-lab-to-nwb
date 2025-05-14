@@ -139,7 +139,7 @@ def main():
     # Parameters for conversion
     data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Ariadna Corredera Project Data")
     output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb/corredera_2025")
-    stub_test = True
+    stub_test = False
     verbose = True
 
     if output_dir_path.exists():
@@ -170,7 +170,6 @@ def main():
         stub_test=stub_test,
         verbose=verbose,
     )
-    return
 
     # Example Session w/ visual stimulus
     session_dir_path = data_dir_path / "example_data_ari_02"
