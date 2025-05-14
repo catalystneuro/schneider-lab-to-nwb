@@ -32,12 +32,13 @@ class Corredera2025NWBConverter(NWBConverter):
     def temporally_align_data_interfaces(self, metadata: dict | None = None, conversion_options: dict | None = None):
         file_path = self.data_interface_objects["Stimulus"].source_data["file_path"]
         mat_file = read_mat(file_path)
+        first_timestamp = mat_file["audio_rec"]["MicTimeStamps"][0]
 
-        ephys_starting_time = mat_file["audio_rec"]["ttl_ephys"]["ttl_ephysTimeStamp"]
+        ephys_starting_time = mat_file["audio_rec"]["ttl_ephys"]["ttl_ephysTimeStamp"] - first_timestamp
         self.data_interface_objects["RawRecording"].set_aligned_starting_time(ephys_starting_time)
         self.data_interface_objects["ProcessedRecording"].set_aligned_starting_time(ephys_starting_time)
         self.data_interface_objects["Sorting"].set_aligned_starting_time(ephys_starting_time)
-        cam_timestamps = mat_file["cam"]["camflir"]["TimeStamps"]
+        cam_timestamps = mat_file["cam"]["camflir"]["TimeStamps"] - first_timestamp
         self.data_interface_objects["Video"].set_aligned_timestamps([cam_timestamps])
         # self.data_interface_objects["SLEAP"].set_aligned_timestamps(cam_timestamps)
 
@@ -46,4 +47,7 @@ class Corredera2025NWBConverter(NWBConverter):
         audio_timestamps = np.interp(
             audio_indices, ptb_indices, mat_file["audio_rec"]["MicTimeStamps"], left=np.nan, right=np.nan
         )
+        audio_timestamps = audio_timestamps - first_timestamp
         self.data_interface_objects["Audio"].set_aligned_timestamps(audio_timestamps)
+
+        self.data_interface_objects["Stimulus"].set_aligned_starting_time(first_timestamp)
