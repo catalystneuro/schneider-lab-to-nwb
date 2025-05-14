@@ -170,6 +170,7 @@ def main():
         stub_test=stub_test,
         verbose=verbose,
     )
+    return
 
     # Example Session w/ visual stimulus
     session_dir_path = data_dir_path / "example_data_ari_02"
