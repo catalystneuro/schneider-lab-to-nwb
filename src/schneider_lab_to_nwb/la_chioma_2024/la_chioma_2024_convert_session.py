@@ -2,9 +2,7 @@
 from pathlib import Path
 from zoneinfo import ZoneInfo
 import shutil
-from datetime import datetime
-from typing import Optional, Literal
-from pydantic import FilePath, DirectoryPath
+from pydantic import DirectoryPath
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.la_chioma_2024 import LaChioma2024NWBConverter
@@ -12,6 +10,7 @@ from schneider_lab_to_nwb.la_chioma_2024 import LaChioma2024NWBConverter
 
 def session_to_nwb(
     ephys_folder_path: DirectoryPath,
+    ap_stream_name: str,
     output_dir_path: DirectoryPath,
     stub_test: bool = False,
     verbose: bool = True,
@@ -23,6 +22,8 @@ def session_to_nwb(
     ----------
     ephys_folder_path : DirectoryPath
         Path to the folder containing electrophysiology data.
+    ap_stream_name : str
+        The stream name that corresponds to the raw recording. (e.g. "Record Node 102#Neuropix-PXI-100.ProbeA")
     output_dir_path : DirectoryPath
         Path to output directory.
     stub_test : bool, default: False
@@ -38,8 +39,7 @@ def session_to_nwb(
     conversion_options = dict()
 
     # Add Ephys Recording and Sorting
-    stream_name = "Record Node 102#Neuropix-PXI-100.ProbeA"
-    source_data.update(dict(Recording=dict(folder_path=ephys_folder_path, stream_name=stream_name, verbose=verbose)))
+    source_data.update(dict(Recording=dict(folder_path=ephys_folder_path, stream_name=ap_stream_name, verbose=verbose)))
     conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
 
     # Initialize converter
@@ -77,8 +77,11 @@ def main():
     # Example Session with ephys data
     session_dir_path = data_dir_path / "Example dataset processed files - AL240404c 2024-04-22"
     ephys_folder_path = session_dir_path / "DataEphys" / "AL240404c_2024-04-22_17-45-19" / "Record Node 102"
+    # The stream name that corresponds to the raw recording
+    ap_stream_name = "Record Node 102#Neuropix-PXI-100.ProbeA"
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
+        ap_stream_name=ap_stream_name,
         output_dir_path=output_dir_path,
         stub_test=stub_test,
         verbose=verbose,
