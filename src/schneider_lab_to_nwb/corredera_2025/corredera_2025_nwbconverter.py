@@ -38,9 +38,9 @@ class Corredera2025NWBConverter(NWBConverter):
         self.data_interface_objects["RawRecording"].set_aligned_starting_time(ephys_starting_time)
         self.data_interface_objects["ProcessedRecording"].set_aligned_starting_time(ephys_starting_time)
         self.data_interface_objects["Sorting"].set_aligned_starting_time(ephys_starting_time)
-        cam_timestamps = mat_file["cam"]["camflir"]["TimeStamps"] - first_timestamp
+        cam_timestamps = mat_file["cam"]["camflir"]["TimeStamps_corr"] - first_timestamp
         self.data_interface_objects["Video"].set_aligned_timestamps([cam_timestamps])
-        # self.data_interface_objects["SLEAP"].set_aligned_timestamps(cam_timestamps)
+        self.data_interface_objects["SLEAP"].set_aligned_timestamps(cam_timestamps)
 
         ptb_indices = np.cumsum(mat_file["audio_rec"]["MicNrSamples"]) - 1
         audio_indices = np.arange(0, ptb_indices[-1] + 1)
