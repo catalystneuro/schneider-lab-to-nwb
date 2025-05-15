@@ -38,7 +38,7 @@ def session_to_nwb(
     source_data = dict()
     conversion_options = dict()
 
-    # Add Ephys Recording and Sorting
+    # Add Ephys Recording
     source_data.update(dict(Recording=dict(folder_path=ephys_folder_path, stream_name=ap_stream_name, verbose=verbose)))
     conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
 
