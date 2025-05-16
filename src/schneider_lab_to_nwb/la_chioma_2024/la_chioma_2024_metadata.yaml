@@ -16,3 +16,21 @@ NWBFile:
 #  strain: # Add strain here
 
 # Add other metadata sections
+
+Behavior:
+  Module:
+    name: behavior
+    description: Contains the processed behavioral data. # TBD
+  TimeSeries:
+    RPM:
+      name: speed_rpm
+      description: The speed of the mouse wheel in revolutions per minute.
+      unit: a.u.
+    cmPS:
+      name: speed
+      description: The speed of the mouse wheel in centimeters per second.
+      unit: cm/s
+    posRotaryEncoder:
+      name: wheel_position
+      description: The position of the mouse wheel in units of rotary encoder.
+      unit: a.u.
