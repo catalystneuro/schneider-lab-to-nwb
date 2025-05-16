@@ -2,7 +2,7 @@
 from pathlib import Path
 from zoneinfo import ZoneInfo
 import shutil
-from pydantic import DirectoryPath
+from pydantic import DirectoryPath, FilePath
 
 from neuroconv.utils import load_dict_from_file, dict_deep_update
 from schneider_lab_to_nwb.la_chioma_2024 import LaChioma2024NWBConverter
@@ -11,6 +11,7 @@ from schneider_lab_to_nwb.la_chioma_2024 import LaChioma2024NWBConverter
 def session_to_nwb(
     ephys_folder_path: DirectoryPath,
     ap_stream_name: str,
+    behavior_file_path: FilePath,
     output_dir_path: DirectoryPath,
     stub_test: bool = False,
     verbose: bool = True,
@@ -24,6 +25,8 @@ def session_to_nwb(
         Path to the folder containing electrophysiology data.
     ap_stream_name : str
         The stream name that corresponds to the raw recording. (e.g. "Record Node 102#Neuropix-PXI-100.ProbeA")
+    behavior_file_path : FilePath
+        Path to the behavior .mat file.
     output_dir_path : DirectoryPath
         Path to output directory.
     stub_test : bool, default: False
@@ -41,6 +44,10 @@ def session_to_nwb(
     # Add Ephys Recording
     source_data.update(dict(Recording=dict(folder_path=ephys_folder_path, stream_name=ap_stream_name, verbose=verbose)))
     conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
+
+    # Add Behavior
+    source_data.update(dict(Behavior=dict(file_path=behavior_file_path)))
+    conversion_options.update(dict(Behavior=dict()))
 
     # Initialize converter
     converter = LaChioma2024NWBConverter(source_data=source_data, verbose=verbose)
@@ -79,9 +86,12 @@ def main():
     ephys_folder_path = session_dir_path / "DataEphys" / "AL240404c_2024-04-22_17-45-19" / "Record Node 102"
     # The stream name that corresponds to the raw recording
     ap_stream_name = "Record Node 102#Neuropix-PXI-100.ProbeA"
+
+    processed_behavior_file_path = session_dir_path / "AL240404c_2024-04-22_syncedData.mat"
     session_to_nwb(
         ephys_folder_path=ephys_folder_path,
         ap_stream_name=ap_stream_name,
+        behavior_file_path=processed_behavior_file_path,
         output_dir_path=output_dir_path,
         stub_test=stub_test,
         verbose=verbose,
