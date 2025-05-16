@@ -35,7 +35,7 @@ class Corredera2025WhiteMatterRecordingInterface(WhiteMatterRecordingInterface):
 
         probe = get_probe("cambridgeneurotech", "ASSY-236-P-1")
         probe.set_device_channel_indices(np.arange(num_channels))
-        self.recording_extractor = self.recording_extractor.set_probe(probe, group_mode="by_shank")
+        self.recording_extractor.set_probe(probe, group_mode="by_shank", in_place=True)
 
         channel_ids = self.recording_extractor.get_channel_ids()
         self.recording_extractor.set_property(key="brain_area", ids=channel_ids, values=[location] * len(channel_ids))

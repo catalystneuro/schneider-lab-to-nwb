@@ -31,5 +31,16 @@ shared data looks like session type 1.
 
 ## Temporal Alignment
 - Timestamps in the .mat file are relevant for temporal alignment
+- Only the onset time of the ephys is recorded in the PTB (audio/video) clock -- no other ttls are recorded.
+
+Data streams that need to be aligned:
+- Video -- should have timestamps in the .mat file
+- Audio Recording -- should have timestamps in the .mat file but also see align_audio_ephys.py
+- Audio Stimulus -- should have timestamps in the .mat file
+- SLEAP
+- ephys
+- spike sorting
+
+Plan: Keep video/audio as the primary time basis and adjust ephys/sorting accordingly.
 
 ## Active Questions/Requests

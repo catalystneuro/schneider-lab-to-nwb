@@ -27,6 +27,7 @@ class Corredera2025StimulusInterface(BaseDataInterface):
         file_path : FilePath
             Path to the .mat file.
         """
+        self.starting_time = None
         super().__init__(file_path=file_path)
 
     def get_metadata(self):
@@ -106,6 +107,8 @@ class Corredera2025StimulusInterface(BaseDataInterface):
                 )
                 nwbfile.add_stimulus_template(template_time_series)
                 for i, presentation_time in enumerate(presentation_times):
+                    if self.starting_time is not None:
+                        presentation_time = presentation_time - self.starting_time
                     audio_stimulus_table.add_row(
                         presentation_time=presentation_time,
                         stimulus_name=name,
@@ -146,6 +149,8 @@ class Corredera2025StimulusInterface(BaseDataInterface):
         # When only one visual stimulus is presented, the timestamps are stored in a 1D array (3,)
         visual_stimulus_timestamps = file["vis"]["visTimeStamps"].reshape(-1, 3)
         for row in visual_stimulus_timestamps:
+            if self.starting_time is not None:
+                row = row - self.starting_time
             visual_stimulus_table.add_row(
                 onset_time=row[0],
                 peak_expansion_time=row[1],
@@ -153,3 +158,6 @@ class Corredera2025StimulusInterface(BaseDataInterface):
                 **row_properties,
             )
         nwbfile.add_stimulus(visual_stimulus_table)
+
+    def set_aligned_starting_time(self, starting_time: float):
+        self.starting_time = starting_time

@@ -13,6 +13,7 @@ from neuroconv.basedatainterface import BaseDataInterface
 from neuroconv.utils import get_base_schema, get_schema_from_hdmf_class
 from neuroconv.tools import nwb_helpers
 from neuroconv.tools.hdmf import SliceableDataChunkIterator
+import tempfile
 
 
 class Corredera2025AudioInterface(BaseDataInterface):
@@ -32,6 +33,7 @@ class Corredera2025AudioInterface(BaseDataInterface):
         """
         super().__init__(file_path=file_path)
         self.verbose = verbose
+        self.timestamps = None
 
     def get_metadata_schema(self) -> dict:
         metadata_schema = super().get_metadata_schema()
@@ -70,8 +72,13 @@ class Corredera2025AudioInterface(BaseDataInterface):
         metadata_copy = deepcopy(metadata)  # Avoid modifying the original metadata
         audio_kwargs = metadata_copy["Audio"]["AudioRecording"]
         audio_kwargs["data"] = data
-        audio_kwargs["rate"] = SAMPLING_RATE
         audio_kwargs["unit"] = "a.u."
+        if self.timestamps is None:
+            audio_kwargs["rate"] = SAMPLING_RATE
+        else:
+            timestamps = self.timestamps[:num_samples] if stub_test else self.timestamps
+            timestamps = SliceableDataChunkIterator(data=timestamps, display_progress=self.verbose)
+            audio_kwargs["timestamps"] = timestamps
         audio_series = TimeSeries(**audio_kwargs)
         nwbfile.add_acquisition(audio_series)
 
@@ -79,3 +86,12 @@ class Corredera2025AudioInterface(BaseDataInterface):
         for device_kwargs in metadata["Audio"]["Microphones"]:
             device = Device(**device_kwargs)
             nwbfile.add_device(device)
+
+    def set_aligned_timestamps(self, timestamps: np.ndarray):
+        timestamps_path = tempfile.mktemp(suffix=".dat")
+        timestamps_file = np.memmap(timestamps_path, dtype=np.float64, mode="w+", shape=timestamps.shape)
+        timestamps_file[:] = timestamps
+        timestamps_file.flush()
+
+        # Create read-only memmap for actual use
+        self.timestamps = np.memmap(timestamps_path, dtype=np.float64, mode="r", shape=timestamps.shape)
