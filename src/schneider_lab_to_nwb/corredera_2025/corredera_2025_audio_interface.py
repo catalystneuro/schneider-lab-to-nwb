@@ -34,6 +34,7 @@ class Corredera2025AudioInterface(BaseDataInterface):
         super().__init__(file_path=file_path)
         self.verbose = verbose
         self.timestamps = None
+        self.start_sample = None
 
     def get_metadata_schema(self) -> dict:
         metadata_schema = super().get_metadata_schema()
@@ -63,9 +64,13 @@ class Corredera2025AudioInterface(BaseDataInterface):
         file_size = os.path.getsize(file_path)
         dtype = np.dtype("float32")
         num_samples = int(file_size // (dtype.itemsize * NUM_CHANNELS))
+        memmaped_data = np.memmap(file_path, dtype=dtype, mode="r", shape=(num_samples, NUM_CHANNELS))
+        if self.start_sample is not None:
+            memmaped_data = memmaped_data[self.start_sample :]
+            num_samples -= self.start_sample
         if stub_test:
             num_samples = min(num_samples, int(SAMPLING_RATE))
-        memmaped_data = np.memmap(file_path, dtype=dtype, mode="r", shape=(num_samples, NUM_CHANNELS))
+            memmaped_data = memmaped_data[:num_samples]
         data = SliceableDataChunkIterator(data=memmaped_data, display_progress=self.verbose)
 
         # Add Data to NWBFile
@@ -76,7 +81,8 @@ class Corredera2025AudioInterface(BaseDataInterface):
         if self.timestamps is None:
             audio_kwargs["rate"] = SAMPLING_RATE
         else:
-            timestamps = self.timestamps[:num_samples] if stub_test else self.timestamps
+            timestamps = self.timestamps[self.start_sample :] if self.start_sample is not None else self.timestamps
+            timestamps = timestamps[:num_samples] if stub_test else timestamps
             timestamps = SliceableDataChunkIterator(data=timestamps, display_progress=self.verbose)
             audio_kwargs["timestamps"] = timestamps
         audio_series = TimeSeries(**audio_kwargs)
@@ -95,3 +101,13 @@ class Corredera2025AudioInterface(BaseDataInterface):
 
         # Create read-only memmap for actual use
         self.timestamps = np.memmap(timestamps_path, dtype=np.float64, mode="r", shape=timestamps.shape)
+
+    def set_start_sample(self, start_sample: int):
+        """Set the starting sample for the audio data and timestamps.
+
+        Parameters
+        ----------
+        start_sample : int
+            The starting sample index.
+        """
+        self.start_sample = start_sample

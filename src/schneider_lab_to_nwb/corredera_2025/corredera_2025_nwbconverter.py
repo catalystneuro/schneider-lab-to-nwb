@@ -49,5 +49,6 @@ class Corredera2025NWBConverter(NWBConverter):
         )
         audio_timestamps = audio_timestamps - first_timestamp
         self.data_interface_objects["Audio"].set_aligned_timestamps(audio_timestamps)
+        self.data_interface_objects["Audio"].set_start_sample(ptb_indices[0])
 
         self.data_interface_objects["Stimulus"].set_aligned_starting_time(first_timestamp)
