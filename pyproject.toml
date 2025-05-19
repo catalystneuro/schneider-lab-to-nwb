@@ -35,6 +35,7 @@ corredera_2025 = [
 
 la_chioma_2024 = [
   "neuroconv[openephys]==0.7.3",
+  "ndx-events==0.2.1",
 ]
 
 [project.urls]
