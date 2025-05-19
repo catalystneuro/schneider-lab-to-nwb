@@ -34,6 +34,10 @@ corredera_2025 = [
   "ndx-pose==0.2.2",
 ]
 
+la_chioma_2024 = [
+  "neuroconv[openephys]==0.7.3",
+]
+
 [project.urls]
 Repository="https://github.com/catalystneuro/schneider-lab-to-nwb"
 
