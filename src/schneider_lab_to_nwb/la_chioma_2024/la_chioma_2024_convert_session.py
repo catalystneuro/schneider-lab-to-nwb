@@ -63,10 +63,17 @@ def session_to_nwb(
     editable_metadata = load_dict_from_file(editable_metadata_path)
     metadata = dict_deep_update(metadata, editable_metadata)
 
+    # Update metadata with session_id
+    behavior_file_path = Path(behavior_file_path)
+    subject_id, session_id, _ = behavior_file_path.stem.split("_")
+    metadata["NWBFile"].update(session_id=session_id)
+    # metadata["Subject"].update(subject_id=subject_id) # todo: uncomment once we receive subject metadata from Alessandro
+
+    nwbfile_path = Path(output_dir_path) / f"sub-{subject_id}_ses-{session_id}.nwb"
     # Run conversion
     converter.run_conversion(
         metadata=metadata,
-        nwbfile_path=str(output_dir_path / "la_chioma_2024_session.nwb"),
+        nwbfile_path=nwbfile_path,
         conversion_options=conversion_options,
     )
 
@@ -74,7 +81,7 @@ def session_to_nwb(
 def main():
     # Parameters for conversion
     data_dir_path = Path("/Volumes/T9/data/Alessandro La Chioma Project Data")
-    output_dir_path = data_dir_path / "nwbfiles"
+    output_dir_path = Path("/Users/weian/data") / "nwbfiles"
     stub_test = True
     verbose = True
 
