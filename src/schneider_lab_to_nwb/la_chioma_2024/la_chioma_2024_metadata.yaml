@@ -1,6 +1,6 @@
 NWBFile:
-  # keywords:
-    # TODO: Add keywords here
+  keywords:
+    - auditory cortex
   # experiment_description:
     # TODO: Add experiment description here
   institution: New York University
@@ -20,40 +20,47 @@ NWBFile:
 Behavior:
   Module:
     name: behavior
-    description: Contains the processed behavioral data. # TBD
+    description: Contains the processed behavioral data such as the speed and position of the mouse wheel.
   TimeSeries:
-    RPM:
-      name: speed_rpm
+    - name: RPM
       description: The speed of the mouse wheel in revolutions per minute.
       unit: a.u.
-    cmPS:
-      name: speed
+      standardized_name: speed_rpm
+    - name: cmPS
       description: The speed of the mouse wheel in centimeters per second.
       unit: cm/s
-    posRotaryEncoder:
-      name: wheel_position
+      standardized_name: speed_cm_s
+    - name: posRotaryEncoder
       description: The position of the mouse wheel in units of rotary encoder.
       unit: a.u.
+      standardized_name: position_rotary_encoder
+
   AnnotatedEvents:
     Table:
-      name: sound
-      description: Contains the sound events.
+      name: sound_events
+      description: Contains the annotated events when the sound was played.
     columns:
       - name: expIdx
         description: index of experiment, referring to the whole behavior/ephys session.
         dtype: int8
+        standardized_name: epoch_id # Same as nwbfile.epochs.id
       - name: flag_dropout
         description: Indicates whether the sound sound had an issue during output (cracking, no output, etc.).
         dtype: bool
+        standardized_name: is_invalid
       - name: contextIdx
         description: The context the mouse was in when the sound was played (1 or 2 for VR Virmen; NaN for PlayWaves stimulation since there is no context).
         dtype: int8
+        standardized_name: context_id
       - name: Mode
         description: VR Virmen Mode when the sound was played.
         dtype: int8
+        standardized_name: virmen_mode
       - name: ModeIdx
         description: index of VR Virmen Mode when the sound was played. Index of meta.expLog.Mode.list.
         dtype: int8
+        standardized_name: virmen_mode_id
       - name: cmPS
         description: The speed of the mouse wheel, in centimeters per second, when the sound was played.
         dtype: float64
+        standardized_name: speed_cm_s
