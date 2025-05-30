@@ -116,6 +116,8 @@ class Zempolich2024BehaviorInterface(BaseDataInterface):
             if normalize_timestamps:
                 timestamps = timestamps - starting_timestamp
             data = np.array(file["continuous"][name]["value"]).squeeze()
+            if data.dtype == np.complex128:
+                data = data.real.astype(np.float64)
             time_series = TimeSeries(
                 name=name,
                 timestamps=timestamps,
