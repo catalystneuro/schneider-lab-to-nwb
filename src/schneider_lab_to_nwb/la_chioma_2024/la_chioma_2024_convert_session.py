@@ -9,10 +9,10 @@ from schneider_lab_to_nwb.la_chioma_2024 import LaChioma2024NWBConverter
 
 
 def session_to_nwb(
-    ephys_folder_path: DirectoryPath,
-    ap_stream_name: str,
     behavior_file_path: FilePath,
     output_dir_path: DirectoryPath,
+    ephys_folder_path: DirectoryPath | None = None,
+    ap_stream_name: str | None = None,
     stub_test: bool = False,
     verbose: bool = True,
 ):
@@ -22,9 +22,9 @@ def session_to_nwb(
     Parameters
     ----------
     ephys_folder_path : DirectoryPath
-        Path to the folder containing electrophysiology data.
+        Path to the folder containing electrophysiology data if available.
     ap_stream_name : str
-        The stream name that corresponds to the raw recording. (e.g. "Record Node 102#Neuropix-PXI-100.ProbeA")
+        The stream name that corresponds to the raw recording if available. (e.g. "Record Node 102#Neuropix-PXI-100.ProbeA")
     behavior_file_path : FilePath
         Path to the behavior .mat file.
     output_dir_path : DirectoryPath
@@ -34,7 +34,6 @@ def session_to_nwb(
     verbose : bool, default: True
         If True, prints progress information.
     """
-    ephys_folder_path = Path(ephys_folder_path)
     output_dir_path = Path(output_dir_path)
     output_dir_path.mkdir(parents=True, exist_ok=True)
 
@@ -42,8 +41,14 @@ def session_to_nwb(
     conversion_options = dict()
 
     # Add Ephys Recording
-    source_data.update(dict(Recording=dict(folder_path=ephys_folder_path, stream_name=ap_stream_name, verbose=verbose)))
-    conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
+    if ephys_folder_path is not None:
+        if ap_stream_name is None:
+            raise ValueError("'ap_stream_name' must be provided when recording is available.")
+        ephys_folder_path = Path(ephys_folder_path)
+        source_data.update(
+            dict(Recording=dict(folder_path=ephys_folder_path, stream_name=ap_stream_name, verbose=verbose))
+        )
+        conversion_options.update(dict(Recording=dict(stub_test=stub_test)))
 
     # Add Behavior
     source_data.update(dict(Behavior=dict(file_path=behavior_file_path)))
@@ -54,6 +59,7 @@ def session_to_nwb(
     metadata = converter.get_metadata()
 
     # Add timezone for session start time
+    # TODO: how to figure out the session_start_time for sessions without ephys data?
     session_start_time = metadata["NWBFile"]["session_start_time"]
     session_start_time = session_start_time.replace(tzinfo=ZoneInfo("US/Eastern"))
     metadata["NWBFile"].update(session_start_time=session_start_time)
@@ -67,7 +73,7 @@ def session_to_nwb(
     behavior_file_path = Path(behavior_file_path)
     subject_id, session_id, _ = behavior_file_path.stem.split("_")
     metadata["NWBFile"].update(session_id=session_id)
-    # metadata["Subject"].update(subject_id=subject_id) # todo: uncomment once we receive subject metadata from Alessandro
+    metadata["Subject"].update(subject_id=subject_id)
 
     nwbfile_path = Path(output_dir_path) / f"sub-{subject_id}_ses-{session_id}.nwb"
     # Run conversion
