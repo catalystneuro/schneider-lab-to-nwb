@@ -9,13 +9,14 @@ NWBFile:
     - La Chioma, Alessandro
     - Schneider, David M.
 
-#Subject:
-#  species: # Add species here
-#  age: # Add age here
-#  description: # Add description here
-#  strain: # Add strain here
-
-# Add other metadata sections
+Subject:
+  species: Mus musculus
+  age: P12W  # ISO 8601 format
+  description: |
+    Female wild-type (C57BL/6) mice were used for all experiments.
+    10 weeks old at the time of at headbar implantation, 11 weeks at beginning of training, 12 weeks at ephys recording.
+  sex: F
+  strain: C57BL/6J
 
 Behavior:
   Module:
@@ -34,7 +35,9 @@ Behavior:
       description: The position of the mouse wheel in units of rotary encoder.
       unit: a.u.
       standardized_name: position_rotary_encoder
-
+  TimeIntervals:
+    - name: experiments
+      description: Contains the time intervals of the experiments performed during the session (i.e. 'VR', 'PlayWaves').
   AnnotatedEvents:
     Table:
       name: sound_events
@@ -43,7 +46,7 @@ Behavior:
       - name: expIdx
         description: index of experiment, referring to the whole behavior/ephys session.
         dtype: int8
-        standardized_name: epoch_id # Same as nwbfile.epochs.id
+        standardized_name: experiment_id
       - name: flag_dropout
         description: Indicates whether the sound sound had an issue during output (cracking, no output, etc.).
         dtype: bool
