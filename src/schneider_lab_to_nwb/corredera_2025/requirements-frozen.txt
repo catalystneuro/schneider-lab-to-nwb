@@ -29,7 +29,7 @@ opencv-python-headless==4.11.0.86
 packaging==25.0
 pandas==2.2.3
 parse==1.20.2
-pillow==11.2.1
+pillow==11.3.0
 platformdirs==4.3.8
 pre_commit==4.2.0
 probeinterface==0.2.28
