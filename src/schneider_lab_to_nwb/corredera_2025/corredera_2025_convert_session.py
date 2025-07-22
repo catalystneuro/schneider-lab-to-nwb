@@ -27,24 +27,28 @@ def session_to_nwb(
 
     Parameters
     ----------
-    behavior_file_path : FilePath
-        Path to the behavior .mat file.
-    video_folder_path : DirectoryPath
-        Path to the folder containing the video files.
-    intrinsic_signal_optical_imaging_folder_path : DirectoryPath
-        Path to the folder containing the intrinsic signal optical imaging files.
     output_dir_path : DirectoryPath
-        Path to the directory where the output NWB file will be saved.
-    ephys_folder_path : Optional[DirectoryPath], optional
-        Path to the folder containing electrophysiology data, by default None.
-    has_opto : bool, optional
-        Whether the session includes optogenetic data, by default False.
-    brain_region : Literal["A1", "M2"], optional
-        Brain region of interest, by default "A1".
+        The directory where the NWB file will be saved.
+    raw_ephys_file_path : FilePath
+        Path to the raw ephys data file.
+    processed_ephys_file_path : FilePath
+        Path to the processed ephys data file.
+    sorting_folder_path : DirectoryPath
+        Path to the folder containing sorting results.
+    video_file_path : FilePath
+        Path to the video file.
+    sleap_file_path : FilePath
+        Path to the SLEAP file containing pose estimation data.
+    audio_file_path : FilePath
+        Path to the audio file.
+    stimulus_file_path : FilePath
+        Path to the stimulus data file.
+    session_type : Literal["natural_exploration", "vr_exploration", "playback", "loom_threat"]
+        The type of session being converted.
     stub_test : bool, optional
-        Whether to run in stub test mode, by default False.
+        If True, runs a stub test with minimal data for testing purposes. Defaults to False.
     verbose : bool, optional
-        Whether to print verbose output, by default True.
+        If True, enables verbose output during conversion. Defaults to True.
     """
     raw_ephys_file_path = Path(raw_ephys_file_path)
     processed_ephys_file_path = Path(processed_ephys_file_path)
