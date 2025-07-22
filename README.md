@@ -196,13 +196,13 @@ There are some placeholders in the current version of the conversion that will n
 before the conversion can be completed with the full data/metadata. These placeholders are marked with TODOs in the code
 to make them easier to spot, and a list is provided below for convenience:
 
-* In `src/schneider_lab_to_nwb/zempolich_2024/zempolich_2024_open_ephys_recording_interface.py` Line 36,
-    channel_positions are truncated to account for the 1-channel ephys data provided in the google drive. Lines 36-37
-    will need to be removed to enable running the conversion on the full ephys data.
-* In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 29, the mapping between subject_id and genotype is a
-    placeholder. Please specify the genotype for each subject, and it will automatically propagate to the NWB file.
-* In `src/schneider_lab_to_nwb/zempolich_2024/metadata.yaml` Line 51, the mapping between subject_id and sex is a
+* In `src/schneider_lab_to_nwb/corredera_2025/metadata.yaml` Line 24, the mapping between session_name and description is a
+    placeholder. Please specify the description for each session type, and specify the session_type by name when calling
+    `session_to_nwb()`. Then, it will automatically propagate to the NWB file.
+* In `src/schneider_lab_to_nwb/corredera_2025/metadata.yaml` Line 35, the mapping between subject_id and sex is a
     placeholder. Please specify the sex for each subject, and it will automatically propagate to the NWB file.
+* In `src/schneider_lab_to_nwb/corredera_2025/metadata.yaml` Line 102, the VisualStimulusProperties have potentially
+    incorrect descriptions. Please double-check the descriptions for each property, and it will automatically propagate to the NWB file.
 
 ### Step 6: Commit your changes
 ```bash

@@ -28,10 +28,12 @@ zempolich_2024 = [
 ]
 
 corredera_2025 = [
-  "neuroconv[white_matter,video,sleap] @ git+https://github.com/catalystneuro/neuroconv.git@main",
+  "neuroconv[white_matter,video,sleap]>=0.7.4",
   "spikeinterface==0.102.3",
   "ndx-events==0.2.1",
   "ndx-pose==0.2.2",
+  "matplotlib",
+  "ipykernel",
 ]
 
 la_chioma_2024 = [
