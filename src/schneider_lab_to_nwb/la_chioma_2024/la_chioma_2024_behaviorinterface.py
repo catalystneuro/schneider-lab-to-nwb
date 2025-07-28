@@ -234,9 +234,8 @@ class LaChioma2024BehaviorInterface(BaseDataInterface):
             columns=columns,
             colnames=colnames,
         )
-        behavior_module = nwb_helpers.get_module(nwbfile=nwbfile, name=metadata["Behavior"]["Module"]["name"])
 
-        behavior_module.add(audio_stimulus_table)
+        nwbfile.add_stimulus(audio_stimulus_table)
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, verbose: bool = False):
         """Add behavior data to the NWBFile.
