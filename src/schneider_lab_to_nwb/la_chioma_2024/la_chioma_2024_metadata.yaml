@@ -18,6 +18,19 @@ Subject:
   sex: F
   strain: C57BL/6J
 
+Ecephys:
+  Device:
+    - name: DeviceEcephys
+      description: Neuropixels 2.0 - Multishank
+      manufacturer: Imec
+  ElectrodeGroup:
+    - name: "0"
+      description: ElectrodeGroup for all channels in shank 0.
+      device: DeviceEcephys
+    - name: "1"
+      description: ElectrodeGroup for all channels in shank 1.
+      device: DeviceEcephys
+
 Behavior:
   Module:
     name: behavior

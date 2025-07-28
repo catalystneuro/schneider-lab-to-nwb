@@ -86,8 +86,8 @@ def session_to_nwb(
 
 def main():
     # Parameters for conversion
-    data_dir_path = Path("/Volumes/T9/data/Alessandro La Chioma Project Data")
-    output_dir_path = Path("/Users/weian/data") / "nwbfiles"
+    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Alessandro La Chioma Project Data")
+    output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb/la_chioma")
     stub_test = True
     verbose = True
 
