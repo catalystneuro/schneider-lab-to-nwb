@@ -51,32 +51,28 @@ Behavior:
   TimeIntervals:
     - name: experiments
       description: Contains the time intervals of the experiments performed during the session (i.e. 'VR', 'PlayWaves').
-  AnnotatedEvents:
-    Table:
-      name: sound_events
-      description: Contains the annotated events when the sound was played.
-    columns:
-      - name: expIdx
-        description: index of experiment, referring to the whole behavior/ephys session.
-        dtype: int8
-        standardized_name: experiment_id
-      - name: flag_dropout
-        description: Indicates whether the sound sound had an issue during output (cracking, no output, etc.).
-        dtype: bool
-        standardized_name: is_invalid
-      - name: contextIdx
-        description: The context the mouse was in when the sound was played (1 or 2 for VR Virmen; NaN for PlayWaves stimulation since there is no context).
-        dtype: int8
-        standardized_name: context_id
-      - name: Mode
-        description: VR Virmen Mode when the sound was played.
-        dtype: int8
-        standardized_name: virmen_mode
-      - name: ModeIdx
-        description: index of VR Virmen Mode when the sound was played. Index of meta.expLog.Mode.list.
-        dtype: int8
-        standardized_name: virmen_mode_id
-      - name: cmPS
-        description: The speed of the mouse wheel, in centimeters per second, when the sound was played.
-        dtype: float64
-        standardized_name: speed_cm_s
+  AudioStimulus:
+    - name: expIdx
+      description: index of experiment, referring to the whole behavior/ephys session.
+      dtype: int8
+      standardized_name: experiment_id
+    - name: flag_dropout
+      description: Indicates whether the sound sound had an issue during output (cracking, no output, etc.).
+      dtype: bool
+      standardized_name: is_invalid
+    - name: contextIdx
+      description: The context the mouse was in when the sound was played (1 or 2 for VR Virmen; NaN for PlayWaves stimulation since there is no context).
+      dtype: int8
+      standardized_name: context_id
+    - name: Mode
+      description: VR Virmen Mode when the sound was played.
+      dtype: int8
+      standardized_name: virmen_mode
+    - name: ModeIdx
+      description: index of VR Virmen Mode when the sound was played. Index of meta.expLog.Mode.list.
+      dtype: int8
+      standardized_name: virmen_mode_id
+    - name: cmPS
+      description: The speed of the mouse wheel, in centimeters per second, when the sound was played.
+      dtype: float64
+      standardized_name: speed_cm_s

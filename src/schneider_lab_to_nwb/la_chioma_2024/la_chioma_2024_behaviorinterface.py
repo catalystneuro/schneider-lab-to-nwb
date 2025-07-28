@@ -4,12 +4,12 @@ from collections import defaultdict
 
 import numpy as np
 import pandas as pd
-from ndx_events import AnnotatedEventsTable
 from neuroconv import BaseDataInterface
 from neuroconv.tools import nwb_helpers
 from pydantic import FilePath
 from pymatreader import read_mat
 from pynwb import NWBFile, TimeSeries
+from pynwb.core import DynamicTable, VectorData
 from pynwb.behavior import BehavioralTimeSeries
 from pynwb.epoch import TimeIntervals
 
@@ -167,7 +167,7 @@ class LaChioma2024BehaviorInterface(BaseDataInterface):
                         ],  # The first channel is the tone being played, the second is a copy of the first. the third and fourth is the TTL.
                         unit="a.u.",
                     )
-                    nwbfile.add_stimulus(audio_series)
+                    nwbfile.add_stimulus_template(audio_series)
             # If the experiment has a VR mode, extract the time ranges and modes
             else:
                 time_ranges = experiment["Mode"]["timeRanges"]
@@ -194,46 +194,49 @@ class LaChioma2024BehaviorInterface(BaseDataInterface):
             warnings.warn(f"Expected 'events' key in the file, but found: {processed_data.keys()}")
             return
         sound_events_data = processed_data["events"]["sound"]
+        stimulus_names = []
+        for experiment in processed_data["meta"]["expLog"]:
+            names = experiment["sound"]["names"]
+            for name in names:
+                name = name.replace(".wav", "")
+                if name in stimulus_names:
+                    continue
+                stimulus_names.append(name)
         sound_events_data = pd.DataFrame(sound_events_data)
 
-        events_table_metadata = metadata["Behavior"]["AnnotatedEvents"]["Table"]
-        sound_events_table = AnnotatedEventsTable(
-            name=events_table_metadata["name"],
-            description=events_table_metadata["description"],
-        )
-
-        columns_metadata = metadata["Behavior"]["AnnotatedEvents"]["columns"]
+        columns_metadata = metadata["Behavior"]["AudioStimulus"]
+        df_name_to_nwb_name = dict()
+        colnames = ["presentation_time"]
+        column_name_to_data = {"presentation_time": sound_events_data["time"].to_numpy()}
+        column_name_to_description = {"presentation_time": "Time of stimulus presentation"}
         for column_metadata in columns_metadata:
             if column_metadata["name"] not in sound_events_data.columns:
                 warnings.warn(f"The metadata column '{column_metadata['name']}' is not present in the events data.")
                 continue
 
-            sound_events_table.add_column(
-                name=column_metadata["standardized_name"],
-                description=column_metadata["description"],
-                index=True,
-            )
-            sound_events_data[column_metadata["name"]] = sound_events_data[column_metadata["name"]].astype(
-                column_metadata["dtype"]
-            )
+            dtype = column_metadata["dtype"]
+            column_data = sound_events_data[column_metadata["name"]].to_numpy().astype(dtype)
+            column_name_to_data[column_metadata["standardized_name"]] = column_data
+            column_name_to_description[column_metadata["standardized_name"]] = column_metadata["description"]
+            colnames.append(column_metadata["standardized_name"])
+            df_name_to_nwb_name[column_metadata["name"]] = column_metadata["standardized_name"]
+        column_name_to_data["stimulus_name"] = np.array(stimulus_names)[sound_events_data["id"].to_numpy() - 1]
+        column_name_to_description["stimulus_name"] = "Name of the stimulus ex. sound01_F2000_L65_D0.1+0.005"
+        colnames.append("stimulus_name")
 
-        for event_id, events_by_id in sound_events_data.groupby("id"):
-            event_times = events_by_id["time"].to_numpy()
-            event_types_dict = {
-                col["standardized_name"]: events_by_id[col["name"]].to_numpy()
-                for col in columns_metadata
-                if col["name"] in events_by_id
-            }
-
-            sound_events_table.add_event_type(
-                label=str(event_id),
-                event_description=f"The event times for sound {event_id}.",
-                event_times=event_times,
-                **event_types_dict,
-            )
+        columns = [
+            VectorData(name=colname, description=column_name_to_description[colname], data=column_name_to_data[colname])
+            for colname in colnames
+        ]
+        audio_stimulus_table = DynamicTable(
+            name="AudioStimulus",
+            description="Table of audio stimulus presentations",
+            columns=columns,
+            colnames=colnames,
+        )
         behavior_module = nwb_helpers.get_module(nwbfile=nwbfile, name=metadata["Behavior"]["Module"]["name"])
 
-        behavior_module.add(sound_events_table)
+        behavior_module.add(audio_stimulus_table)
 
     def add_to_nwbfile(self, nwbfile: NWBFile, metadata: dict, verbose: bool = False):
         """Add behavior data to the NWBFile.
