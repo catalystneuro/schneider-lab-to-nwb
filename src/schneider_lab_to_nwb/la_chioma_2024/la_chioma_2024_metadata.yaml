@@ -3,6 +3,8 @@ NWBFile:
     - auditory cortex
   # experiment_description:
     # TODO: Add experiment description here
+  # session_description:
+    # TODO: Add session description here
   institution: New York University
   lab: Schneider
   experimenter:

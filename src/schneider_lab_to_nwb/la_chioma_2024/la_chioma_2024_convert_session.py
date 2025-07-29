@@ -59,7 +59,6 @@ def session_to_nwb(
     metadata = converter.get_metadata()
 
     # Add timezone for session start time
-    # TODO: how to figure out the session_start_time for sessions without ephys data?
     session_start_time = metadata["NWBFile"]["session_start_time"]
     session_start_time = session_start_time.replace(tzinfo=ZoneInfo("US/Eastern"))
     metadata["NWBFile"].update(session_start_time=session_start_time)

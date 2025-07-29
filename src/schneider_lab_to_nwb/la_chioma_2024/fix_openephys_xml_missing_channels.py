@@ -8,7 +8,6 @@ channels by inferring their values based on existing patterns in the file.
 
 Typical usage example:
     python fix_openephys_xml_missing_channels.py --file_path settings.xml --overwrite --verbose
-TODO: remove once https://github.com/SpikeInterface/probeinterface/pull/347 is merged
 """
 import argparse
 import warnings

@@ -203,6 +203,8 @@ to make them easier to spot, and a list is provided below for convenience:
     placeholder. Please specify the sex for each subject, and it will automatically propagate to the NWB file.
 * In `src/schneider_lab_to_nwb/corredera_2025/metadata.yaml` Line 102, the VisualStimulusProperties have potentially
     incorrect descriptions. Please double-check the descriptions for each property, and it will automatically propagate to the NWB file.
+* In `src/schneider_lab_to_nwb/la_chioma_2024/metadata.yaml` Line 4, the session_description and experiment_description
+    are placeholders. Please specify them, and they will automatically propagate to the NWB file.
 
 ### Step 6: Commit your changes
 ```bash
