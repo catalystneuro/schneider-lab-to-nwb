@@ -59,7 +59,6 @@ def session_to_nwb(
     metadata = converter.get_metadata()
 
     # Add timezone for session start time
-    # TODO: how to figure out the session_start_time for sessions without ephys data?
     session_start_time = metadata["NWBFile"]["session_start_time"]
     session_start_time = session_start_time.replace(tzinfo=ZoneInfo("US/Eastern"))
     metadata["NWBFile"].update(session_start_time=session_start_time)
@@ -86,8 +85,8 @@ def session_to_nwb(
 
 def main():
     # Parameters for conversion
-    data_dir_path = Path("/Volumes/T9/data/Alessandro La Chioma Project Data")
-    output_dir_path = Path("/Users/weian/data") / "nwbfiles"
+    data_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/Alessandro La Chioma Project Data")
+    output_dir_path = Path("/Volumes/T7/CatalystNeuro/Schneider/conversion_nwb/la_chioma")
     stub_test = True
     verbose = True
 
